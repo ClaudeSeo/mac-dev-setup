@@ -1,0 +1,18 @@
+[alias]
+    co = checkout
+    br = branch
+    ci = commit
+    st = status
+    unstage = reset HEAD --
+    last = log -2 HEAD -p
+    hide = update-index --assume-unchanged
+    unhide = update-index --no-assume-unchanged
+
+[user]
+    name = ClaudeSeo
+    email = ehdaudtj@gmail.com
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-proces
