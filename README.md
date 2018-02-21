@@ -80,8 +80,12 @@ export NVM_DIR="$HOME/.nvm"
 ```sh
 $ brew update
 $ brew install pyenv
-$ cat 'eval "$(pyenv init -)";' >> ~/.zshrc
+$ brew instlal pyenv-virtualenv
+$ echo 'eval "$(pyenv init -)";' >> ~/.zshrc
+$ echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
 $ pyenv install 3.6.4
+
+$ pyenv virtualenv <PYTHON_VERSION> <ENV_NAME>
 ```
 
 ## 크롬 확장프로그램
