@@ -16,6 +16,7 @@ brew "yarn"
 brew "zlib"
 brew "zsh"
 brew "yudai/gotty/gotty"
+brew "git-flow-avh"
 
 cask "iterm2"
 cask "dash"
