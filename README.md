@@ -88,6 +88,10 @@ $ pyenv install 3.6.4
 $ pyenv virtualenv <PYTHON_VERSION> <ENV_NAME>
 ```
 
+## zsh
+- [slimzsh](https://github.com/changs/slimzsh)
+- [z](https://github.com/rupa/z)
+
 ## 크롬 확장프로그램
 - [full-page-screen-capture](https://chrome.google.com/webstore/detail/full-page-screen-capture/fdpohaocaechififmbbbbbknoalclacl)
 - [React Developer Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
