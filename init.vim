@@ -38,6 +38,11 @@ set colorcolumn=80
 set completeopt=noinsert,menuone,noselect
 
 " Key Mapping
+inoremap <expr> <C-j> ((pumvisible())?("\<C-n>"):("<C-j>"))
+inoremap <expr> <Tab> ((pumvisible())?("\<C-n>"):("<Tab>"))
+inoremap <expr> <S-Tab> ((pumvisible())?("\<C-p>"):("\<S-Tab>"))
+inoremap <expr> <C-k> ((pumvisible())?("\<C-p>"):("<C-k>"))
+inoremap <C-c> <Esc>
 
 " Buffer Navigations
 nnoremap <silent> <Tab><Tab> :b #<CR>
@@ -54,6 +59,18 @@ nnoremap <silent> <leader>q :Buffers<CR>
 nnoremap <silent> <leader><leader>q :Buffers!<CR>
 nnoremap <leader>r :Rg<space>
 nnoremap <leader><leader>r :Rg!<space>
+
+" Auto Complete
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ asyncomplete#force_refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 
 " Plugins
@@ -149,6 +166,8 @@ let g:airline#extensions#tabline#enabled = 1
 " Show just the filename
 let g:airline#extensions#tabline#fnamemod = ':t'
 
+let g:go_def_mode='gopls'
+let g:go_info_mode='gopls'
 
 " Filetype specific
 filetype plugin indent on
