@@ -17,6 +17,7 @@ set hidden
 set updatetime=1500
 set laststatus=2
 set nofoldenable
+" set clipboard=unnamed
 syntax on
 
 " Line Number
@@ -60,6 +61,21 @@ nnoremap <silent> <leader><leader>q :Buffers!<CR>
 nnoremap <leader>r :Rg<space>
 nnoremap <leader><leader>r :Rg!<space>
 
+" NERDTree
+map <C-n> :NERDTreeToggle<CR>
+nmap <C-n><C-r> :NERDTreeFocus<cr> \| R \| <c-w><c-p>
+
+" Terminal
+tnoremap <leader><Esc> <C-\><C-n>
+" tnoremap <A-h> <C-\><C-N><C-w>h
+
+" Clipboard
+vmap <silent> <C-c> "*y
+
+" TypeScript
+nnoremap <silent> <leader>td :TSDefPreview<CR>
+nnoremap <silent> <leader>tt :TSType<CR>
+
 " Auto Complete
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -91,6 +107,12 @@ Plug 'airblade/vim-gitgutter'
 Plug 'leafgarland/typescript-vim'
 Plug 'udalov/kotlin-vim'
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+" Plug 'Shougo/deoplete.nvim'
+Plug 'Shougo/denite.nvim'
+Plug 'hashivim/vim-terraform'
+Plug 'elzr/vim-json'
 
 Plug 'prabirshrestha/vim-lsp'
 Plug 'prabirshrestha/async.vim'
@@ -98,7 +120,13 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'ryanolsonx/vim-lsp-javascript'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'preservim/nerdtree'
 call plug#end()
+
+" NERDTree
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+" autocmd vimenter * NERDTree
 
 " Color configuration
 set bg=dark
@@ -149,6 +177,14 @@ if executable('typescript-language-server')
         \ })
 endif
 
+if executable('bash-language-server')
+  au User lsp_setup call lsp#register_server({
+        \ 'name': 'bash-language-server',
+        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
+        \ 'whitelist': ['sh'],
+        \ })
+endif
+
 augroup LspGo
   au!
   autocmd User lsp_setup call lsp#register_server({
@@ -168,6 +204,7 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
+" let g:deoplete#enable_at_startup = 1
 
 " Filetype specific
 filetype plugin indent on
@@ -186,3 +223,4 @@ au FileType go setlocal omnifunc=lsp#complete
 au FileType go nmap <buffer> gd <plug>(lsp-definition)
 au FileType go nmap <buffer> ,n <plug>(lsp-next-error)
 au FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
+autocmd FileType terraform nnoremap <silent> <leader>f :TerraformFmt<cr>
