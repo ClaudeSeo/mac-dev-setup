@@ -87,7 +87,7 @@ inoremap <silent><expr> <TAB>
   \ <SID>check_back_space() ? "\<TAB>" :
   \ asyncomplete#force_refresh()
 inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
+imap <c-space> <Plug>(asyncomplete_force_refresh)
 
 " Plugins
 call plug#begin('~/.config/nvim/plugged')
