@@ -224,3 +224,4 @@ au FileType go nmap <buffer> gd <plug>(lsp-definition)
 au FileType go nmap <buffer> ,n <plug>(lsp-next-error)
 au FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
 autocmd FileType terraform nnoremap <silent> <leader>f :TerraformFmt<cr>
+autocmd FileType go noremap <silent> <leader>f :GoFmt<cr>
