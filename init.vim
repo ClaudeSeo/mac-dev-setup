@@ -206,6 +206,10 @@ let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
 " let g:deoplete#enable_at_startup = 1
 
+let g:terraform_align=1
+let g:terraform_fold_sections=1
+let g:terraform_fmt_on_save=1
+
 " Filetype specific
 filetype plugin indent on
 au FileType typescript  setl ts=2 sw=2 sts=2 colorcolumn=120
