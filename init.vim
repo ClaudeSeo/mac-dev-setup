@@ -76,6 +76,10 @@ vmap <silent> <C-c> "*y
 nnoremap <silent> <leader>td :TSDefPreview<CR>
 nnoremap <silent> <leader>tt :TSType<CR>
 
+" LSP
+nnoremap <silent> <leader>ld :LspPeekTypeDefinition<CR>
+nnoremap <silent> <leader>lt :LspDefinition<CR>
+
 " Auto Complete
 function! s:check_back_space() abort
     let col = col('.') - 1
@@ -173,7 +177,7 @@ if executable('typescript-language-server')
         \ 'name': 'typescript-language-server',
         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
         \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-        \ 'whitelist': ['typescript', 'typescriptreact'],
+        \ 'whitelist': ['typescript', 'typescriptreact', 'javascript', 'javascriptreact'],
         \ })
 endif
 
