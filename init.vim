@@ -102,6 +102,8 @@ Plug 'psliwka/vim-smoothie'
 Plug 'jdkanani/vim-material-theme'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
+Plug 'sheerun/vim-polyglot'
+Plug 'https://github.com/joshdick/onedark.vim.git'
 
 Plug 'tpope/vim-fugitive'
 Plug 'rhysd/committia.vim'
@@ -136,8 +138,10 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 let NERDTreeShowHidden=1
 
 " Color configuration
-set bg=dark
-color material-theme
+" set bg=dark
+" color material-theme
+colorscheme onedark
+let g:airline_theme='onedark'
 
 " fzf
 let g:fzf_action = {
