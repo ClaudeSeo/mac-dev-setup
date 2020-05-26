@@ -72,6 +72,9 @@ tnoremap <leader><Esc> <C-\><C-n>
 " Clipboard
 vmap <silent> <C-c> "*y
 
+" Terminal
+nnoremap <silent> <C-t> :bel sp 50 \| resize 10 \| terminal<CR>
+
 " TypeScript
 nnoremap <silent> <leader>td :TSDefPreview<CR>
 nnoremap <silent> <leader>tt :TSType<CR>
@@ -184,7 +187,7 @@ if executable('typescript-language-server')
         \ 'name': 'typescript-language-server',
         \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
         \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-        \ 'whitelist': ['typescript', 'typescriptreact', 'javascript', 'javascriptreact'],
+        \ 'whitelist': ['typescript', 'typescriptreact'],
         \ })
 endif
 
