@@ -107,6 +107,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
 Plug 'https://github.com/joshdick/onedark.vim.git'
+Plug 'APZelos/blamer.nvim'
 
 Plug 'tpope/vim-fugitive'
 Plug 'rhysd/committia.vim'
@@ -223,6 +224,9 @@ let g:go_info_mode='gopls'
 let g:terraform_align=1
 let g:terraform_fold_sections=1
 let g:terraform_fmt_on_save=1
+
+let g:blamer_enabled = 1
+let g:blamer_delay = 500
 
 " Filetype specific
 filetype plugin indent on
