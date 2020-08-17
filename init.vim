@@ -102,16 +102,15 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'psliwka/vim-smoothie'
-Plug 'jdkanani/vim-material-theme'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
-Plug 'https://github.com/joshdick/onedark.vim.git'
 Plug 'APZelos/blamer.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'connorholyday/vim-snazzy'
+Plug 'morhetz/gruvbox'
 
 Plug 'tpope/vim-fugitive'
 Plug 'rhysd/committia.vim'
@@ -144,12 +143,11 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 
 " Show hidden files in NERDTree
 let NERDTreeShowHidden=1
+let g:asyncomplete_auto_popup = 0
 
 " Color configuration
-" set bg=dark
-" color material-theme
-colorscheme onedark
 let g:airline_theme='onedark'
+autocmd vimenter * colorscheme gruvbox
 
 " fzf
 let g:fzf_action = {
