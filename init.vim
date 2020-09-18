@@ -89,6 +89,7 @@ function! s:check_back_space() abort
     return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
+let g:asyncomplete_auto_popup = 0
 inoremap <silent><expr> <TAB>
   \ pumvisible() ? "\<C-n>" :
   \ <SID>check_back_space() ? "\<TAB>" :
@@ -128,6 +129,7 @@ Plug 'hashivim/vim-terraform'
 Plug 'elzr/vim-json'
 
 Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/async.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
@@ -227,13 +229,16 @@ let g:terraform_align=1
 let g:terraform_fold_sections=1
 let g:terraform_fmt_on_save=1
 
-let g:blamer_enabled = 1
+let g:blamer_enabled = 0
 let g:blamer_delay = 500
+
+let g:nvim_typescript#javascript_support = 1
 
 " Filetype specific
 filetype plugin indent on
 au FileType typescript  setl ts=2 sw=2 sts=2 colorcolumn=120
 au FileType typescriptreact  setl syntax=typescript ts=2 sw=2 sts=2 colorcolumn=120
+" au FileType typescript nnoremap <silent> gd :TSDef<cr>
 au FileType javascript  setl ts=2 sw=2 sts=2 colorcolumn=120
 au FileType yaml        setl ts=2 sw=2 sts=2
 au FileType ruby        setl ts=2 sw=2 sts=2
