@@ -17,5 +17,5 @@
     "suppressUpdateNotice": true,
     "suppressWelcomeNotice": true
   },
-  "git.confirmSync": false,
+  "git.confirmSync": false
 }
