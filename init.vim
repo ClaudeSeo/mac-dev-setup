@@ -17,7 +17,6 @@ set hidden
 set updatetime=1500
 set laststatus=2
 set nofoldenable
-" set clipboard=unnamed
 syntax on
 
 " Line Number
@@ -67,35 +66,12 @@ nmap <C-n><C-r> :NERDTreeFocus<cr> \| R \| <c-w><c-p>
 
 " Terminal
 tnoremap <leader><Esc> <C-\><C-n>
-" tnoremap <A-h> <C-\><C-N><C-w>h
 
 " Clipboard
 vmap <silent> <C-c> "*y
 
 " Terminal
 nnoremap <silent> <C-t> :bel sp 50 \| resize 10 \| terminal<CR>
-
-" TypeScript
-nnoremap <silent> <leader>td :TSDefPreview<CR>
-nnoremap <silent> <leader>tt :TSType<CR>
-
-" LSP
-nnoremap <silent> <leader>ld :LspPeekTypeDefinition<CR>
-nnoremap <silent> <leader>lt :LspDefinition<CR>
-
-" Auto Complete
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-
-let g:asyncomplete_auto_popup = 0
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ asyncomplete#force_refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-imap <c-space> <Plug>(asyncomplete_force_refresh)
 
 " Plugins
 call plug#begin('~/.config/nvim/plugged')
@@ -112,44 +88,52 @@ Plug 'junegunn/gv.vim'
 Plug 'Yggdroot/indentLine'
 Plug 'connorholyday/vim-snazzy'
 Plug 'morhetz/gruvbox'
+Plug 'ntpeters/vim-better-whitespace'
+Plug 'preservim/nerdtree'
 
 Plug 'tpope/vim-fugitive'
 Plug 'rhysd/committia.vim'
 Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-gitgutter'
-
-Plug 'leafgarland/typescript-vim'
-Plug 'udalov/kotlin-vim'
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-" Plug 'Shougo/deoplete.nvim'
 Plug 'Shougo/denite.nvim'
-Plug 'hashivim/vim-terraform'
-Plug 'elzr/vim-json'
 
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-Plug 'prabirshrestha/async.vim'
-Plug 'prabirshrestha/asyncomplete.vim'
-Plug 'prabirshrestha/asyncomplete-lsp.vim'
-Plug 'ryanolsonx/vim-lsp-javascript'
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'preservim/nerdtree'
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
 " NERDTree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-" autocmd vimenter * NERDTree
-
-" Show hidden files in NERDTree
 let NERDTreeShowHidden=1
-let g:asyncomplete_auto_popup = 0
 
-" Color configuration
-let g:airline_theme='onedark'
-autocmd vimenter * colorscheme gruvbox
+" Coc Config
+function! s:check_back_space() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>check_back_space() ? "\<TAB>" :
+  \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+if has('nvim')
+  inoremap <silent><expr> <c-space> coc#refresh()
+else
+  inoremap <silent><expr> <c-@> coc#refresh()
+endif
+
+if exists('*complete_info')
+  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+else
+  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+endif
+
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
 
 " fzf
 let g:fzf_action = {
@@ -169,76 +153,26 @@ command! -bang -nargs=* Rg
     \     fzf#vim#with_preview(),
     \     <bang>0)
 
-" Language server
-if executable('pyls')
-    " pip install python-language-server
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'pyls',
-        \ 'cmd': {server_info->['pyls']},
-        \ 'whitelist': ['python'],
-        \ })
-endif
 
-if executable('css-languageserver')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'css-languageserver',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'css-languageserver --stdio']},
-        \ 'whitelist': ['scss', 'sass']
-        \ })
-endif
-
-if executable('typescript-language-server')
-    au User lsp_setup call lsp#register_server({
-        \ 'name': 'typescript-language-server',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-        \ 'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-        \ 'whitelist': ['typescript', 'typescriptreact'],
-        \ })
-endif
-
-if executable('bash-language-server')
-  au User lsp_setup call lsp#register_server({
-        \ 'name': 'bash-language-server',
-        \ 'cmd': {server_info->[&shell, &shellcmdflag, 'bash-language-server start']},
-        \ 'whitelist': ['sh'],
-        \ })
-endif
-
-augroup LspGo
-  au!
-  autocmd User lsp_setup call lsp#register_server({
-      \ 'name': 'go-lang',
-      \ 'cmd': {server_info->['gopls']},
-      \ 'whitelist': ['go'],
-      \ })
-augroup END
-
+" eidtorconfig
 let g:EditorConfig_core_mode = 'external_command'
 let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
 
-" Enable the list of buffers
-let g:airline#extensions#tabline#enabled = 1
-" Show just the filename
-let g:airline#extensions#tabline#fnamemod = ':t'
+" airline
+let g:airline_theme='onedark'
+let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
+let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
 
-let g:go_def_mode='gopls'
-let g:go_info_mode='gopls'
-" let g:deoplete#enable_at_startup = 1
-
-let g:terraform_align=1
-let g:terraform_fold_sections=1
-let g:terraform_fmt_on_save=1
-
+" git blamer
 let g:blamer_enabled = 0
 let g:blamer_delay = 500
 
-let g:nvim_typescript#javascript_support = 1
+autocmd vimenter * colorscheme gruvbox
 
 " Filetype specific
 filetype plugin indent on
 au FileType typescript  setl ts=2 sw=2 sts=2 colorcolumn=120
 au FileType typescriptreact  setl syntax=typescript ts=2 sw=2 sts=2 colorcolumn=120
-" au FileType typescript nnoremap <silent> gd :TSDef<cr>
 au FileType javascript  setl ts=2 sw=2 sts=2 colorcolumn=120
 au FileType yaml        setl ts=2 sw=2 sts=2
 au FileType ruby        setl ts=2 sw=2 sts=2
@@ -248,9 +182,3 @@ au FileType sql         setl ts=2 sw=2 sts=2
 au FileType python      setl ts=4 sw=4 sts=4 completeopt-=preview
 au FileType make        setl noet
 au FileType json        setl ts=2 sw=2 sts=2
-au FileType go setlocal omnifunc=lsp#complete
-au FileType go nmap <buffer> gd <plug>(lsp-definition)
-au FileType go nmap <buffer> ,n <plug>(lsp-next-error)
-au FileType go nmap <buffer> ,p <plug>(lsp-previous-error)
-autocmd FileType terraform nnoremap <silent> <leader>f :TerraformFmt<cr>
-autocmd FileType go noremap <silent> <leader>f :GoFmt<cr>
