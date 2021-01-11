@@ -136,8 +136,9 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
-nmap <leader>f  <Plug>(coc-format-selected)
-nmap <leader>d  :call <SID>show_documentation()<CR>
+nmap <leader>f <Plug>(coc-format-selected)
+nmap <leader>d :call <SID>show_documentation()<CR>
+nmap <leader>l :CocCommand eslint.executeAutofix<CR>
 function! s:show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
@@ -174,6 +175,7 @@ let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
 " airline
 let g:airline_theme='onedark'
 let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
+let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
 
 " git blamer
