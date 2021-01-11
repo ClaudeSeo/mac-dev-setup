@@ -1,0 +1,26 @@
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
+
+prompt_context() {
+    emojis=("⚡️" "🔥" "🇰 " "👑" "😎" "🐸" "🐵" "🦄" "🌈" "🍻" "🚀" "💡" "🎉" "🔑" "🚦" "🌙")
+    RAND_EMOJI_N=$(( $RANDOM % ${#emojis[@]} + 1))
+    prompt_segment black default "claude ${emojis[$RAND_EMOJI_N]} "
+}
+
+source <(kubectl completion zsh)
+[[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
+export PYENV_VERSION=3.8.2
+export PYENV_ROOT="/Users/$(whoami)/.pyenv"
+
+alias k='kubectl'
+alias l='exa -abghHliS'
+alias tree='exa --git-ignore --tree -I node_modules .'
+alias tm='tmux'
+
+eval "$(direnv hook zsh)"
+export PATH=$PATH:$HOME/.istioctl/bin
