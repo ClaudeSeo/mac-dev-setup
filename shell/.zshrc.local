@@ -11,16 +11,14 @@ prompt_context() {
 source <(kubectl completion zsh)
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
+eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-
-export PYENV_VERSION=3.8.2
-export PYENV_ROOT="/Users/$(whoami)/.pyenv"
 
 alias k='kubectl'
 alias l='exa -abghHliS'
 alias tree='exa --git-ignore --tree -I node_modules .'
 alias tm='tmux'
+alias npmr='npm run $(cat package.json | jq .scripts | jq -r "keys | .[]" | fzf)'
 
 eval "$(direnv hook zsh)"
-export PATH=$PATH:$HOME/.istioctl/bin
