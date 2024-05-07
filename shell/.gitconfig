@@ -12,10 +12,11 @@
     name = ClaudeSeo
     email = ehdaudtj@gmail.com
 
-[filter "lfs"]
-    clean = git-lfs clean -- %f
-    smudge = git-lfs smudge -- %f
-    process = git-lfs filter-proces
+[push]
+        autoSetupRemote = true
+
+[core]
+        excludesFile = /Users/claude/.gitignore
 
 [push]
     default = current

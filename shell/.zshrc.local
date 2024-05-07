@@ -1,7 +1,3 @@
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
-
 prompt_context() {
     emojis=("⚡️" "🔥" "🇰 " "👑" "😎" "🐸" "🐵" "🦄" "🌈" "🍻" "🚀" "💡" "🎉" "🔑" "🚦" "🌙")
     RAND_EMOJI_N=$(( $RANDOM % ${#emojis[@]} + 1))
@@ -11,10 +7,6 @@ prompt_context() {
 source <(kubectl completion zsh)
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
 alias k='kubectl'
 alias l='exa -abghHliS'
 alias tree='exa --git-ignore --tree -I node_modules .'
@@ -22,3 +14,4 @@ alias tm='tmux'
 alias npmr='npm run $(cat package.json | jq .scripts | jq -r "keys | .[]" | fzf)'
 
 eval "$(direnv hook zsh)"
+export INFISICAL_API_URL=http://claudeseo-homeserver/api
