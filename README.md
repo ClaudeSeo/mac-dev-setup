@@ -1,119 +1,83 @@
-# Mac OS X 개발 환경 설정
+# macOS 개발 환경 설정 (2025년 4월 21일 기준)
 
-## 시스템 업데이트
+이 레포지토리는 macOS 개발 환경 설정을 위한 가이드와 도구를 제공합니다.
+
+## 간편 설정
+
+이 레포지토리의 스크립트를 사용하여 모든 설정을 자동화할 수 있습니다:
 
 ```sh
-# 시스템 업데이트
-$ sudo softwareupdate -iva
+# Xcode Command Line Tools 설치
+$ xcode-select --install
+
+# 레포지토리 클론 및 설정 스크립트 실행
+$ git clone https://github.com/ClaudeSeo/mac-dev-setup
+$ cd mac-dev-setup
+$ ./init.sh
 ```
 
-## 시스템 설정
+## 주요 구성 요소
 
-**Apple 아이콘 > 시스템 환경설정:**
+### 시스템 설정
 
-- 트랙패드 > 탭하여 클릭하기
-- Dock > 자동으로 Dock 가리기와 보기
-- Mission Control > 핫 코너 > (좌측 상단) 화면 보호기 시작
-- Mission Control > 핫 코너 > (우측 상단) 디스플레이 잠자기
-- 키보드 > 단축키 > 입력 소스 > 이전 입력 소스 선택 (command + space)
-- 키보드 > 단축키 > Spotlight > Spotlight 검색 보기 비활성화
-
-**Command Line:**
-
-- 숨김파일 보기
+**숨김 파일 및 DS_Store 관리**
 
 ```sh
+# 숨김 파일 보기
 $ defaults write com.apple.finder AppleShowAllFiles -bool true
-```
 
-- .DS_Store 생성 방지
-
-```sh
+# .DS_Store 생성 방지
 $ defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
 ```
 
-## Homebrew
+### 개발 환경
 
-```sh
-$ xcode-select --install
-$ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-$ brew update
-$ brew tap caskroom/cask
+**Homebrew**
 
-$ brew install git
-$ git clone https://github.com/ClaudeSeo/mac-dev-setup
-$ cd mac-dev-setup
-$ brew bundle
-```
+- 모든 패키지는 `brew/Brewfile`에 정의되어 있으며 `brew bundle` 명령으로 한 번에 설치됩니다
 
-## iTerm2
+**Shell 환경**
 
-- zsh
+- zsh + Oh My Zsh 기본 구성
 
-```sh
-$ chsh -s `which zsh`
-```
+**개발 언어 관리**
 
-- oh-my-zsh
+- Node.js: fnm (Fast Node Manager)
+- Python: pyenv + Poetry
 
-```sh
-$ sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+### 주요 도구
 
-$ vim ~/.zshrc
+- **Warp**: 현대적인 터미널 (Rust 기반)
+- **Neovim**: 고급 텍스트 에디터 (설정: nvim/init.vim)
+- **개발 생산성 도구**: bat, eza, fd, fzf, ripgrep
+- **Kubernetes**: k9s, kubectl, kubectx
+- **API/데이터 도구**: jq, yq, mitmproxy
 
-# 테마 수정
-ZSH_THEME="agnoster"
-```
+### 권장 응용프로그램
 
-- powerline font
+Brewfile에 포함되어 있지 않은 추가 응용프로그램들은 아래 공식 홈페이지에서 다운로드할 수 있습니다:
 
-```sh
-$ git clone https://github.com/powerline/fonts.git --depth=1
-$ cd fonts
-$ ./install.sh
-```
+**개발 도구**
 
-- iTerm2 > Preferencs > Profiles > Text > Change font > Roboto Mono Light for Power line
+- Visual Studio Code: [공식 다운로드](https://code.visualstudio.com/download)
+- OrbStack: [공식 다운로드](https://orbstack.dev/download)
+- NoSQLBooster: [공식 다운로드](https://nosqlbooster.com/downloads)
+- MongoDB Compass: [공식 다운로드](https://www.mongodb.com/products/compass)
+- DBeaver: [공식 다운로드](https://dbeaver.io/download/)
+- Redis Insight: [공식 다운로드](https://redis.com/redis-insight/)
 
-## nvm
+**브라우저 및 생산성 도구**
 
-```sh
-$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash
-$ nvm install --lts
-```
+- Arc Browser: [공식 다운로드](https://arc.net/download)
+- Notion: [공식 다운로드](https://www.notion.so/desktop)
+- Obsidian: [공식 다운로드](https://obsidian.md/download)
+- Perplexity AI: [공식 다운로드](https://www.perplexity.ai/platforms)
+- TickTick: [공식 다운로드](https://ticktick.com/about/download)
 
-<sub>- 만약 profile 에 아래의 코드가 없을경우 추가한다</sub>
+**유틸리티**
 
-```sh
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-```
-
-## pyenv
-
-```sh
-$ brew update
-$ brew install pyenv
-$ brew instlal pyenv-virtualenv
-$ echo 'eval "$(pyenv init -)";' >> ~/.zshrc
-$ echo 'eval "$(pyenv virtualenv-init -)"' >> ~/.zshrc
-$ pyenv install 3.6.4
-
-$ pyenv virtualenv <PYTHON_VERSION> <ENV_NAME>
-```
-
-## nvim
-
-```sh
-curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-nvim +PlugInstall +PlugUpdate +qa
-
-nvim \
-    +'CocInstall coc-tsserver' \
-    +'CocInstall coc-diagnostic' \
-    +'CocInstall coc-eslint' \
-    +'CocInstall coc-jedi' \
-    +'qa'
-```
+- Tailscale: [공식 다운로드](https://tailscale.com/download/macos)
+- AppCleaner: [공식 다운로드](https://freemacsoft.net/appcleaner/)
+- Warp: [공식 다운로드](https://www.warp.dev/download)
+- Raycast: [공식 다운로드](https://www.raycast.com/)
+- Excalidraw: [웹 앱](https://excalidraw.com) - 손으로 그린 다이어그램

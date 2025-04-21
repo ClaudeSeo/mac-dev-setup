@@ -14,13 +14,17 @@ set autoread
 set nobackup
 set noswapfile
 set hidden
-set updatetime=1500
+set updatetime=300  " 더 빠른 반응을 위해 업데이트 시간 단축
 set laststatus=2
 set nofoldenable
+set signcolumn=yes  " 항상 signcolumn 표시 (기호 열 유지)
+set mouse=a         " 모든 모드에서 마우스 지원
+set clipboard+=unnamedplus  " 시스템 클립보드 사용
 syntax on
 
 " Line Number
 set number
+set relativenumber  " 상대적 줄 번호 표시
 set cursorline
 
 " Search
@@ -40,7 +44,7 @@ set completeopt=noinsert,menuone,noselect
 " Key Mapping
 inoremap <expr> <C-j> ((pumvisible())?("\<C-n>"):("<C-j>"))
 inoremap <expr> <Tab> ((pumvisible())?("\<C-n>"):("<Tab>"))
-inoremap <expr> <S-Tab> ((pumvisible())?("\<C-p>"):("\<S-Tab>"))
+inoremap <expr> <S-Tab> ((pumvisible())?("\<C-p>"):("<S-Tab>"))
 inoremap <expr> <C-k> ((pumvisible())?("\<C-p>"):("<C-k>"))
 inoremap <C-c> <Esc>
 
@@ -90,12 +94,27 @@ Plug 'connorholyday/vim-snazzy'
 Plug 'morhetz/gruvbox'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'preservim/nerdtree'
-
 Plug 'tpope/vim-fugitive'
 Plug 'rhysd/committia.vim'
 Plug 'tpope/vim-commentary'
 Plug 'airblade/vim-gitgutter'
-Plug 'Shougo/denite.nvim'
+
+" 새로운 플러그인 추가
+Plug 'nvim-lua/plenary.nvim'         " 다른 플러그인의 종속성
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " 향상된 구문 강조
+Plug 'lewis6991/gitsigns.nvim'       " 최신 Git 통합
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' } " 향상된 파일 찾기
+Plug 'folke/which-key.nvim'          " 키 바인딩 도움말
+Plug 'windwp/nvim-autopairs'         " 자동 괄호 완성
+Plug 'norcalli/nvim-colorizer.lua'   " 색상 코드 하이라이팅
+
+" Python 개발 지원 강화
+Plug 'vim-python/python-syntax'      " 향상된 Python 구문 강조
+Plug 'Vimjas/vim-python-pep8-indent' " PEP8 들여쓰기 지원
+Plug 'davidhalter/jedi-vim'          " Python 자동 완성 (CoC와 함께 사용)
+
+" 테마 최신화
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' } " 현대적인 테마
 
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
@@ -106,6 +125,7 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 let NERDTreeShowHidden=1
 set mouse=a
 let g:NERDTreeMouseMode = 3
+let g:NERDTreeIgnore = ['^node_modules$', '\.pyc$', '^__pycache__$']  " 무시할 파일 추가
 
 " Coc Config
 function! s:check_back_space() abort
@@ -167,22 +187,69 @@ command! -bang -nargs=* Rg
     \     fzf#vim#with_preview(),
     \     <bang>0)
 
-
 " eidtorconfig
 let g:EditorConfig_core_mode = 'external_command'
 let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
 
 " airline
-let g:airline_theme='onedark'
+let g:airline_theme='catppuccin'  " 테마 변경
 let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
+let g:airline_powerline_fonts = 1  " 파워라인 폰트 활성화
 
 " git blamer
 let g:blamer_enabled = 0
 let g:blamer_delay = 500
 
-autocmd vimenter * colorscheme gruvbox
+" 새로운 테마 설정
+if has('termguicolors')
+  set termguicolors
+endif
+let g:catppuccin_flavour = "macchiato" " latte, frappe, macchiato, mocha
+colorscheme catppuccin
+
+" Python 구문 강조 옵션
+let g:python_highlight_all = 1
+
+" Lua 플러그인 설정 (조건부 실행)
+lua <<EOF
+-- 플러그인이 설치되어 있는지 확인 후 실행
+local function plugin_exists(name)
+  local ok, _ = pcall(require, name)
+  return ok
+end
+
+-- TreeSitter 설정
+if plugin_exists('nvim-treesitter.configs') then
+  require'nvim-treesitter.configs'.setup {
+    ensure_installed = { "python", "javascript", "typescript", "json", "yaml", "bash", "lua", "vim" },
+    highlight = {
+      enable = true,
+    },
+  }
+end
+
+-- GitSigns 설정
+if plugin_exists('gitsigns') then
+  require('gitsigns').setup()
+end
+
+-- WhichKey 설정
+if plugin_exists('which-key') then
+  require("which-key").setup {}
+end
+
+-- Autopairs 설정
+if plugin_exists('nvim-autopairs') then
+  require('nvim-autopairs').setup{}
+end
+
+-- Colorizer 설정
+if plugin_exists('colorizer') then
+  require('colorizer').setup()
+end
+EOF
 
 " Filetype specific
 filetype plugin indent on

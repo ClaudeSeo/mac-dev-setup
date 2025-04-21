@@ -8,10 +8,14 @@ source <(kubectl completion zsh)
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
 alias k='kubectl'
-alias l='exa -abghHliS'
-alias tree='exa --git-ignore --tree -I node_modules .'
+alias l='eza -abghHliS'
+alias tree='eza --git-ignore --tree -I node_modules .'
 alias tm='tmux'
 alias npmr='npm run $(cat package.json | jq .scripts | jq -r "keys | .[]" | fzf)'
+alias cf='confluent'
 
 eval "$(direnv hook zsh)"
-export INFISICAL_API_URL=http://claudeseo-homeserver/api
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
