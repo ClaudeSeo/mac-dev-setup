@@ -82,6 +82,38 @@ setup_neovim() {
     log "Neovim 설정이 완료되었습니다!"
 }
 
+# zsh 설정 - .zshrc.local 심볼릭 링크 생성
+setup_zshrc_local() {
+    log "zsh 설정을 시작합니다..."
+    
+    # shell 디렉토리의 .zshrc.local 파일 경로
+    SHELL_ZSHRC_LOCAL="$SCRIPT_DIR/shell/.zshrc.local"
+    
+    # shell/.zshrc.local 파일이 있는지 확인
+    if [ ! -f "$SHELL_ZSHRC_LOCAL" ]; then
+        log "shell/.zshrc.local 파일이 존재하지 않습니다. 오류가 발생했습니다."
+        exit 1
+    fi
+    
+    # .zshrc.local 심볼릭 링크 생성
+    if [ -f "$HOME/.zshrc.local" ]; then
+        log "기존 .zshrc.local 파일이 존재합니다. 백업 후 새로 설정합니다."
+        mv "$HOME/.zshrc.local" "$HOME/.zshrc.local.backup.$(date +%Y%m%d%H%M%S)"
+    fi
+    
+    ln -sf "$SHELL_ZSHRC_LOCAL" "$HOME/.zshrc.local"
+    log ".zshrc.local 심볼릭 링크 설정 완료"
+    
+    # .zshrc에 .zshrc.local을 로드하는 코드가 있는지 확인
+    if ! grep -q "source ~/.zshrc.local" "$HOME/.zshrc"; then
+        log ".zshrc에 .zshrc.local 로드 코드를 추가합니다."
+        echo '# Load local zsh customizations' >> "$HOME/.zshrc"
+        echo '[ -f ~/.zshrc.local ] && source ~/.zshrc.local' >> "$HOME/.zshrc"
+    fi
+    
+    log "zsh 설정이 완료되었습니다!"
+}
+
 # 메인 실행 함수
 main() {
     log "macOS 개발 환경 설정을 시작합니다..."
@@ -91,6 +123,9 @@ main() {
     
     # Neovim 설정
     setup_neovim
+    
+    # zsh 설정
+    setup_zshrc_local
     
     log "macOS 개발 환경 설정이 완료되었습니다!"
     log "일부 설정은 터미널을 재시작하거나 새 세션에서 적용됩니다."
