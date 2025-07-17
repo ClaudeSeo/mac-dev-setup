@@ -13,6 +13,8 @@ alias tree='eza --git-ignore --tree -I node_modules .'
 alias tm='tmux'
 alias npmr='npm run $(cat package.json | jq .scripts | jq -r "keys | .[]" | fzf)'
 alias cf='confluent'
+alias cm='claude-monitor --timezone "Asia/Seoul"'
+alias cs='claude-squad'
 
 eval "$(direnv hook zsh)"
 
