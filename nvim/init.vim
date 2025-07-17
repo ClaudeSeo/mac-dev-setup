@@ -156,6 +156,7 @@ nmap <silent> gd <Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
+nmap <silent> gb <C-o>
 nmap <leader>f <Plug>(coc-format-selected)
 nmap <leader>d :call <SID>show_documentation()<CR>
 nmap <leader>l :CocCommand eslint.executeAutofix<CR>
@@ -203,11 +204,12 @@ let g:blamer_enabled = 0
 let g:blamer_delay = 500
 
 " 새로운 테마 설정
-if has('termguicolors')
-  set termguicolors
-endif
-let g:catppuccin_flavour = "macchiato" " latte, frappe, macchiato, mocha
-colorscheme catppuccin
+" if has('termguicolors')
+"   set termguicolors
+" endif
+" let g:catppuccin_flavour = "macchiato" " latte, frappe, macchiato, mocha
+" colorscheme catppuccin
+autocmd vimenter * colorscheme gruvbox
 
 " Python 구문 강조 옵션
 let g:python_highlight_all = 1
