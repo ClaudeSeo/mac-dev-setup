@@ -146,9 +146,8 @@ cd mac-dev-setup
 
 - 🌈 **Arc Browser**: [공식 다운로드](https://arc.net/download)
 - 📝 **Notion**: [공식 다운로드](https://www.notion.so/desktop)
-- 🔗 **Obsidian**: [공식 다운로드](https://obsidian.md/download)
 - 🤖 **Perplexity AI**: [공식 다운로드](https://www.perplexity.ai/platforms)
-- ✅ **TickTick**: [공식 다운로드](https://ticktick.com/about/download)
+- 🤖 **Claudia**: [공식 다운로드](https://claude.ai/download) - Claude AI 데스크톱 앱
 
 </details>
 
