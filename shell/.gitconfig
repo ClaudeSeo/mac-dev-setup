@@ -13,10 +13,13 @@
     email = ehdaudtj@gmail.com
 
 [push]
-        autoSetupRemote = true
+    autoSetupRemote = true
 
 [core]
-        excludesFile = /Users/claude/.gitignore
+    editor = nvim
 
 [push]
     default = current
+
+[pull]
+    rebase = true
