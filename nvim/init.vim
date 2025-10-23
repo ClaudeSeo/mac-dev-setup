@@ -4,10 +4,10 @@ set nocompatible
 set termguicolors
 set encoding=utf-8
 set fileencoding=utf-8
+set fileencodings=ucs-bom,utf-8,cp949,korea,iso-2022-kr
 set fileformat=unix backspace=2
 set autoindent smartindent expandtab
 set showcmd
-set encoding=utf-8 fileencodings=ucs-bom,utf-8,cp949,korea,iso-2022-kr
 set noeb vb t_vb=
 set directory=/tmp
 set autoread
@@ -20,6 +20,7 @@ set nofoldenable
 set signcolumn=yes  " 항상 signcolumn 표시 (기호 열 유지)
 set mouse=a         " 모든 모드에서 마우스 지원
 set clipboard+=unnamedplus  " 시스템 클립보드 사용
+" TreeSitter 사용 시 자동으로 비활성화됨 (Lua 설정 참조)
 syntax on
 
 " Line Number
@@ -64,6 +65,13 @@ nnoremap <silent> <leader><leader>q :Buffers!<CR>
 nnoremap <leader>r :Rg<space>
 nnoremap <leader><leader>r :Rg!<space>
 
+" Telescope (고급 검색 및 LSP 통합)
+nnoremap <silent> <leader>ff :Telescope find_files<CR>
+nnoremap <silent> <leader>fg :Telescope live_grep<CR>
+nnoremap <silent> <leader>fb :Telescope buffers<CR>
+nnoremap <silent> <leader>fh :Telescope help_tags<CR>
+nnoremap <silent> <leader>fc :Telescope git_commits<CR>
+
 " NERDTree
 map <C-n> :NERDTreeToggle<CR>
 nmap <C-n><C-r> :NERDTreeFocus<cr> \| R \| <c-w><c-p>
@@ -90,32 +98,27 @@ Plug 'APZelos/blamer.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
 Plug 'Yggdroot/indentLine'
-Plug 'connorholyday/vim-snazzy'
 Plug 'morhetz/gruvbox'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'preservim/nerdtree'
-Plug 'tpope/vim-fugitive'
 Plug 'rhysd/committia.vim'
 Plug 'tpope/vim-commentary'
-Plug 'airblade/vim-gitgutter'
 
-" 새로운 플러그인 추가
+" 최신 플러그인
 Plug 'nvim-lua/plenary.nvim'         " 다른 플러그인의 종속성
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " 향상된 구문 강조
-Plug 'lewis6991/gitsigns.nvim'       " 최신 Git 통합
+Plug 'lewis6991/gitsigns.nvim'       " 최신 Git 통합 (vim-gitgutter 대체)
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' } " 향상된 파일 찾기
 Plug 'folke/which-key.nvim'          " 키 바인딩 도움말
 Plug 'windwp/nvim-autopairs'         " 자동 괄호 완성
 Plug 'norcalli/nvim-colorizer.lua'   " 색상 코드 하이라이팅
 
-" Python 개발 지원 강화
+" Python 개발 지원
 Plug 'vim-python/python-syntax'      " 향상된 Python 구문 강조
 Plug 'Vimjas/vim-python-pep8-indent' " PEP8 들여쓰기 지원
-Plug 'davidhalter/jedi-vim'          " Python 자동 완성 (CoC와 함께 사용)
 
-" 테마 최신화
-Plug 'catppuccin/nvim', { 'as': 'catppuccin' } " 현대적인 테마
-
+" CoC - Language Server Protocol 지원
+" Python: :CocInstall coc-pyright 실행 필요
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 call plug#end()
 
@@ -123,7 +126,6 @@ call plug#end()
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 let NERDTreeShowHidden=1
-set mouse=a
 let g:NERDTreeMouseMode = 3
 let g:NERDTreeIgnore = ['^node_modules$', '\.pyc$', '^__pycache__$']  " 무시할 파일 추가
 
@@ -193,7 +195,7 @@ let g:EditorConfig_core_mode = 'external_command'
 let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
 
 " airline
-let g:airline_theme='catppuccin'  " 테마 변경
+let g:airline_theme='gruvbox'
 let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
 let g:airline#extensions#tabline#formatter = 'default'
 let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
@@ -203,12 +205,7 @@ let g:airline_powerline_fonts = 1  " 파워라인 폰트 활성화
 let g:blamer_enabled = 0
 let g:blamer_delay = 500
 
-" 새로운 테마 설정
-" if has('termguicolors')
-"   set termguicolors
-" endif
-" let g:catppuccin_flavour = "macchiato" " latte, frappe, macchiato, mocha
-" colorscheme catppuccin
+" 테마 설정
 autocmd vimenter * colorscheme gruvbox
 
 " Python 구문 강조 옵션
@@ -222,34 +219,121 @@ local function plugin_exists(name)
   return ok
 end
 
--- TreeSitter 설정
+-- TreeSitter 설정 (성능 최적화)
 if plugin_exists('nvim-treesitter.configs') then
   require'nvim-treesitter.configs'.setup {
     ensure_installed = { "python", "javascript", "typescript", "json", "yaml", "bash", "lua", "vim" },
     highlight = {
       enable = true,
+      -- TreeSitter 사용 시 기본 syntax 비활성화하여 성능 향상
+      additional_vim_regex_highlighting = false,
     },
+    -- 증분 선택 활성화
+    incremental_selection = {
+      enable = true,
+      keymaps = {
+        init_selection = "gnn",
+        node_incremental = "grn",
+        scope_incremental = "grc",
+        node_decremental = "grm",
+      },
+    },
+    -- 들여쓰기 지원
+    indent = {
+      enable = true
+    }
   }
+  -- TreeSitter가 활성화되면 syntax를 완전히 비활성화
+  vim.cmd('syntax off')
 end
 
 -- GitSigns 설정
 if plugin_exists('gitsigns') then
-  require('gitsigns').setup()
+  require('gitsigns').setup({
+    signs = {
+      add          = { text = '│' },
+      change       = { text = '│' },
+      delete       = { text = '_' },
+      topdelete    = { text = '‾' },
+      changedelete = { text = '~' },
+      untracked    = { text = '┆' },
+    },
+  })
 end
 
 -- WhichKey 설정
 if plugin_exists('which-key') then
-  require("which-key").setup {}
+  require("which-key").setup {
+    plugins = {
+      spelling = {
+        enabled = true,
+      },
+    },
+  }
 end
 
 -- Autopairs 설정
 if plugin_exists('nvim-autopairs') then
-  require('nvim-autopairs').setup{}
+  require('nvim-autopairs').setup{
+    check_ts = true,  -- TreeSitter 통합
+  }
 end
 
 -- Colorizer 설정
 if plugin_exists('colorizer') then
   require('colorizer').setup()
+end
+
+-- Telescope 설정
+if plugin_exists('telescope') then
+  local telescope = require('telescope')
+  local actions = require('telescope.actions')
+
+  telescope.setup{
+    defaults = {
+      -- 기본 설정
+      mappings = {
+        i = {
+          -- Insert 모드 키맵
+          ["<C-j>"] = actions.move_selection_next,
+          ["<C-k>"] = actions.move_selection_previous,
+          ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+          ["<Esc>"] = actions.close,
+        },
+        n = {
+          -- Normal 모드 키맵
+          ["<C-q>"] = actions.send_to_qflist + actions.open_qflist,
+          ["q"] = actions.close,
+        },
+      },
+      -- 프리뷰 설정
+      layout_config = {
+        horizontal = {
+          preview_width = 0.55,
+          results_width = 0.8,
+        },
+        vertical = {
+          mirror = false,
+        },
+        width = 0.87,
+        height = 0.80,
+        preview_cutoff = 120,
+      },
+      -- 파일 무시 패턴
+      file_ignore_patterns = {
+        "node_modules",
+        ".git/",
+        "__pycache__",
+        "%.pyc",
+      },
+    },
+    pickers = {
+      find_files = {
+        theme = "dropdown",
+        previewer = false,
+      },
+    },
+  }
 end
 EOF
 
@@ -260,7 +344,6 @@ au FileType typescriptreact  setl syntax=typescript ts=2 sw=2 sts=2 colorcolumn=
 au FileType javascript  setl ts=2 sw=2 sts=2 colorcolumn=120
 au FileType yaml        setl ts=2 sw=2 sts=2
 au FileType ruby        setl ts=2 sw=2 sts=2
-au FileType yaml        setl ts=2 sw=2 sts=2
 au FileType html        setl ts=4 sw=4 sts=4
 au FileType sql         setl ts=2 sw=2 sts=2
 au FileType python      setl ts=4 sw=4 sts=4 completeopt-=preview
