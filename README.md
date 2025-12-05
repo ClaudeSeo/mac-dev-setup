@@ -82,32 +82,35 @@ cd mac-dev-setup
 
 ### 🚀 언어별 도구
 
-|    🔧 **기능**     | 💻 **명령어** |                 🔗 **라이브러리**                 | 📝 **설명**                             |
-| :----------------: | :-----------: | :-----------------------------------------------: | :-------------------------------------- |
-|    Node.js 관리    |     `fnm`     |       [fnm](https://github.com/Schniz/fnm)        | ⚡ 빠른 Node.js 버전 매니저             |
-|    Python 관리     |    `pyenv`    |      [pyenv](https://github.com/pyenv/pyenv)      | 🐍 Python 버전 관리                     |
-|   Python 패키징    |   `poetry`    | [Poetry](https://github.com/python-poetry/poetry) | 📦 현대적인 Python 의존성 관리          |
-| Python 패키지 관리 |     `uv`      |       [uv](https://github.com/astral-sh/uv)       | ⚡ 매우 빠른 Python 패키지 관리자       |
-|   Terraform 관리   |    `tfenv`    |     [tfenv](https://github.com/tfutils/tfenv)     | 🏗️ Terraform 버전 관리                  |
-|      SDK 관리      |     `sdk`     |  [SDKMAN!](https://github.com/sdkman/sdkman-cli)  | ☕ 여러 SDK 버전 관리 (Java, Kotlin 등) |
+|    🔧 **기능**     | 💻 **명령어** |                🔗 **라이브러리**                | 📝 **설명**                             |
+| :----------------: | :-----------: | :---------------------------------------------: | :-------------------------------------- |
+|    Node.js 관리    |     `fnm`     |      [fnm](https://github.com/Schniz/fnm)       | ⚡ 빠른 Node.js 버전 매니저             |
+|    Python 관리     |    `pyenv`    |     [pyenv](https://github.com/pyenv/pyenv)     | 🐍 Python 버전 관리                     |
+| Python 패키지 관리 |     `uv`      |      [uv](https://github.com/astral-sh/uv)      | ⚡ 매우 빠른 Python 패키지 관리자       |
+|   Terraform 관리   |    `tfenv`    |    [tfenv](https://github.com/tfutils/tfenv)    | 🏗️ Terraform 버전 관리                  |
+|      SDK 관리      |     `sdk`     | [SDKMAN!](https://github.com/sdkman/sdkman-cli) | ☕ 여러 SDK 버전 관리 (Java, Kotlin 등) |
 
 ### 🌐 네트워크 및 API
 
-|  🔧 **기능**  | 💻 **명령어** |                  🔗 **라이브러리**                  | 📝 **설명**                           |
-| :-----------: | :-----------: | :-------------------------------------------------: | :------------------------------------ |
-|  HTTP 프록시  |  `mitmproxy`  | [mitmproxy](https://github.com/mitmproxy/mitmproxy) | 🕵️ HTTP/HTTPS 트래픽 인터셉트 및 수정 |
-|   VPN 터널    |  `sshuttle`   |  [sshuttle](https://github.com/sshuttle/sshuttle)   | 🔒 SSH를 통한 VPN                     |
-|    터널링     |    `ngrok`    |  [ngrok](https://github.com/inconshreveable/ngrok)  | 🌍 로컬 서버를 인터넷에 노출          |
-| 네트워크 진단 |   `trippy`    |  [trippy](https://github.com/fujiapple852/trippy)   | 🔍 현대적인 traceroute 도구           |
+|  🔧 **기능**  | 💻 **명령어** |                 🔗 **라이브러리**                 | 📝 **설명**                 |
+| :-----------: | :-----------: | :-----------------------------------------------: | :-------------------------- |
+| 네트워크 진단 |   `trippy`    | [trippy](https://github.com/fujiapple852/trippy)  | 🔍 현대적인 traceroute 도구 |
 
 ### ☁️ 클라우드 및 서비스
 
 |  🔧 **기능**  |        💻 **명령어**        |                         🔗 **라이브러리**                         | 📝 **설명**                      |
 | :-----------: | :-------------------------: | :---------------------------------------------------------------: | :------------------------------- |
 | MongoDB Atlas |           `atlas`           | [MongoDB Atlas CLI](https://github.com/mongodb/mongodb-atlas-cli) | 🍃 MongoDB Atlas 관리            |
+|  MongoDB CLI  |         `mongocli`          |       [MongoDB CLI](https://github.com/mongodb/mongodb-cli)       | 🍃 MongoDB Cloud Manager 관리    |
 | MongoDB 도구  | `mongodump`, `mongorestore` | [MongoDB Database Tools](https://github.com/mongodb/mongo-tools)  | 🗄️ MongoDB 데이터베이스 유틸리티 |
 |   Confluent   |            `cf`             |       [Confluent CLI](https://github.com/confluentinc/cli)        | 🌊 Apache Kafka 관리 (Confluent) |
 |   Infisical   |         `infisical`         |        [Infisical](https://github.com/Infisical/infisical)        | 🔐 시크릿 관리                   |
+
+### 🔒 보안 도구
+
+|  🔧 **기능**  | 💻 **명령어** |                      🔗 **라이브러리**                      | 📝 **설명**                        |
+| :-----------: | :-----------: | :---------------------------------------------------------: | :--------------------------------- |
+| 시크릿 스캐닝 | `trufflehog`  | [TruffleHog](https://github.com/trufflesecurity/trufflehog) | 🔍 Git 히스토리에서 민감 정보 탐지 |
 
 ### 🔧 환경 및 설정
 
