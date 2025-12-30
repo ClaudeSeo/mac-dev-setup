@@ -26,3 +26,4 @@ export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
 
 eval "$(fnm env --use-on-cd --shell zsh)"
 eval "$(ut completions zsh)"
+eval "$(zoxide init zsh)"

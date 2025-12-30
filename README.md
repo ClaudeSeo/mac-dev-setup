@@ -33,12 +33,12 @@ cd mac-dev-setup
 
 ### 📁 파일 시스템 및 탐색
 
-|  🔧 **기능**  | 💻 **명령어** |              🔗 **라이브러리**              | 📝 **설명**                                |
-| :-----------: | :-----------: | :-----------------------------------------: | :----------------------------------------- |
-|   향상된 ls   |      `l`      | [eza](https://github.com/eza-community/eza) | 🎨 컬러풀한 파일 목록 (옵션: -abghHliS)    |
-|   파일 검색   |     `fd`      |     [fd](https://github.com/sharkdp/fd)     | ⚡ find보다 빠르고 사용하기 쉬운 파일 검색 |
-|   트리 구조   |    `tree`     | [eza](https://github.com/eza-community/eza) | 🌳 node_modules 제외한 트리 구조 표시      |
-| 디렉터리 점프 |      `z`      |       [z](https://github.com/rupa/z)        | 🚀 자주 방문하는 디렉터리로 빠른 이동      |
+|  🔧 **기능**  | 💻 **명령어** |                🔗 **라이브러리**                | 📝 **설명**                                |
+| :-----------: | :-----------: | :---------------------------------------------: | :----------------------------------------- |
+|   향상된 ls   |      `l`      |   [eza](https://github.com/eza-community/eza)   | 🎨 컬러풀한 파일 목록 (옵션: -abghHliS)    |
+|   파일 검색   |     `fd`      |       [fd](https://github.com/sharkdp/fd)       | ⚡ find보다 빠르고 사용하기 쉬운 파일 검색 |
+|   트리 구조   |    `tree`     |   [eza](https://github.com/eza-community/eza)   | 🌳 node_modules 제외한 트리 구조 표시      |
+| 디렉터리 점프 |      `z`      | [zoxide](https://github.com/ajeetdsouza/zoxide) | 🚀 자주 방문하는 디렉터리로 빠른 이동      |
 
 ### 📄 파일 내용 조회 및 검색
 
@@ -82,26 +82,25 @@ cd mac-dev-setup
 
 ### 🚀 언어별 도구
 
-|    🔧 **기능**     | 💻 **명령어** |                🔗 **라이브러리**                | 📝 **설명**                             |
-| :----------------: | :-----------: | :---------------------------------------------: | :-------------------------------------- |
-|    Node.js 관리    |     `fnm`     |      [fnm](https://github.com/Schniz/fnm)       | ⚡ 빠른 Node.js 버전 매니저             |
-|    Python 관리     |    `pyenv`    |     [pyenv](https://github.com/pyenv/pyenv)     | 🐍 Python 버전 관리                     |
-| Python 패키지 관리 |     `uv`      |      [uv](https://github.com/astral-sh/uv)      | ⚡ 매우 빠른 Python 패키지 관리자       |
-|   Terraform 관리   |    `tfenv`    |    [tfenv](https://github.com/tfutils/tfenv)    | 🏗️ Terraform 버전 관리                  |
-|      SDK 관리      |     `sdk`     | [SDKMAN!](https://github.com/sdkman/sdkman-cli) | ☕ 여러 SDK 버전 관리 (Java, Kotlin 등) |
+|    🔧 **기능**     | 💻 **명령어** |                🔗 **라이브러리**                | 📝 **설명**                                    |
+| :----------------: | :-----------: | :---------------------------------------------: | :--------------------------------------------- |
+|    Node.js 관리    |     `fnm`     |      [fnm](https://github.com/Schniz/fnm)       | ⚡ 빠른 Node.js 버전 매니저                    |
+|    런타임 관리     |    `mise`     |       [mise](https://github.com/jdx/mise)       | 🔧 다목적 런타임 버전 관리자 (Node, Python 등) |
+| Python 패키지 관리 |     `uv`      |      [uv](https://github.com/astral-sh/uv)      | ⚡ 매우 빠른 Python 패키지 관리자              |
+|   Terraform 관리   |    `tfenv`    |    [tfenv](https://github.com/tfutils/tfenv)    | 🏗️ Terraform 버전 관리                         |
+|      SDK 관리      |     `sdk`     | [SDKMAN!](https://github.com/sdkman/sdkman-cli) | ☕ 여러 SDK 버전 관리 (Java, Kotlin 등)        |
 
 ### 🌐 네트워크 및 API
 
-|  🔧 **기능**  | 💻 **명령어** |                 🔗 **라이브러리**                 | 📝 **설명**                 |
-| :-----------: | :-----------: | :-----------------------------------------------: | :-------------------------- |
-| 네트워크 진단 |   `trippy`    | [trippy](https://github.com/fujiapple852/trippy)  | 🔍 현대적인 traceroute 도구 |
+|  🔧 **기능**  | 💻 **명령어** |                🔗 **라이브러리**                 | 📝 **설명**                 |
+| :-----------: | :-----------: | :----------------------------------------------: | :-------------------------- |
+| 네트워크 진단 |   `trippy`    | [trippy](https://github.com/fujiapple852/trippy) | 🔍 현대적인 traceroute 도구 |
 
 ### ☁️ 클라우드 및 서비스
 
 |  🔧 **기능**  |        💻 **명령어**        |                         🔗 **라이브러리**                         | 📝 **설명**                      |
 | :-----------: | :-------------------------: | :---------------------------------------------------------------: | :------------------------------- |
 | MongoDB Atlas |           `atlas`           | [MongoDB Atlas CLI](https://github.com/mongodb/mongodb-atlas-cli) | 🍃 MongoDB Atlas 관리            |
-|  MongoDB CLI  |         `mongocli`          |       [MongoDB CLI](https://github.com/mongodb/mongodb-cli)       | 🍃 MongoDB Cloud Manager 관리    |
 | MongoDB 도구  | `mongodump`, `mongorestore` | [MongoDB Database Tools](https://github.com/mongodb/mongo-tools)  | 🗄️ MongoDB 데이터베이스 유틸리티 |
 |   Confluent   |            `cf`             |       [Confluent CLI](https://github.com/confluentinc/cli)        | 🌊 Apache Kafka 관리 (Confluent) |
 |   Infisical   |         `infisical`         |        [Infisical](https://github.com/Infisical/infisical)        | 🔐 시크릿 관리                   |
