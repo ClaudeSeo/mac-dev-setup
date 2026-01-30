@@ -66,6 +66,8 @@ cd mac-dev-setup
 |    Shell 검사     | `shellcheck`  | [ShellCheck](https://github.com/koalaman/shellcheck) | 🔍 셸 스크립트 정적 분석 도구   |
 |     JSON 처리     |     `jq`      |          [jq](https://github.com/jqlang/jq)          | 📊 명령줄 JSON 프로세서         |
 |     YAML 처리     |     `yq`      |        [yq](https://github.com/mikefarah/yq)         | 📄 명령줄 YAML 프로세서         |
+| Dockerfile 린터 | `hadolint` | [Hadolint](https://github.com/hadolint/hadolint) | 🐳 Dockerfile 베스트 프랙티스 검사 |
+|    AI 코딩 도구   |  `opencode`   |    [OpenCode](https://github.com/AnomalyCo/opencode)     | 🤖 터미널 기반 AI 코딩 어시스턴트  |
 
 ### ☸️ Kubernetes 도구
 
@@ -89,12 +91,13 @@ cd mac-dev-setup
 | Python 패키지 관리 |     `uv`      |      [uv](https://github.com/astral-sh/uv)      | ⚡ 매우 빠른 Python 패키지 관리자              |
 |   Terraform 관리   |    `tfenv`    |    [tfenv](https://github.com/tfutils/tfenv)    | 🏗️ Terraform 버전 관리                         |
 |      SDK 관리      |     `sdk`     | [SDKMAN!](https://github.com/sdkman/sdkman-cli) | ☕ 여러 SDK 버전 관리 (Java, Kotlin 등)        |
+| JavaScript 런타임 |     `bun`     |      [Bun](https://github.com/oven-sh/bun)      | ⚡ 빠른 JavaScript 런타임 및 패키지 매니저     |
 
 ### 🌐 네트워크 및 API
 
 |  🔧 **기능**  | 💻 **명령어** |                🔗 **라이브러리**                 | 📝 **설명**                 |
 | :-----------: | :-----------: | :----------------------------------------------: | :-------------------------- |
-| 네트워크 진단 |   `trippy`    | [trippy](https://github.com/fujiapple852/trippy) | 🔍 현대적인 traceroute 도구 |
+| 네트워크 진단 |   `trip`    | [trippy](https://github.com/fujiapple852/trippy) | 🔍 현대적인 traceroute 도구 |
 
 ### ☁️ 클라우드 및 서비스
 
@@ -110,6 +113,7 @@ cd mac-dev-setup
 |  🔧 **기능**  | 💻 **명령어** |                      🔗 **라이브러리**                      | 📝 **설명**                        |
 | :-----------: | :-----------: | :---------------------------------------------------------: | :--------------------------------- |
 | 시크릿 스캐닝 | `trufflehog`  | [TruffleHog](https://github.com/trufflesecurity/trufflehog) | 🔍 Git 히스토리에서 민감 정보 탐지 |
+| 취약점 스캐닝 |    `trivy`    |       [Trivy](https://github.com/aquasecurity/trivy)        | 🛡️ 컨테이너/IaC 보안 취약점 스캐너 |
 
 ### 🔧 환경 및 설정
 
