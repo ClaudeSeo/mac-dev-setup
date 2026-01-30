@@ -1,8 +1,5 @@
-prompt_context() {
-    emojis=("⚡️" "🔥" "🇰 " "👑" "😎" "🐸" "🐵" "🦄" "🌈" "🍻" "🚀" "💡" "🎉" "🔑" "🚦" "🌙")
-    RAND_EMOJI_N=$(( $RANDOM % ${#emojis[@]} + 1))
-    prompt_segment black default "claude ${emojis[$RAND_EMOJI_N]} "
-}
+# Starship 프롬프트
+eval "$(starship init zsh)"
 
 source <(kubectl completion zsh)
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"

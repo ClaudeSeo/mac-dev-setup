@@ -1,0 +1,88 @@
+# 프롬프트 포맷 (전역 설정은 파일 최상단에 위치)
+format = """
+$custom\
+$directory\
+$git_branch\
+$git_status\
+$nodejs\
+$python\
+$kotlin\
+$java\
+$golang\
+$rust\
+$ruby\
+$php\
+$kubernetes\
+$docker_context\
+$cmd_duration\
+$time\
+$line_break\
+$character"""
+
+# "claude" + 랜덤 이모지 커스텀 모듈
+[custom.claude]
+command = 'echo "claude $(shuf -n1 -e ⚡️ 🔥 👑 😎 🐸 🐵 🦄 🌈 🍻 🚀 💡 🎉 🔑 🚦 🌙)"'
+when = true
+format = "[$output]($style) "
+style = "bold fg:208"
+
+[directory]
+style = "bold cyan"
+truncation_length = 0
+
+[git_branch]
+symbol = " "
+style = "bold purple"
+
+[git_status]
+style = "bold red"
+
+[nodejs]
+symbol = ""
+format = "[$symbol node\\($version\\)]($style) "
+
+[python]
+symbol = ""
+format = "[$symbol python\\($version\\)]($style) "
+
+[kotlin]
+symbol = ""
+format = "[$symbol kotlin\\($version\\)]($style) "
+
+[java]
+symbol = ""
+format = "[$symbol java\\($version\\)]($style) "
+
+[golang]
+symbol = ""
+format = "[$symbol go\\($version\\)]($style) "
+
+[rust]
+symbol = ""
+format = "[$symbol rust\\($version\\)]($style) "
+
+[ruby]
+symbol = ""
+format = "[$symbol ruby\\($version\\)]($style) "
+
+[php]
+symbol = ""
+format = "[$symbol php\\($version\\)]($style) "
+
+[docker_context]
+symbol = ""
+format = "[$symbol docker\\($context\\)]($style) "
+
+[kubernetes]
+disabled = true
+symbol = "☸ "
+
+[time]
+disabled = false
+format = "[$time]($style) "
+time_format = "%H:%M"
+style = "bold yellow"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"

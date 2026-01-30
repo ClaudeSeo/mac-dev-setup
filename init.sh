@@ -114,6 +114,28 @@ setup_zshrc_local() {
     log "zsh 설정이 완료되었습니다!"
 }
 
+# Starship 프롬프트 설정
+setup_starship_config() {
+    log "Starship 설정을 시작합니다..."
+
+    SHELL_STARSHIP_TOML="$SCRIPT_DIR/shell/starship.toml"
+
+    if [ ! -f "$SHELL_STARSHIP_TOML" ]; then
+        log "shell/starship.toml 파일이 존재하지 않습니다. 건너뜁니다."
+        return 0
+    fi
+
+    if [ -f "$HOME/.config/starship.toml" ]; then
+        log "기존 starship.toml 파일이 존재합니다. 백업 후 새로 설정합니다."
+        mv "$HOME/.config/starship.toml" "$HOME/.config/starship.toml.backup.$(date +%Y%m%d%H%M%S)"
+    fi
+
+    ln -sf "$SHELL_STARSHIP_TOML" "$HOME/.config/starship.toml"
+    log "starship.toml 심볼릭 링크 설정 완료"
+
+    log "Starship 설정이 완료되었습니다!"
+}
+
 # Ghostty 터미널 설정
 setup_ghostty_config() {
     log "Ghostty 설정을 시작합니다..."
@@ -155,6 +177,9 @@ main() {
     
     # zsh 설정
     setup_zshrc_local
+
+    # Starship 프롬프트 설정
+    setup_starship_config
 
     # Ghostty 터미널 설정
     setup_ghostty_config
