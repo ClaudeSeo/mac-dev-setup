@@ -114,6 +114,35 @@ setup_zshrc_local() {
     log "zsh 설정이 완료되었습니다!"
 }
 
+# Ghostty 터미널 설정
+setup_ghostty_config() {
+    log "Ghostty 설정을 시작합니다..."
+
+    # shell 디렉토리의 .ghostty.local 파일 경로
+    SHELL_GHOSTTY_LOCAL="$SCRIPT_DIR/shell/.ghostty.local"
+
+    # shell/.ghostty.local 파일이 있는지 확인
+    if [ ! -f "$SHELL_GHOSTTY_LOCAL" ]; then
+        log "shell/.ghostty.local 파일이 존재하지 않습니다. 건너뜁니다."
+        return 0
+    fi
+
+    # Ghostty 설정 디렉토리 생성
+    GHOSTTY_DIR="$HOME/.config/ghostty"
+    mkdir -p "$GHOSTTY_DIR"
+
+    # 기존 config 파일 백업 후 심볼릭 링크 생성
+    if [ -f "$GHOSTTY_DIR/config" ]; then
+        log "기존 Ghostty config 파일이 존재합니다. 백업 후 새로 설정합니다."
+        mv "$GHOSTTY_DIR/config" "$GHOSTTY_DIR/config.backup.$(date +%Y%m%d%H%M%S)"
+    fi
+
+    ln -sf "$SHELL_GHOSTTY_LOCAL" "$GHOSTTY_DIR/config"
+    log "Ghostty config 심볼릭 링크 설정 완료"
+
+    log "Ghostty 설정이 완료되었습니다!"
+}
+
 # 메인 실행 함수
 main() {
     log "macOS 개발 환경 설정을 시작합니다..."
@@ -126,7 +155,10 @@ main() {
     
     # zsh 설정
     setup_zshrc_local
-    
+
+    # Ghostty 터미널 설정
+    setup_ghostty_config
+
     log "macOS 개발 환경 설정이 완료되었습니다!"
     log "일부 설정은 터미널을 재시작하거나 새 세션에서 적용됩니다."
 }

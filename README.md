@@ -117,6 +117,7 @@ cd mac-dev-setup
 | :------------: | :-----------: | :----------------------------------------: | :----------------------------------------------- |
 | 환경 변수 관리 |   `direnv`    | [direnv](https://github.com/direnv/direnv) | 📂 디렉터리별 환경 변수 자동 로드                |
 | 유틸리티 툴킷  |     `ut`      |     [ut](https://github.com/ksdme/ut)      | 🛠️ 개발자용 다목적 CLI 유틸리티 (시간/인코딩 등) |
+| 터미널 설정 | `ghostty` | [Ghostty](https://ghostty.org/) | 👻 빠르고 현대적인 GPU 가속 터미널 |
 
 ### ⚡ 사용자 정의 별칭 (Aliases)
 
@@ -150,7 +151,6 @@ cd mac-dev-setup
 - 🌈 **Arc Browser**: [공식 다운로드](https://arc.net/download)
 - 📝 **Notion**: [공식 다운로드](https://www.notion.so/desktop)
 - 🤖 **Perplexity AI**: [공식 다운로드](https://www.perplexity.ai/platforms)
-- 🤖 **Opcode**: [공식 다운로드](https://opcode.sh/) - Claude Code를 위한 GUI 데스크톱 앱
 
 </details>
 
@@ -159,7 +159,6 @@ cd mac-dev-setup
 
 - 🔒 **Tailscale**: [공식 다운로드](https://tailscale.com/download/macos)
 - 🧹 **AppCleaner**: [공식 다운로드](https://freemacsoft.net/appcleaner/)
-- ⚡ **Warp**: [공식 다운로드](https://www.warp.dev/download)
 - 🚀 **Raycast**: [공식 다운로드](https://www.raycast.com/)
 - ✏️ **Excalidraw**: [웹 앱](https://excalidraw.com) - 손으로 그린 다이어그램
 
