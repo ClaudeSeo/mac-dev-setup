@@ -15,6 +15,7 @@ set nobackup
 set noswapfile
 set hidden
 set updatetime=300  " 더 빠른 반응을 위해 업데이트 시간 단축
+set timeoutlen=500  " 키 조합 대기 시간 단축
 set laststatus=2
 set nofoldenable
 set signcolumn=yes  " 항상 signcolumn 표시 (기호 열 유지)
@@ -50,7 +51,6 @@ inoremap <expr> <C-k> ((pumvisible())?("\<C-p>"):("<C-k>"))
 inoremap <C-c> <Esc>
 
 " Buffer Navigations
-nnoremap <silent> <Tab><Tab> :b #<CR>
 nnoremap <silent> <leader>T :enew<CR>
 nnoremap <silent> <leader>bq :bp <BAR> bd #<CR>
 
@@ -62,8 +62,8 @@ nnoremap <silent> <leader><Tab> :Files<CR>
 nnoremap <silent> <leader><leader><Tab> :Files!<CR>
 nnoremap <silent> <leader>q :Buffers<CR>
 nnoremap <silent> <leader><leader>q :Buffers!<CR>
-nnoremap <leader>r :Rg<space>
-nnoremap <leader><leader>r :Rg!<space>
+nnoremap <leader>R :Rg<space>
+nnoremap <leader><leader>R :Rg!<space>
 
 " Telescope (고급 검색 및 LSP 통합)
 nnoremap <silent> <leader>ff :Telescope find_files<CR>
@@ -85,133 +85,178 @@ vmap <silent> <C-c> "*y
 " Terminal
 nnoremap <silent> <C-t> :bel sp 50 \| resize 10 \| terminal<CR>
 
+" VSCode에서 실행 중인지 확인
+let g:is_vscode = exists('g:vscode')
+
+" VSCode 환경 전용 설정
+if g:is_vscode
+    " VSCode LSP 명령 매핑
+    nmap <silent> gd <Cmd>call VSCodeNotify('editor.action.revealDefinition')<CR>
+    nmap <silent> gD <Cmd>call VSCodeNotify('editor.action.peekDefinition')<CR>
+    nmap <silent> gr <Cmd>call VSCodeNotify('editor.action.goToReferences')<CR>
+    nmap <silent> gi <Cmd>call VSCodeNotify('editor.action.goToImplementation')<CR>
+    nmap <silent> gy <Cmd>call VSCodeNotify('editor.action.goToTypeDefinition')<CR>
+    nmap <silent> K <Cmd>call VSCodeNotify('editor.action.showHover')<CR>
+    nmap <silent> <leader>rn <Cmd>call VSCodeNotify('editor.action.rename')<CR>
+    nmap <silent> <leader>ca <Cmd>call VSCodeNotify('editor.action.quickFix')<CR>
+    nmap <silent> [d <Cmd>call VSCodeNotify('editor.action.marker.prev')<CR>
+    nmap <silent> ]d <Cmd>call VSCodeNotify('editor.action.marker.next')<CR>
+    nmap <silent> <leader>f <Cmd>call VSCodeNotify('editor.action.formatDocument')<CR>
+
+    " VSCode 편의 기능
+    nmap <silent> <leader><Tab> <Cmd>call VSCodeNotify('workbench.action.quickOpen')<CR>
+    nmap <silent> <leader>e <Cmd>call VSCodeNotify('workbench.view.explorer')<CR>
+    nmap <silent> <C-n> <Cmd>call VSCodeNotify('workbench.view.explorer')<CR>
+
+    " 주석 토글
+    xmap <silent> gc <Cmd>call VSCodeNotify('editor.action.commentLine')<CR>
+    nmap <silent> gcc <Cmd>call VSCodeNotify('editor.action.commentLine')<CR>
+else
+    " 일반 Neovim 환경 전용 설정
+    nnoremap <silent> <Tab><Tab> :b #<CR>
+    nmap <leader>d :call <SID>show_documentation()<CR>
+endif
+
+" 조건부 플러그인 로딩 헬퍼 함수 (VSCode-Neovim 지원)
+function! Cond(cond, ...)
+  let opts = get(a:000, 0, {})
+  return a:cond ? opts : extend(opts, { 'on': [], 'for': [] })
+endfunction
+
 " Plugins
 call plug#begin('~/.config/nvim/plugged')
+" VSCode/일반 Neovim 공통 플러그인
 Plug 'editorconfig/editorconfig-vim'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
 Plug 'psliwka/vim-smoothie'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 Plug 'sheerun/vim-polyglot'
-Plug 'APZelos/blamer.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'junegunn/gv.vim'
-Plug 'Yggdroot/indentLine'
 Plug 'morhetz/gruvbox'
-Plug 'ntpeters/vim-better-whitespace'
-Plug 'preservim/nerdtree'
 Plug 'rhysd/committia.vim'
 Plug 'tpope/vim-commentary'
 
-" 최신 플러그인
-Plug 'nvim-lua/plenary.nvim'         " 다른 플러그인의 종속성
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'} " 향상된 구문 강조
-Plug 'lewis6991/gitsigns.nvim'       " 최신 Git 통합 (vim-gitgutter 대체)
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.2' } " 향상된 파일 찾기
-Plug 'folke/which-key.nvim'          " 키 바인딩 도움말
-Plug 'windwp/nvim-autopairs'         " 자동 괄호 완성
-Plug 'norcalli/nvim-colorizer.lua'   " 색상 코드 하이라이팅
+" VSCode에서 불필요한 플러그인 (조건부 로딩)
+Plug 'vim-airline/vim-airline', Cond(!exists('g:vscode'))
+Plug 'vim-airline/vim-airline-themes', Cond(!exists('g:vscode'))
+Plug 'junegunn/fzf', Cond(!exists('g:vscode'), { 'dir': '~/.fzf', 'do': './install --all' })
+Plug 'junegunn/fzf.vim', Cond(!exists('g:vscode'))
+Plug 'APZelos/blamer.nvim', Cond(!exists('g:vscode'))
+Plug 'Yggdroot/indentLine', Cond(!exists('g:vscode'))
+Plug 'ntpeters/vim-better-whitespace', Cond(!exists('g:vscode'))
+Plug 'preservim/nerdtree', Cond(!exists('g:vscode'))
 
-" Python 개발 지원
-Plug 'vim-python/python-syntax'      " 향상된 Python 구문 강조
-Plug 'Vimjas/vim-python-pep8-indent' " PEP8 들여쓰기 지원
+" 최신 플러그인 (VSCode에서 불필요)
+Plug 'nvim-lua/plenary.nvim', Cond(!exists('g:vscode'))
+Plug 'nvim-treesitter/nvim-treesitter', Cond(!exists('g:vscode'), {'do': ':TSUpdate'})
+Plug 'lewis6991/gitsigns.nvim', Cond(!exists('g:vscode'))
+Plug 'nvim-telescope/telescope.nvim', Cond(!exists('g:vscode'), { 'tag': '0.1.2' })
+Plug 'folke/which-key.nvim', Cond(!exists('g:vscode'))
+Plug 'windwp/nvim-autopairs', Cond(!exists('g:vscode'))
+Plug 'norcalli/nvim-colorizer.lua', Cond(!exists('g:vscode'))
 
-" CoC - Language Server Protocol 지원
+" Python 개발 지원 (VSCode에서 불필요)
+Plug 'vim-python/python-syntax', Cond(!exists('g:vscode'))
+Plug 'Vimjas/vim-python-pep8-indent', Cond(!exists('g:vscode'))
+
+" CoC - Language Server Protocol 지원 (VSCode에서 불필요)
 " Python: :CocInstall coc-pyright 실행 필요
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'neoclide/coc.nvim', Cond(!exists('g:vscode'), {'branch': 'release'})
 call plug#end()
 
-" NERDTree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-let NERDTreeShowHidden=1
-let g:NERDTreeMouseMode = 3
-let g:NERDTreeIgnore = ['^node_modules$', '\.pyc$', '^__pycache__$']  " 무시할 파일 추가
+" 일반 Neovim 환경 전용 설정 (VSCode에서 실행 시 건너뜀)
+if !exists('g:vscode')
+    " NERDTree
+    autocmd StdinReadPre * let s:std_in=1
+    autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+    let NERDTreeShowHidden=1
+    let g:NERDTreeMouseMode = 3
+    let g:NERDTreeIgnore = ['^node_modules$', '\.pyc$', '^__pycache__$']
 
-" Coc Config
-function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
+    " Coc Config
+    function! s:check_back_space() abort
+        let col = col('.') - 1
+        return !col || getline('.')[col - 1]  =~ '\s'
+    endfunction
 
-inoremap <silent><expr> <TAB>
-  \ pumvisible() ? "\<C-n>" :
-  \ <SID>check_back_space() ? "\<TAB>" :
-  \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-if has('nvim')
-  inoremap <silent><expr> <c-space> coc#refresh()
-else
-  inoremap <silent><expr> <c-@> coc#refresh()
+    inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
+    if has('nvim')
+      inoremap <silent><expr> <c-space> coc#refresh()
+    else
+      inoremap <silent><expr> <c-@> coc#refresh()
+    endif
+
+    if exists('*complete_info')
+      inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
+    else
+      inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+    endif
+
+    " CoC LSP 매핑
+    nmap <silent> [g <Plug>(coc-diagnostic-prev)
+    nmap <silent> ]g <Plug>(coc-diagnostic-next)
+    nmap <silent> gd <Plug>(coc-definition)
+    nmap <silent> gy <Plug>(coc-type-definition)
+    nmap <silent> gi <Plug>(coc-implementation)
+    nmap <silent> gr <Plug>(coc-references)
+    nmap <silent> gb <C-o>
+    nmap <leader>L :CocCommand eslint.executeAutofix<CR>
+    function! s:show_documentation()
+      if (index(['vim','help'], &filetype) >= 0)
+        execute 'h '.expand('<cword>')
+      else
+        call CocActionAsync('doHover')
+      endif
+    endfunction
+    autocmd CursorHold * silent call CocActionAsync('highlight')
+    nmap <leader>rn <Plug>(coc-rename)
+
+    " fzf
+    let g:fzf_action = {
+        \     'ctrl-t': 'tab split',
+        \     'ctrl-x': 'split',
+        \     'ctrl-v': 'vsplit',
+        \ }
+    command! -bang -nargs=? -complete=dir Files
+        \ call fzf#vim#files(
+        \     <q-args>,
+        \     fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}),
+        \     <bang>0)
+    command! -bang -nargs=* Rg
+        \ call fzf#vim#grep(
+        \     'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
+        \     1,
+        \     fzf#vim#with_preview(),
+        \     <bang>0)
+
+    " airline
+    let g:airline_theme='gruvbox'
+    let g:airline#extensions#tabline#enabled = 1
+    let g:airline#extensions#tabline#formatter = 'default'
+    let g:airline#extensions#tabline#fnamemod = ':t'
+    let g:airline_powerline_fonts = 1
+
+    " git blamer
+    let g:blamer_enabled = 0
+    let g:blamer_delay = 500
 endif
 
-if exists('*complete_info')
-  inoremap <expr> <cr> complete_info()["selected"] != "-1" ? "\<C-y>" : "\<C-g>u\<CR>"
-else
-  inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-endif
-
-nmap <silent> [g <Plug>(coc-diagnostic-prev)
-nmap <silent> ]g <Plug>(coc-diagnostic-next)
-nmap <silent> gd <Plug>(coc-definition)
-nmap <silent> gy <Plug>(coc-type-definition)
-nmap <silent> gi <Plug>(coc-implementation)
-nmap <silent> gr <Plug>(coc-references)
-nmap <silent> gb <C-o>
-nmap <leader>f <Plug>(coc-format-selected)
-nmap <leader>d :call <SID>show_documentation()<CR>
-nmap <leader>l :CocCommand eslint.executeAutofix<CR>
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocActionAsync('doHover')
-  endif
-endfunction
-autocmd CursorHold * silent call CocActionAsync('highlight')
-nmap <leader>rn <Plug>(coc-rename)
-
-" fzf
-let g:fzf_action = {
-    \     'ctrl-t': 'tab split',
-    \     'ctrl-x': 'split',
-    \     'ctrl-v': 'vsplit',
-    \ }
-command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(
-    \     <q-args>,
-    \     fzf#vim#with_preview({'options': ['--layout=reverse', '--info=inline']}),
-    \     <bang>0)
-command! -bang -nargs=* Rg
-    \ call fzf#vim#grep(
-    \     'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>),
-    \     1,
-    \     fzf#vim#with_preview(),
-    \     <bang>0)
-
-" eidtorconfig
+" editorconfig (공통 설정)
 let g:EditorConfig_core_mode = 'external_command'
 let g:EditorConfig_exec_path = '/usr/local/bin/editorconfig'
 
-" airline
-let g:airline_theme='gruvbox'
-let g:airline#extensions#tabline#enabled = 1 " Enable the list of buffers
-let g:airline#extensions#tabline#formatter = 'default'
-let g:airline#extensions#tabline#fnamemod = ':t' " Show just the filename
-let g:airline_powerline_fonts = 1  " 파워라인 폰트 활성화
+" 일반 Neovim 전용 설정 (테마, Lua 플러그인 등)
+if !exists('g:vscode')
+    " 테마 설정
+    autocmd vimenter * colorscheme gruvbox
 
-" git blamer
-let g:blamer_enabled = 0
-let g:blamer_delay = 500
+    " Python 구문 강조 옵션
+    let g:python_highlight_all = 1
 
-" 테마 설정
-autocmd vimenter * colorscheme gruvbox
-
-" Python 구문 강조 옵션
-let g:python_highlight_all = 1
-
-" Lua 플러그인 설정 (조건부 실행)
+" Lua 플러그인 설정
 lua <<EOF
 -- 플러그인이 설치되어 있는지 확인 후 실행
 local function plugin_exists(name)
@@ -232,10 +277,10 @@ if plugin_exists('nvim-treesitter.configs') then
     incremental_selection = {
       enable = true,
       keymaps = {
-        init_selection = "gnn",
-        node_incremental = "grn",
-        scope_incremental = "grc",
-        node_decremental = "grm",
+        init_selection = "<leader>ss",
+        node_incremental = "<leader>sn",
+        scope_incremental = "<leader>sc",
+        node_decremental = "<leader>sm",
       },
     },
     -- 들여쓰기 지원
@@ -336,6 +381,7 @@ if plugin_exists('telescope') then
   }
 end
 EOF
+endif
 
 " Filetype specific
 filetype plugin indent on

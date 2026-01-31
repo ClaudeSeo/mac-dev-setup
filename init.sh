@@ -12,12 +12,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Homebrew 설정 및 패키지 설치
 setup_homebrew() {
     log "Homebrew 설정을 시작합니다..."
-    
+
+    # 에러가 발생해도 계속 진행
+    set +e
+
     # Homebrew가 설치되어 있는지 확인
     if ! command -v brew &> /dev/null; then
         log "Homebrew가 설치되어 있지 않습니다. 설치를 시작합니다..."
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-        
+
         # Apple Silicon Mac인 경우 PATH 설정
         if [[ $(uname -m) == 'arm64' ]]; then
             log "Apple Silicon Mac을 감지했습니다. PATH를 설정합니다..."
@@ -26,19 +29,21 @@ setup_homebrew() {
         fi
     else
         log "Homebrew가 이미 설치되어 있습니다. 업데이트를 실행합니다..."
-        brew update
+        brew update || log "brew update 실패, 계속 진행합니다."
     fi
-    
+
     # Brewfile이 있는지 확인하고 번들 설치
     if [ -f "$SCRIPT_DIR/brew/Brewfile" ]; then
         log "Brewfile을 사용하여 패키지를 설치합니다..."
-        cd "$SCRIPT_DIR/brew" && brew bundle
+        cd "$SCRIPT_DIR/brew" && brew bundle || log "brew bundle 일부 실패, 계속 진행합니다."
         cd "$SCRIPT_DIR"
     else
-        log "Brewfile을 찾을 수 없습니다."
-        exit 1
+        log "Brewfile을 찾을 수 없습니다. 건너뜁니다."
     fi
-    
+
+    # 에러 처리 모드 복원
+    set -e
+
     log "Homebrew 설정이 완료되었습니다!"
 }
 
@@ -165,6 +170,33 @@ setup_ghostty_config() {
     log "Ghostty 설정이 완료되었습니다!"
 }
 
+# Zed 에디터 설정
+setup_zed_config() {
+    log "Zed 설정을 시작합니다..."
+
+    ZED_SETTINGS="$SCRIPT_DIR/zed/settings.json"
+
+    if [ ! -f "$ZED_SETTINGS" ]; then
+        log "zed/settings.json 파일이 존재하지 않습니다. 건너뜁니다."
+        return 0
+    fi
+
+    # Zed 설정 디렉토리 생성
+    ZED_DIR="$HOME/.config/zed"
+    mkdir -p "$ZED_DIR"
+
+    # 기존 settings.json 파일 백업 후 심볼릭 링크 생성
+    if [ -f "$ZED_DIR/settings.json" ] && [ ! -L "$ZED_DIR/settings.json" ]; then
+        log "기존 Zed settings.json 파일이 존재합니다. 백업 후 새로 설정합니다."
+        mv "$ZED_DIR/settings.json" "$ZED_DIR/settings.json.backup.$(date +%Y%m%d%H%M%S)"
+    fi
+
+    ln -sf "$ZED_SETTINGS" "$ZED_DIR/settings.json"
+    log "Zed settings.json 심볼릭 링크 설정 완료"
+
+    log "Zed 설정이 완료되었습니다!"
+}
+
 # 메인 실행 함수
 main() {
     log "macOS 개발 환경 설정을 시작합니다..."
@@ -183,6 +215,9 @@ main() {
 
     # Ghostty 터미널 설정
     setup_ghostty_config
+
+    # Zed 에디터 설정
+    setup_zed_config
 
     log "macOS 개발 환경 설정이 완료되었습니다!"
     log "일부 설정은 터미널을 재시작하거나 새 세션에서 적용됩니다."
