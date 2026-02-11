@@ -2,3 +2,6 @@ theme = Dracula+
 font-family = "Hack Nerd Font"
 font-family = "D2Coding"
 font-size = 13
+
+# Bell 설정
+bell-features = audio,attention,title

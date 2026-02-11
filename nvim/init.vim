@@ -82,6 +82,9 @@ tnoremap <leader><Esc> <C-\><C-n>
 " Clipboard
 vmap <silent> <C-c> "*y
 
+" Visual 모드에서 d는 순수 삭제 (레지스터에 저장하지 않음)
+vnoremap d "_d
+
 " Terminal
 nnoremap <silent> <C-t> :bel sp 50 \| resize 10 \| terminal<CR>
 
