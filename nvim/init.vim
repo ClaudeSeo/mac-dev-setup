@@ -45,8 +45,6 @@ set completeopt=noinsert,menuone,noselect
 
 " Key Mapping
 inoremap <expr> <C-j> ((pumvisible())?("\<C-n>"):("<C-j>"))
-inoremap <expr> <Tab> ((pumvisible())?("\<C-n>"):("<Tab>"))
-inoremap <expr> <S-Tab> ((pumvisible())?("\<C-p>"):("<S-Tab>"))
 inoremap <expr> <C-k> ((pumvisible())?("\<C-p>"):("<C-k>"))
 inoremap <C-c> <Esc>
 
@@ -176,14 +174,10 @@ if !exists('g:vscode')
     let g:NERDTreeIgnore = ['^node_modules$', '\.pyc$', '^__pycache__$']
 
     " Coc Config
-    function! s:check_back_space() abort
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~ '\s'
-    endfunction
-
     inoremap <silent><expr> <TAB>
       \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
+      \ col('.') <= 1 ? "\<TAB>" :
+      \ getline('.')[col('.') - 2] =~# '\s' ? "\<TAB>" :
       \ coc#refresh()
     inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
     if has('nvim')
