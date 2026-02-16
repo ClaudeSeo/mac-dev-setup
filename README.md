@@ -129,7 +129,6 @@ cd mac-dev-setup
 | :---------------: | :-----------: | :----------------: | :--------------------------------------------- |
 | NPM 스크립트 실행 |    `npmr`     | `npm run` + `fzf`  | 📦 package.json 스크립트를 fzf로 선택하여 실행 |
 |  Claude Monitor   |     `cm`      |  `claude-monitor`  | 🤖 Asia/Seoul 타임존으로 모니터링              |
-|   Claude Squad    |     `cs`      |   `claude-squad`   | 👥 Claude Squad 명령어 실행                    |
 
 ---
 
