@@ -197,6 +197,38 @@ setup_zed_config() {
     log "Zed 설정이 완료되었습니다!"
 }
 
+# tmux 설정
+setup_tmux() {
+    log "tmux 설정을 시작합니다..."
+
+    SHELL_TMUX_CONF="$SCRIPT_DIR/shell/.tmux.conf"
+
+    if [ ! -f "$SHELL_TMUX_CONF" ]; then
+        log "shell/.tmux.conf 파일이 존재하지 않습니다. 건너뜁니다."
+        return 0
+    fi
+
+    # 기존 .tmux.conf 파일 백업 후 심볼릭 링크 생성
+    if [ -f "$HOME/.tmux.conf" ] && [ ! -L "$HOME/.tmux.conf" ]; then
+        log "기존 .tmux.conf 파일이 존재합니다. 백업 후 새로 설정합니다."
+        mv "$HOME/.tmux.conf" "$HOME/.tmux.conf.backup.$(date +%Y%m%d%H%M%S)"
+    fi
+
+    ln -sf "$SHELL_TMUX_CONF" "$HOME/.tmux.conf"
+    log ".tmux.conf 심볼릭 링크 설정 완료"
+
+    # TPM (Tmux Plugin Manager) 설치
+    if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+        log "TPM (Tmux Plugin Manager)을 설치합니다..."
+        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+        log "TPM 설치 완료. tmux 실행 후 prefix + I 로 플러그인을 설치하세요."
+    else
+        log "TPM이 이미 설치되어 있습니다."
+    fi
+
+    log "tmux 설정이 완료되었습니다!"
+}
+
 # 메인 실행 함수
 main() {
     log "macOS 개발 환경 설정을 시작합니다..."
@@ -218,6 +250,9 @@ main() {
 
     # Zed 에디터 설정
     setup_zed_config
+
+    # tmux 설정
+    setup_tmux
 
     log "macOS 개발 환경 설정이 완료되었습니다!"
     log "일부 설정은 터미널을 재시작하거나 새 세션에서 적용됩니다."
