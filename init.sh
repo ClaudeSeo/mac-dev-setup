@@ -91,12 +91,12 @@ setup_neovim() {
 setup_zshrc_local() {
     log "zsh 설정을 시작합니다..."
     
-    # shell 디렉토리의 .zshrc.local 파일 경로
-    SHELL_ZSHRC_LOCAL="$SCRIPT_DIR/shell/.zshrc.local"
+    # zsh 디렉토리의 .zshrc.local 파일 경로
+    SHELL_ZSHRC_LOCAL="$SCRIPT_DIR/zsh/.zshrc.local"
     
-    # shell/.zshrc.local 파일이 있는지 확인
+    # zsh/.zshrc.local 파일이 있는지 확인
     if [ ! -f "$SHELL_ZSHRC_LOCAL" ]; then
-        log "shell/.zshrc.local 파일이 존재하지 않습니다. 오류가 발생했습니다."
+        log "zsh/.zshrc.local 파일이 존재하지 않습니다. 오류가 발생했습니다."
         exit 1
     fi
     
@@ -123,10 +123,10 @@ setup_zshrc_local() {
 setup_starship_config() {
     log "Starship 설정을 시작합니다..."
 
-    SHELL_STARSHIP_TOML="$SCRIPT_DIR/shell/starship.toml"
+    SHELL_STARSHIP_TOML="$SCRIPT_DIR/starship/starship.toml"
 
     if [ ! -f "$SHELL_STARSHIP_TOML" ]; then
-        log "shell/starship.toml 파일이 존재하지 않습니다. 건너뜁니다."
+        log "starship/starship.toml 파일이 존재하지 않습니다. 건너뜁니다."
         return 0
     fi
 
@@ -145,12 +145,12 @@ setup_starship_config() {
 setup_ghostty_config() {
     log "Ghostty 설정을 시작합니다..."
 
-    # shell 디렉토리의 .ghostty.local 파일 경로
-    SHELL_GHOSTTY_LOCAL="$SCRIPT_DIR/shell/.ghostty.local"
+    # ghostty 디렉토리의 .ghostty.local 파일 경로
+    SHELL_GHOSTTY_LOCAL="$SCRIPT_DIR/ghostty/.ghostty.local"
 
-    # shell/.ghostty.local 파일이 있는지 확인
+    # ghostty/.ghostty.local 파일이 있는지 확인
     if [ ! -f "$SHELL_GHOSTTY_LOCAL" ]; then
-        log "shell/.ghostty.local 파일이 존재하지 않습니다. 건너뜁니다."
+        log "ghostty/.ghostty.local 파일이 존재하지 않습니다. 건너뜁니다."
         return 0
     fi
 
@@ -201,10 +201,10 @@ setup_zed_config() {
 setup_tmux() {
     log "tmux 설정을 시작합니다..."
 
-    SHELL_TMUX_CONF="$SCRIPT_DIR/shell/.tmux.conf"
+    SHELL_TMUX_CONF="$SCRIPT_DIR/tmux/.tmux.conf"
 
     if [ ! -f "$SHELL_TMUX_CONF" ]; then
-        log "shell/.tmux.conf 파일이 존재하지 않습니다. 건너뜁니다."
+        log "tmux/.tmux.conf 파일이 존재하지 않습니다. 건너뜁니다."
         return 0
     fi
 
