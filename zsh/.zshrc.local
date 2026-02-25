@@ -11,6 +11,7 @@ alias npmr='npm run $(cat package.json | jq .scripts | jq -r "keys | .[]" | fzf)
 alias cf='confluent'
 alias cm='claude-monitor --timezone "Asia/Seoul"'
 alias tm='tmux new-session -A -s main'
+alias cca='claude --dangerously-skip-permissions'
 
 eval "$(direnv hook zsh)"
 
