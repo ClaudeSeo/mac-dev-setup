@@ -4,3 +4,5 @@ font-family = "D2Coding"
 font-size = 13
 
 bell-features = audio,attention,title
+
+auto-update-channel = tip
