@@ -1,6 +1,9 @@
 # Starship 프롬프트
 eval "$(starship init zsh)"
 
+setopt AUTO_CD
+
+autoload -Uz compinit && compinit
 source <(kubectl completion zsh)
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
