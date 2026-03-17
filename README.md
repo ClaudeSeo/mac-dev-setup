@@ -62,7 +62,7 @@
 | YAML 처리 | `yq` | [yq](https://github.com/mikefarah/yq) | 명령줄 YAML 프로세서 |
 | Dockerfile 린터 | `hadolint` | [Hadolint](https://github.com/hadolint/hadolint) | Dockerfile 베스트 프랙티스 검사 |
 | AI 코딩 도구 | `opencode` | [OpenCode](https://github.com/AnomalyCo/opencode) | 터미널 기반 AI 코딩 어시스턴트 |
-| 토큰 최적화 프록시 | `rtk` | [RTK](https://github.com/nicobailon/rtk) | Claude Code 토큰 사용량 절감 CLI 프록시 |
+| 토큰 최적화 프록시 | `rtk` | [RTK](https://github.com/rtk-ai/rtk)| Claude Code 토큰 사용량 절감 CLI 프록시 |
 | 로컬 LLM | `ollama` | [Ollama](https://github.com/ollama/ollama) | 로컬 대규모 언어 모델 실행 |
 
 ### Kubernetes 도구
@@ -74,7 +74,7 @@
 | 컨텍스트 전환 | `kubectx` | [kubectx](https://github.com/ahmetb/kubectx) | 컨텍스트 및 네임스페이스 전환 |
 | 로그 추적 | `kubetail` | [kubetail](https://github.com/johanhaleby/kubetail) | 여러 Pod 로그 동시 추적 |
 | 포트 포워딩 | `kubefwd` | [kubefwd](https://github.com/txn2/kubefwd) | 여러 서비스 동시 포트 포워딩 |
-| EKS 관리 | `eksctl` | [eksctl](https://github.com/weaveworks/eksctl) | Amazon EKS 클러스터 관리 |
+| EKS 관리 | `eksctl` | [eksctl](https://github.com/eksctl-io/eksctl) | Amazon EKS 클러스터 관리 |
 | EKS 노드 뷰어 | `eks-node-viewer` | [eks-node-viewer](https://github.com/awslabs/eks-node-viewer) | EKS 노드 시각화 |
 | Helm | `helm` | [Helm](https://github.com/helm/helm) | Kubernetes 패키지 매니저 |
 
@@ -140,7 +140,7 @@
 - **NoSQLBooster**: [공식 다운로드](https://nosqlbooster.com/downloads)
 - **MongoDB Compass**: [공식 다운로드](https://www.mongodb.com/products/compass)
 - **DBeaver**: [공식 다운로드](https://dbeaver.io/download/)
-- **Redis Insight**: [공식 다운로드](https://redis.com/redis-insight/)
+- **Redis Insight**: [공식 다운로드](https://redis.io/redis-insight/)
 - **Claude Code**: `curl -fsSL https://claude.ai/install.sh | sh` - [GitHub](https://github.com/anthropics/claude-code)
 
 </details>
