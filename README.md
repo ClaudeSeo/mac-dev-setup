@@ -62,6 +62,8 @@
 | YAML 처리 | `yq` | [yq](https://github.com/mikefarah/yq) | 명령줄 YAML 프로세서 |
 | Dockerfile 린터 | `hadolint` | [Hadolint](https://github.com/hadolint/hadolint) | Dockerfile 베스트 프랙티스 검사 |
 | AI 코딩 도구 | `opencode` | [OpenCode](https://github.com/AnomalyCo/opencode) | 터미널 기반 AI 코딩 어시스턴트 |
+| 토큰 최적화 프록시 | `rtk` | [RTK](https://github.com/nicobailon/rtk) | Claude Code 토큰 사용량 절감 CLI 프록시 |
+| 로컬 LLM | `ollama` | [Ollama](https://github.com/ollama/ollama) | 로컬 대규모 언어 모델 실행 |
 
 ### Kubernetes 도구
 
@@ -92,6 +94,8 @@
 | 기능 | 명령어 | 도구 | 설명 |
 | --- | --- | --- | --- |
 | 네트워크 진단 | `trip` | [trippy](https://github.com/fujiapple852/trippy) | 현대적인 traceroute 도구 |
+| gRPC 클라이언트 | `grpcurl` | [grpcurl](https://github.com/fullstorydev/grpcurl) | gRPC 서비스용 curl |
+| 모바일 셸 | `mosh` | [Mosh](https://github.com/mobile-shell/mosh) | 로밍 지원 원격 터미널 (SSH 대체) |
 
 ### 클라우드 및 서비스
 
