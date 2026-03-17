@@ -15,6 +15,7 @@ alias cf='confluent'
 alias cm='claude-monitor --timezone "Asia/Seoul"'
 alias tm='tmux new-session -A -s main'
 alias cca='claude --dangerously-skip-permissions'
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 eval "$(direnv hook zsh)"
 
