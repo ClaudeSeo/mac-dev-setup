@@ -17,6 +17,18 @@ alias tm='tmux new-session -A -s main'
 alias cca='claude --dangerously-skip-permissions'
 alias cc='claude --enable-auto-mode'
 alias coa='codex --yolo'
+
+# Claude Code - Ollama Cloud (glm-5.1:cloud)
+ccg() {
+  ANTHROPIC_BASE_URL='http://localhost:11434' \
+  ANTHROPIC_AUTH_TOKEN='ollama' \
+  ANTHROPIC_MODEL='glm-5.1:cloud' \
+  ANTHROPIC_DEFAULT_OPUS_MODEL='glm-5.1:cloud' \
+  ANTHROPIC_DEFAULT_SONNET_MODEL='glm-5.1:cloud' \
+  ANTHROPIC_DEFAULT_HAIKU_MODEL='glm-5.1:cloud' \
+  CLAUDE_CODE_SUBAGENT_MODEL='glm-5.1:cloud' \
+  claude --dangerously-skip-permissions "$@"
+}
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 eval "$(direnv hook zsh)"
