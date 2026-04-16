@@ -170,33 +170,6 @@ setup_ghostty_config() {
     log "Ghostty 설정이 완료되었습니다!"
 }
 
-# Zed 에디터 설정
-setup_zed_config() {
-    log "Zed 설정을 시작합니다..."
-
-    ZED_SETTINGS="$SCRIPT_DIR/zed/settings.json"
-
-    if [ ! -f "$ZED_SETTINGS" ]; then
-        log "zed/settings.json 파일이 존재하지 않습니다. 건너뜁니다."
-        return 0
-    fi
-
-    # Zed 설정 디렉토리 생성
-    ZED_DIR="$HOME/.config/zed"
-    mkdir -p "$ZED_DIR"
-
-    # 기존 settings.json 파일 백업 후 심볼릭 링크 생성
-    if [ -f "$ZED_DIR/settings.json" ] && [ ! -L "$ZED_DIR/settings.json" ]; then
-        log "기존 Zed settings.json 파일이 존재합니다. 백업 후 새로 설정합니다."
-        mv "$ZED_DIR/settings.json" "$ZED_DIR/settings.json.backup.$(date +%Y%m%d%H%M%S)"
-    fi
-
-    ln -sf "$ZED_SETTINGS" "$ZED_DIR/settings.json"
-    log "Zed settings.json 심볼릭 링크 설정 완료"
-
-    log "Zed 설정이 완료되었습니다!"
-}
-
 # tmux 설정
 setup_tmux() {
     log "tmux 설정을 시작합니다..."
@@ -247,9 +220,6 @@ main() {
 
     # Ghostty 터미널 설정
     setup_ghostty_config
-
-    # Zed 에디터 설정
-    setup_zed_config
 
     # tmux 설정
     setup_tmux

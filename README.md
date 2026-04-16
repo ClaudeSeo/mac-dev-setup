@@ -171,4 +171,4 @@
 
 - `init.sh`: 초기 설정 자동화 스크립트
 - `brew/`, `zsh/`, `tmux/`, `nvim/`: 개발 환경별 설정
-- `ghostty/`, `starship/`, `git/`, `zed/`: 터미널/에디터/도구 설정
+- `ghostty/`, `starship/`, `git/`: 터미널/에디터/도구 설정
