@@ -11,12 +11,12 @@ alias k='kubectl'
 alias l='eza -abghHliS -s modified'
 alias tree='eza --git-ignore --tree -I node_modules .'
 alias npmr='npm run $(cat package.json | jq .scripts | jq -r "keys | .[]" | fzf)'
-alias cf='confluent'
-alias cm='claude-monitor --timezone "Asia/Seoul"'
 alias tm='tmux new-session -A -s main'
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 alias cca='claude --dangerously-skip-permissions'
-alias cc='claude --enable-auto-mode'
 alias coa='codex --yolo'
+alias om='omx --mad-max'
+alias omo='opencode'
 
 # Claude Code - Ollama Cloud (glm-5.1:cloud)
 ccg() {
@@ -30,7 +30,6 @@ ccg() {
   CLAUDE_CODE_ATTRIBUTION_HEADER='0' \
   claude --dangerously-skip-permissions "$@"
 }
-alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
 eval "$(direnv hook zsh)"
 
