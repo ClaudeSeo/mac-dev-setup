@@ -15,7 +15,7 @@ alias tm='tmux new-session -A -s main'
 alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 alias cca='claude --dangerously-skip-permissions'
 alias coa='codex --yolo'
-alias om='omx --mad-max'
+alias om='omx --madmax --high'
 alias omo='opencode'
 
 # Claude Code - Ollama Cloud (glm-5.1:cloud)
