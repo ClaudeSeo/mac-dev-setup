@@ -31,6 +31,19 @@ ccg() {
   claude --dangerously-skip-permissions "$@"
 }
 
+# Claude Code - Kimi (kimi-k2.6:cloud)
+cck() {
+  ANTHROPIC_BASE_URL='http://localhost:11434' \
+  ANTHROPIC_AUTH_TOKEN='ollama' \
+  ANTHROPIC_MODEL='kimi-k2.6:cloud' \
+  ANTHROPIC_DEFAULT_OPUS_MODEL='kimi-k2.6:cloud' \
+  ANTHROPIC_DEFAULT_SONNET_MODEL='kimi-k2.6:cloud' \
+  ANTHROPIC_DEFAULT_HAIKU_MODEL='kimi-k2.6:cloud' \
+  CLAUDE_CODE_SUBAGENT_MODEL='kimi-k2.6:cloud' \
+  CLAUDE_CODE_ATTRIBUTION_HEADER='0' \
+  claude --dangerously-skip-permissions "$@"
+}
+
 eval "$(direnv hook zsh)"
 
 export SDKMAN_DIR=$(brew --prefix sdkman-cli)/libexec
