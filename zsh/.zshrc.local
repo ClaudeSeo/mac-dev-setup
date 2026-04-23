@@ -3,6 +3,9 @@ eval "$(starship init zsh)"
 
 setopt AUTO_CD
 
+# 경로/명령 completion은 대소문자를 구분하지 않고 매칭
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
 autoload -Uz compinit && compinit
 source <(kubectl completion zsh)
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
