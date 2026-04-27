@@ -6,7 +6,9 @@ setopt AUTO_CD
 # 경로/명령 completion은 대소문자를 구분하지 않고 매칭
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
-autoload -Uz compinit && compinit
+fpath+=$(brew --prefix)/share/zsh-completions
+
+autoload -Uz compinit && compinit -i
 source <(kubectl completion zsh)
 [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
 
@@ -56,3 +58,6 @@ eval "$(fnm env --use-on-cd --shell zsh)"
 eval "$(fzf --zsh)"
 eval "$(ut completions zsh)"
 eval "$(zoxide init zsh)"
+
+source $(brew --prefix)/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $(brew --prefix)/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
