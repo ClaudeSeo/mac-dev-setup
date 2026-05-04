@@ -25,6 +25,8 @@ alias omo='opencode'
 
 # Claude Code - Ollama Cloud (glm-5.1:cloud)
 ccg() {
+  CLAUDE_CONFIG_DIR="$HOME/.claude-local" \
+  CLAUDE_CODE_PLUGIN_CACHE_DIR="$HOME/.claude-local/plugins" \
   ANTHROPIC_BASE_URL='http://localhost:11434' \
   ANTHROPIC_AUTH_TOKEN='ollama' \
   ANTHROPIC_MODEL='glm-5.1:cloud' \
@@ -38,6 +40,8 @@ ccg() {
 
 # Claude Code - Kimi (kimi-k2.6:cloud)
 cck() {
+  CLAUDE_CONFIG_DIR="$HOME/.claude-local" \
+  CLAUDE_CODE_PLUGIN_CACHE_DIR="$HOME/.claude-local/plugins" \
   ANTHROPIC_BASE_URL='http://localhost:11434' \
   ANTHROPIC_AUTH_TOKEN='ollama' \
   ANTHROPIC_MODEL='kimi-k2.6:cloud' \
