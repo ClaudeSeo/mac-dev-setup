@@ -17,7 +17,6 @@ alias l='eza -abghHliS -s modified'
 alias tree='eza --git-ignore --tree -I node_modules .'
 alias npmr='npm run $(cat package.json | jq .scripts | jq -r "keys | .[]" | fzf)'
 alias tm='tmux new-session -A -s main'
-alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 alias cca='claude --dangerously-skip-permissions'
 alias coa='codex --yolo'
 alias om='omx --madmax --high'
