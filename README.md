@@ -18,7 +18,7 @@
    git clone https://github.com/ClaudeSeo/mac-dev-setup
    cd mac-dev-setup
    ```
-3. 자동 설정 스크립트를 실행합니다.
+3. 대화형 설치 메뉴를 실행합니다. 방향키로 이동, `Space`로 토글, `Enter`로 시작합니다. 기본값으로 Homebrew, Neovim, Zsh, Starship, Ghostty, Tmux가 선택돼 있으며, **Antigravity 옵션은 외부 도메인(`https://antigravity.google`)에서 설치 스크립트를 내려받아 실행합니다.** 원하면 메뉴에서 선택하세요.
    ```bash
    ./init.sh
    ```

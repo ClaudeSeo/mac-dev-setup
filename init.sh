@@ -1,232 +1,274 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# --- Color Definitions (Premium Palette) ---
+BLUE='\033[0;34m'
+CYAN='\033[0;36m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+WHITE='\033[1;37m'
+NC='\033[0m' # No Color
+BOLD='\033[1m'
+
+# --- Icons (Nerd Font compatible) ---
+CHECK="✔"
+CROSS="✖"
+ARROW="➜"
+STAR="★"
+
 # 로그 출력 함수
 log() {
-    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1"
+    echo -e "${CYAN}[$(date '+%H:%M:%S')]${NC} ${ARROW} $1"
+}
+
+success() {
+    echo -e "${GREEN}${CHECK} $1${NC}"
+}
+
+error() {
+    echo -e "${RED}${CROSS} $1${NC}"
 }
 
 # 현재 디렉토리 저장
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Homebrew 설정 및 패키지 설치
+# --- Header ---
+print_header() {
+    clear
+    echo -e "${CYAN}${BOLD}"
+    echo "   __  __            _____              _____      _               "
+    echo "  |  \/  |          |  __ \            / ____|    | |              "
+    echo "  | \  / | __ _  ___| |  | | _____   _| (___   ___| |_ _   _ _ __  "
+    echo "  | |\/| |/ _\` |/ __| |  | |/ _ \ \ / /\___ \ / _ \ __| | | | '_ \ "
+    echo "  | |  | | (_| | (__| |__| |  __/\ V / ____) |  __/ |_| |_| | |_) |"
+    echo "  |_|  |_|\__,_|\___|_____/ \___| \_/ |_____/ \___|\__|\__,_| .__/ "
+    echo "                                                            | |    "
+    echo "                                                            |_|    "
+    echo -e "${NC}"
+    echo -e "${WHITE}${BOLD}             macOS Development Environment Setup${NC}"
+    echo -e "${BLUE}      ──────────────────────────────────────────────────────────${NC}"
+    echo ""
+}
+
+# 백업 함수
+backup_file() {
+    local target="$1"
+    if [ -f "$target" ] && [ ! -L "$target" ]; then
+        local backup
+        backup="$target.backup.$(date +%Y%m%d%H%M%S)"
+        log "Backing up $target to $backup"
+        mv "$target" "$backup"
+    fi
+}
+
+# --- 설정 함수들 ---
+
 setup_homebrew() {
-    log "Homebrew 설정을 시작합니다..."
-
-    # 에러가 발생해도 계속 진행
+    log "Setting up Homebrew..."
+    local had_error=0
     set +e
-
-    # Homebrew가 설치되어 있는지 확인
     if ! command -v brew &> /dev/null; then
-        log "Homebrew가 설치되어 있지 않습니다. 설치를 시작합니다..."
-        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-        # Apple Silicon Mac인 경우 PATH 설정
+        log "Homebrew not found. Installing..."
+        /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" || had_error=1
         if [[ $(uname -m) == 'arm64' ]]; then
-            log "Apple Silicon Mac을 감지했습니다. PATH를 설정합니다..."
-            echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc
-            eval "$(/opt/homebrew/bin/brew shellenv)"
+            # SC2016: We want literal string here for .zshrc
+            local brew_env='eval "$(/opt/homebrew/bin/brew shellenv)"'
+            eval "$brew_env"
+            if ! grep -q "brew shellenv" "$HOME/.zshrc" 2>/dev/null; then
+                echo "$brew_env" >> "$HOME/.zshrc"
+                log "Added Homebrew to PATH in ~/.zshrc"
+            fi
         fi
     else
-        log "Homebrew가 이미 설치되어 있습니다. 업데이트를 실행합니다..."
-        brew update || log "brew update 실패, 계속 진행합니다."
+        log "Homebrew already installed. Updating..."
+        brew update &> /dev/null || error "Brew update failed, continuing..."
     fi
 
-    # Brewfile이 있는지 확인하고 번들 설치
     if [ -f "$SCRIPT_DIR/brew/Brewfile" ]; then
-        log "Brewfile을 사용하여 패키지를 설치합니다..."
-        cd "$SCRIPT_DIR/brew" && brew bundle || log "brew bundle 일부 실패, 계속 진행합니다."
-        cd "$SCRIPT_DIR"
-    else
-        log "Brewfile을 찾을 수 없습니다. 건너뜁니다."
+        log "Installing packages from Brewfile..."
+        if ! (cd "$SCRIPT_DIR/brew" && brew bundle); then
+            error "Some packages failed to install."
+            had_error=1
+        fi
     fi
-
-    # 에러 처리 모드 복원
     set -e
-
-    log "Homebrew 설정이 완료되었습니다!"
+    if [ "$had_error" -eq 0 ]; then
+        success "Homebrew setup complete!"
+    else
+        error "Homebrew setup finished with errors. Review the log above."
+    fi
 }
 
-# Neovim 설정
 setup_neovim() {
-    log "Neovim 설정을 시작합니다..."
-
-    # Neovim 설정 디렉토리 생성
+    log "Configuring Neovim..."
+    if ! command -v nvim &> /dev/null; then
+        error "nvim not found. Skipping Neovim setup. (Select Homebrew first, or install nvim manually.)"
+        return 0
+    fi
     NVIM_DIR="$HOME/.config/nvim"
     mkdir -p "$NVIM_DIR"
-    log "Neovim 설정 디렉토리 생성: $NVIM_DIR"
-
-    # init.vim 심볼릭 링크 생성
-    if [ -f "$NVIM_DIR/init.vim" ]; then
-        log "기존 init.vim 파일이 존재합니다. 백업 후 새로 설정합니다."
-        mv "$NVIM_DIR/init.vim" "$NVIM_DIR/init.vim.backup.$(date +%Y%m%d%H%M%S)"
-    fi
-
+    backup_file "$NVIM_DIR/init.vim"
     ln -sf "$SCRIPT_DIR/nvim/init.vim" "$NVIM_DIR/init.vim"
-    log "init.vim 설정 완료"
-
-    # vim-plug 설치
-    log "vim-plug 플러그인 매니저를 설치합니다."
-    curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs \
-        https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-    # Neovim 플러그인 설치 및 업데이트
-    log "Neovim 플러그인을 설치합니다."
+    curl -sfLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     nvim +PlugInstall +PlugUpdate +qa
-
-    # CoC 확장 설치
-    log "CoC 확장을 설치합니다."
-    nvim \
-        +'CocInstall coc-tsserver' \
-        +'CocInstall coc-diagnostic' \
-        +'CocInstall coc-eslint' \
-        +'CocInstall coc-json' \
-        +'CocInstall coc-pyright' \
-        +qa
-
-    log "Neovim 설정이 완료되었습니다!"
+    # init.sh에서 있던 CoC 자동 설치 복구
+    nvim +'CocInstall -sync coc-tsserver coc-pyright' +qa || error "CocInstall failed (continuing)."
+    success "Neovim configured!"
 }
 
-# zsh 설정 - .zshrc.local 심볼릭 링크 생성
-setup_zshrc_local() {
-    log "zsh 설정을 시작합니다..."
-    
-    # zsh 디렉토리의 .zshrc.local 파일 경로
+setup_zsh() {
+    log "Configuring Zsh..."
     SHELL_ZSHRC_LOCAL="$SCRIPT_DIR/zsh/.zshrc.local"
-    
-    # zsh/.zshrc.local 파일이 있는지 확인
     if [ ! -f "$SHELL_ZSHRC_LOCAL" ]; then
-        log "zsh/.zshrc.local 파일이 존재하지 않습니다. 오류가 발생했습니다."
-        exit 1
+        error "zsh/.zshrc.local not found."
+        return 1
     fi
-    
-    # .zshrc.local 심볼릭 링크 생성
-    if [ -f "$HOME/.zshrc.local" ]; then
-        log "기존 .zshrc.local 파일이 존재합니다. 백업 후 새로 설정합니다."
-        mv "$HOME/.zshrc.local" "$HOME/.zshrc.local.backup.$(date +%Y%m%d%H%M%S)"
-    fi
-    
+    backup_file "$HOME/.zshrc.local"
     ln -sf "$SHELL_ZSHRC_LOCAL" "$HOME/.zshrc.local"
-    log ".zshrc.local 심볼릭 링크 설정 완료"
-    
-    # .zshrc에 .zshrc.local을 로드하는 코드가 있는지 확인
-    if ! grep -q "source ~/.zshrc.local" "$HOME/.zshrc"; then
-        log ".zshrc에 .zshrc.local 로드 코드를 추가합니다."
-        echo '# Load local zsh customizations' >> "$HOME/.zshrc"
-        echo '[ -f ~/.zshrc.local ] && source ~/.zshrc.local' >> "$HOME/.zshrc"
+    if ! grep -q "source ~/.zshrc.local" "$HOME/.zshrc" 2>/dev/null; then
+        echo -e "\n# Load local zsh customizations\n[ -f ~/.zshrc.local ] && source ~/.zshrc.local" >> "$HOME/.zshrc"
     fi
-    
-    log "zsh 설정이 완료되었습니다!"
+    success "Zsh configured!"
 }
 
-# Starship 프롬프트 설정
-setup_starship_config() {
-    log "Starship 설정을 시작합니다..."
-
+setup_starship() {
+    log "Configuring Starship..."
     SHELL_STARSHIP_TOML="$SCRIPT_DIR/starship/starship.toml"
-
-    if [ ! -f "$SHELL_STARSHIP_TOML" ]; then
-        log "starship/starship.toml 파일이 존재하지 않습니다. 건너뜁니다."
-        return 0
-    fi
-
-    if [ -f "$HOME/.config/starship.toml" ]; then
-        log "기존 starship.toml 파일이 존재합니다. 백업 후 새로 설정합니다."
-        mv "$HOME/.config/starship.toml" "$HOME/.config/starship.toml.backup.$(date +%Y%m%d%H%M%S)"
-    fi
-
-    ln -sf "$SHELL_STARSHIP_TOML" "$HOME/.config/starship.toml"
-    log "starship.toml 심볼릭 링크 설정 완료"
-
-    log "Starship 설정이 완료되었습니다!"
-}
-
-# Ghostty 터미널 설정
-setup_ghostty_config() {
-    log "Ghostty 설정을 시작합니다..."
-
-    # ghostty 디렉토리의 .ghostty.local 파일 경로
-    SHELL_GHOSTTY_LOCAL="$SCRIPT_DIR/ghostty/.ghostty.local"
-
-    # ghostty/.ghostty.local 파일이 있는지 확인
-    if [ ! -f "$SHELL_GHOSTTY_LOCAL" ]; then
-        log "ghostty/.ghostty.local 파일이 존재하지 않습니다. 건너뜁니다."
-        return 0
-    fi
-
-    # Ghostty 설정 디렉토리 생성
-    GHOSTTY_DIR="$HOME/.config/ghostty"
-    mkdir -p "$GHOSTTY_DIR"
-
-    # 기존 config 파일 백업 후 심볼릭 링크 생성
-    if [ -f "$GHOSTTY_DIR/config" ]; then
-        log "기존 Ghostty config 파일이 존재합니다. 백업 후 새로 설정합니다."
-        mv "$GHOSTTY_DIR/config" "$GHOSTTY_DIR/config.backup.$(date +%Y%m%d%H%M%S)"
-    fi
-
-    ln -sf "$SHELL_GHOSTTY_LOCAL" "$GHOSTTY_DIR/config"
-    log "Ghostty config 심볼릭 링크 설정 완료"
-
-    log "Ghostty 설정이 완료되었습니다!"
-}
-
-# tmux 설정
-setup_tmux() {
-    log "tmux 설정을 시작합니다..."
-
-    SHELL_TMUX_CONF="$SCRIPT_DIR/tmux/.tmux.conf"
-
-    if [ ! -f "$SHELL_TMUX_CONF" ]; then
-        log "tmux/.tmux.conf 파일이 존재하지 않습니다. 건너뜁니다."
-        return 0
-    fi
-
-    # 기존 .tmux.conf 파일 백업 후 심볼릭 링크 생성
-    if [ -f "$HOME/.tmux.conf" ] && [ ! -L "$HOME/.tmux.conf" ]; then
-        log "기존 .tmux.conf 파일이 존재합니다. 백업 후 새로 설정합니다."
-        mv "$HOME/.tmux.conf" "$HOME/.tmux.conf.backup.$(date +%Y%m%d%H%M%S)"
-    fi
-
-    ln -sf "$SHELL_TMUX_CONF" "$HOME/.tmux.conf"
-    log ".tmux.conf 심볼릭 링크 설정 완료"
-
-    # TPM (Tmux Plugin Manager) 설치
-    if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-        log "TPM (Tmux Plugin Manager)을 설치합니다..."
-        git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-        log "TPM 설치 완료. tmux 실행 후 prefix + I 로 플러그인을 설치하세요."
+    if [ -f "$SHELL_STARSHIP_TOML" ]; then
+        mkdir -p "$HOME/.config"
+        backup_file "$HOME/.config/starship.toml"
+        ln -sf "$SHELL_STARSHIP_TOML" "$HOME/.config/starship.toml"
+        success "Starship configured!"
     else
-        log "TPM이 이미 설치되어 있습니다."
+        log "starship/starship.toml not found. Skipping."
     fi
-
-    log "tmux 설정이 완료되었습니다!"
 }
 
-# 메인 실행 함수
-main() {
-    log "macOS 개발 환경 설정을 시작합니다..."
-    
-    # Homebrew 설정
-    setup_homebrew
-    
-    # Neovim 설정
-    setup_neovim
-    
-    # zsh 설정
-    setup_zshrc_local
-
-    # Starship 프롬프트 설정
-    setup_starship_config
-
-    # Ghostty 터미널 설정
-    setup_ghostty_config
-
-    # tmux 설정
-    setup_tmux
-
-    log "macOS 개발 환경 설정이 완료되었습니다!"
-    log "일부 설정은 터미널을 재시작하거나 새 세션에서 적용됩니다."
+setup_ghostty() {
+    log "Configuring Ghostty..."
+    SHELL_GHOSTTY_LOCAL="$SCRIPT_DIR/ghostty/.ghostty.local"
+    if [ -f "$SHELL_GHOSTTY_LOCAL" ]; then
+        mkdir -p "$HOME/.config/ghostty"
+        backup_file "$HOME/.config/ghostty/config"
+        ln -sf "$SHELL_GHOSTTY_LOCAL" "$HOME/.config/ghostty/config"
+        success "Ghostty configured!"
+    else
+        log "ghostty/.ghostty.local not found. Skipping."
+    fi
 }
 
-# 스크립트 실행
-main
+setup_tmux() {
+    log "Configuring Tmux..."
+    SHELL_TMUX_CONF="$SCRIPT_DIR/tmux/.tmux.conf"
+    if [ ! -f "$SHELL_TMUX_CONF" ]; then
+        log "tmux/.tmux.conf not found. Skipping."
+        return 0
+    fi
+    backup_file "$HOME/.tmux.conf"
+    ln -sf "$SHELL_TMUX_CONF" "$HOME/.tmux.conf"
+    if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
+        if ! command -v git &> /dev/null; then
+            error "git not found. Skipping tpm clone."
+        else
+            git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm &> /dev/null || error "tpm clone failed."
+        fi
+    fi
+    success "Tmux configured!"
+}
+
+setup_antigravity() {
+    log "Installing Antigravity CLI..."
+    if [ ! -f "$SCRIPT_DIR/antigravity/install.sh" ]; then
+        error "Antigravity installation script not found."
+        return 1
+    fi
+    bash "$SCRIPT_DIR/antigravity/install.sh"
+    success "Antigravity CLI installed!"
+}
+
+# --- 메인 메뉴 및 실행 로직 ---
+
+COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Tmux" "Antigravity")
+SELECTED=(true true true true true true false)
+CURSOR=0
+
+show_menu() {
+    print_header
+    echo -e "  ${YELLOW}Use [Up/Down] to navigate, [Space] to toggle, [Enter] to start${NC}\n"
+    for i in "${!COMPONENTS[@]}"; do
+        if [ "$i" -eq "$CURSOR" ]; then
+            printf "  %b%b❯%b " "${BLUE}" "${BOLD}" "${NC}"
+        else
+            printf "    "
+        fi
+
+        if [ "${SELECTED[i]}" = true ]; then
+            printf " %b%b%b " "${GREEN}" "${CHECK}" "${NC}"
+        else
+            printf " %b%b%b " "${RED}" "${CROSS}" "${NC}"
+        fi
+
+        if [ "$i" -eq "$CURSOR" ]; then
+            printf "%b%b%s%b\n" "${WHITE}" "${BOLD}" "${COMPONENTS[i]}" "${NC}"
+        else
+            printf "%b%s\n" "${NC}" "${COMPONENTS[i]}"
+        fi
+    done
+    echo ""
+}
+
+# Capture arrow keys and other inputs
+get_input() {
+    local key
+    IFS= read -rn1 -s key
+    case "$key" in
+        $'\x1b') # ESC sequence
+            # 두 번째 바이트를 짧은 타임아웃으로 시도 — 단독 ESC 입력 시 무한 대기 방지
+            read -rn2 -s -t 0.1 key || key=""
+            case "$key" in
+                '[A') echo "UP" ;;
+                '[B') echo "DOWN" ;;
+            esac
+            ;;
+        " ") echo "SPACE" ;;
+        "")  echo "ENTER" ;;
+        "a") echo "ALL" ;;
+        "n") echo "NONE" ;;
+        "q") echo "QUIT" ;;
+    esac
+}
+
+# 비-TTY 환경(CI/pipe) 가드 — read EOF + set -e 조합으로 무음 크래시 방지
+if [ ! -t 0 ] || [ ! -t 1 ]; then
+    echo "Non-interactive terminal detected. This installer requires a TTY." >&2
+    echo "Run from a real terminal, or set SELECTED defaults and skip the menu by modifying the script." >&2
+    exit 1
+fi
+
+while true; do
+    show_menu
+    input=$(get_input)
+    case "$input" in
+        UP)    CURSOR=$(( (CURSOR - 1 + ${#COMPONENTS[@]}) % ${#COMPONENTS[@]} )) ;;
+        DOWN)  CURSOR=$(( (CURSOR + 1) % ${#COMPONENTS[@]} )) ;;
+        SPACE) SELECTED[CURSOR]=$([ "${SELECTED[CURSOR]}" = true ] && echo false || echo true) ;;
+        ALL)   for i in "${!SELECTED[@]}"; do SELECTED[i]=true; done ;;
+        NONE)  for i in "${!SELECTED[@]}"; do SELECTED[i]=false; done ;;
+        ENTER) break ;;
+        QUIT)  echo "Installation cancelled."; exit 0 ;;
+    esac
+done
+
+echo -e "\n${YELLOW}${STAR} Starting installation...${NC}\n"
+
+if [ "${SELECTED[0]}" = true ]; then setup_homebrew; fi
+if [ "${SELECTED[1]}" = true ]; then setup_neovim; fi
+if [ "${SELECTED[2]}" = true ]; then setup_zsh; fi
+if [ "${SELECTED[3]}" = true ]; then setup_starship; fi
+if [ "${SELECTED[4]}" = true ]; then setup_ghostty; fi
+if [ "${SELECTED[5]}" = true ]; then setup_tmux; fi
+if [ "${SELECTED[6]}" = true ]; then setup_antigravity; fi
+
+echo -e "\n${GREEN}${BOLD}${STAR} Setup completed successfully!${NC}"
+echo -e "${CYAN}Please restart your terminal or run 'source ~/.zshrc' to apply changes.${NC}"
