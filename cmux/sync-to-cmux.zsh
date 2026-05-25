@@ -25,6 +25,7 @@ mkdir "$LOCK_DIR" 2>/dev/null || {
   _log "INFO" "Another instance running ($LOCK_DIR exists) — skipping"
   exit 0
 }
+trap '_log "ERROR" "failed at line $LINENO (exit $?)"' ERR
 trap 'rmdir "$LOCK_DIR" 2>/dev/null' EXIT INT TERM
 
 # Pre-flight checks
@@ -53,9 +54,10 @@ cmux_names=()
 
 while IFS= read -r line; do
   [[ -z "$line" ]] && continue
-  name=$(echo "$line" | grep -o 'tmux:[^ ]*')
-  [[ -z "$name" ]] && continue
-  id=$(echo "$line" | grep -o 'workspace:[0-9]*')
+  [[ "$line" =~ 'tmux:[^ ]+' ]] || continue
+  name="$MATCH"
+  [[ "$line" =~ 'workspace:[0-9]+' ]] || continue
+  id="$MATCH"
   cmux_id_map[$name]="$id"
   cmux_names+=("$name")
 done < <(_cmux_safe cmux list-workspaces 2>>"$LOG_FILE" || true)
