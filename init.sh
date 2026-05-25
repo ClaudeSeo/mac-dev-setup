@@ -187,10 +187,31 @@ setup_antigravity() {
     success "Antigravity CLI installed!"
 }
 
+setup_cmux_sync() {
+    log "Setting up cmux-tmux sync..."
+    local plist_template="$SCRIPT_DIR/cmux/com.user.cmux-sync.plist"
+    local plist_target="$HOME/Library/LaunchAgents/com.user.cmux-sync.plist"
+
+    if [ ! -f "$plist_template" ]; then
+        error "cmux-sync plist template not found."
+        return 1
+    fi
+
+    # template에서 __REPO_PATH__, __HOME__ 치환하여 실제 plist 생성
+    sed "s|__REPO_PATH__|$SCRIPT_DIR|g; s|__HOME__|$HOME|g" "$plist_template" > "$plist_target"
+
+    # 기존 서비스가 있으면 중지
+    launchctl bootout "gui/$(id -u)/com.user.cmux-sync" 2>/dev/null || true
+
+    # launchd에 등록
+    launchctl bootstrap "gui/$(id -u)" "$plist_target"
+    success "cmux-sync launchd agent registered!"
+}
+
 # --- 메인 메뉴 및 실행 로직 ---
 
-COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Tmux" "Antigravity")
-SELECTED=(true true true true true true false)
+COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Tmux" "Antigravity" "cmux-sync")
+SELECTED=(true true true true true true false false)
 CURSOR=0
 
 show_menu() {
@@ -269,6 +290,7 @@ if [ "${SELECTED[3]}" = true ]; then setup_starship; fi
 if [ "${SELECTED[4]}" = true ]; then setup_ghostty; fi
 if [ "${SELECTED[5]}" = true ]; then setup_tmux; fi
 if [ "${SELECTED[6]}" = true ]; then setup_antigravity; fi
+if [ "${SELECTED[7]}" = true ]; then setup_cmux_sync; fi
 
 echo -e "\n${GREEN}${BOLD}${STAR} Setup completed successfully!${NC}"
 echo -e "${CYAN}Please restart your terminal or run 'source ~/.zshrc' to apply changes.${NC}"
