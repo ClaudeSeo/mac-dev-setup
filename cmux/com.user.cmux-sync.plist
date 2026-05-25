@@ -6,7 +6,7 @@
 	<string>com.user.cmux-sync</string>
 	<key>ProgramArguments</key>
 	<array>
-		<string>/usr/bin/zsh</string>
+		<string>/bin/zsh</string>
 		<string>__REPO_PATH__/cmux/sync-to-cmux.zsh</string>
 	</array>
 	<key>StartInterval</key>
