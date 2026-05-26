@@ -187,6 +187,19 @@ setup_antigravity() {
     success "Antigravity CLI installed!"
 }
 
+setup_cmux_config() {
+    log "Configuring cmux..."
+    SHELL_CMUX_JSON="$SCRIPT_DIR/cmux/cmux.json"
+    if [ ! -f "$SHELL_CMUX_JSON" ]; then
+        log "cmux/cmux.json not found. Skipping."
+        return 0
+    fi
+    mkdir -p "$HOME/.config/cmux"
+    backup_file "$HOME/.config/cmux/cmux.json"
+    ln -sf "$SHELL_CMUX_JSON" "$HOME/.config/cmux/cmux.json"
+    success "cmux configured!"
+}
+
 setup_cmux_sync() {
     log "Setting up cmux-tmux sync..."
     local plist_template="$SCRIPT_DIR/cmux/com.user.cmux-sync.plist"
@@ -210,8 +223,8 @@ setup_cmux_sync() {
 
 # --- 메인 메뉴 및 실행 로직 ---
 
-COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Tmux" "Antigravity" "cmux-sync")
-SELECTED=(true true true true true true false false)
+COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Tmux" "Antigravity" "cmux-config" "cmux-sync")
+SELECTED=(true true true true true true false true false)
 CURSOR=0
 
 show_menu() {
@@ -290,7 +303,8 @@ if [ "${SELECTED[3]}" = true ]; then setup_starship; fi
 if [ "${SELECTED[4]}" = true ]; then setup_ghostty; fi
 if [ "${SELECTED[5]}" = true ]; then setup_tmux; fi
 if [ "${SELECTED[6]}" = true ]; then setup_antigravity; fi
-if [ "${SELECTED[7]}" = true ]; then setup_cmux_sync; fi
+if [ "${SELECTED[7]}" = true ]; then setup_cmux_config; fi
+if [ "${SELECTED[8]}" = true ]; then setup_cmux_sync; fi
 
 echo -e "\n${GREEN}${BOLD}${STAR} Setup completed successfully!${NC}"
 echo -e "${CYAN}Please restart your terminal or run 'source ~/.zshrc' to apply changes.${NC}"
