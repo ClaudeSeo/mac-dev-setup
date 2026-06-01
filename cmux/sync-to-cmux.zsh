@@ -118,16 +118,23 @@ _sync_surface_to_view_session() {
 }
 
 # Atomic lock via mkdir: macOS-native, no external dependency
-# stale file이 lock path에 남아있는 경우 자동 정리
-if [[ -f "$LOCK_DIR" ]]; then
-  rm -f "$LOCK_DIR" 2>/dev/null
+# stale lock 회수: lock은 디렉터리이므로 안에 PID를 기록하고,
+#   해당 PID가 죽은 프로세스면 비정상 종료가 남긴 stale lock으로 보고 회수
+readonly LOCK_PID_FILE="$LOCK_DIR/pid"
+if ! mkdir "$LOCK_DIR" 2>/dev/null; then
+  owner_pid=""
+  [[ -f "$LOCK_PID_FILE" ]] && owner_pid="$(<"$LOCK_PID_FILE")"
+  if [[ -n "$owner_pid" ]] && kill -0 "$owner_pid" 2>/dev/null; then
+    _log "INFO" "Another instance running (pid $owner_pid) — skipping"
+    exit 0
+  fi
+  _log "WARN" "Reclaiming stale lock (owner pid ${owner_pid:-unknown} not alive)"
+  rm -rf "$LOCK_DIR" 2>/dev/null
+  mkdir "$LOCK_DIR" 2>/dev/null || { _log "INFO" "Lost lock race — skipping"; exit 0; }
 fi
-mkdir "$LOCK_DIR" 2>/dev/null || {
-  _log "INFO" "Another instance running ($LOCK_DIR exists) — skipping"
-  exit 0
-}
+echo "$$" > "$LOCK_PID_FILE"
 trap '_log "ERROR" "failed at line $LINENO (exit $?)"' ERR
-trap 'rmdir "$LOCK_DIR" 2>/dev/null' EXIT INT TERM
+trap 'rm -rf "$LOCK_DIR" 2>/dev/null' EXIT INT TERM
 
 # Pre-flight checks
 command -v tmux >/dev/null 2>&1 || { _log "INFO" "tmux not found — exiting"; exit 0; }
