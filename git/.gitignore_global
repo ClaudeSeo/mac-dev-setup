@@ -1,0 +1,5 @@
+# Global gitignore (core.excludesfile)
+# 모든 저장소에 공통 적용되는 전역 제외 패턴
+
+.omo
+.omx

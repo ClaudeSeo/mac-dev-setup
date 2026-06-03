@@ -200,10 +200,26 @@ setup_cmux_config() {
     success "cmux configured!"
 }
 
+setup_git() {
+    log "Configuring Git..."
+    SHELL_GITCONFIG="$SCRIPT_DIR/git/.gitconfig"
+    SHELL_GITIGNORE="$SCRIPT_DIR/git/.gitignore_global"
+    if [ ! -f "$SHELL_GITCONFIG" ] || [ ! -f "$SHELL_GITIGNORE" ]; then
+        error "git/.gitconfig or git/.gitignore_global not found. Skipping."
+        return 1
+    fi
+    backup_file "$HOME/.gitconfig"
+    ln -sf "$SHELL_GITCONFIG" "$HOME/.gitconfig"
+    # core.excludesfile = ~/.gitignore_global 과 경로 일치
+    backup_file "$HOME/.gitignore_global"
+    ln -sf "$SHELL_GITIGNORE" "$HOME/.gitignore_global"
+    success "Git configured!"
+}
+
 # --- 메인 메뉴 및 실행 로직 ---
 
-COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Tmux" "Antigravity" "cmux-config")
-SELECTED=(true true true true true true false true)
+COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Tmux" "Antigravity" "cmux-config" "Git")
+SELECTED=(true true true true true true false true true)
 CURSOR=0
 
 show_menu() {
@@ -283,6 +299,7 @@ if [ "${SELECTED[4]}" = true ]; then setup_ghostty; fi
 if [ "${SELECTED[5]}" = true ]; then setup_tmux; fi
 if [ "${SELECTED[6]}" = true ]; then setup_antigravity; fi
 if [ "${SELECTED[7]}" = true ]; then setup_cmux_config; fi
+if [ "${SELECTED[8]}" = true ]; then setup_git; fi
 
 echo -e "\n${GREEN}${BOLD}${STAR} Setup completed successfully!${NC}"
 echo -e "${CYAN}Please restart your terminal or run 'source ~/.zshrc' to apply changes.${NC}"

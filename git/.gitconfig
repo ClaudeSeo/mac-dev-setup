@@ -17,6 +17,8 @@
 
 [core]
     editor = nvim
+    # 전역 gitignore: init.sh가 git/.gitignore_global을 ~/.gitignore_global로 심링크
+    excludesfile = ~/.gitignore_global
 
 [push]
     default = current
