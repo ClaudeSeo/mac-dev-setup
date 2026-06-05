@@ -2,15 +2,23 @@
 set -euo pipefail
 
 readonly LOCK_DIR="/tmp/cmux-sync.lock"
-readonly LOG_FILE="$HOME/Library/Logs/cmux-sync.log"
 readonly VIEW_SESSION_PREFIX="cmux-sync-view-"
 
+exec {LOG_FD}>&1
+
 _log() {
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] [$1] $2" >> "$LOG_FILE"
+  print -r -- "[$(date '+%Y-%m-%d %H:%M:%S')] [$1] $2" >&$LOG_FD
+}
+
+_log_stderr() {
+  local level="$1" line
+  while IFS= read -r line || [[ -n "$line" ]]; do
+    _log "$level" "$line"
+  done
 }
 
 _cmux_safe() {
-  "$@" 2>>"$LOG_FILE" || {
+  "$@" 2> >(_log_stderr "WARN") || {
     local ec=$?
     _log "WARN" "cmux command failed (exit $ec): $*"
     return $ec
@@ -29,10 +37,10 @@ _ensure_tmux_view_session() {
   local session="$1" window_pane="$2" pane_id="$3"
   local view_session="$(_tmux_view_session_name "$session" "$pane_id")"
   if ! tmux has-session -t "$view_session" 2>/dev/null; then
-    tmux new-session -d -t "$session" -s "$view_session" 2>>"$LOG_FILE" || return 1
+    tmux new-session -d -t "$session" -s "$view_session" 2> >(_log_stderr "WARN") || return 1
   fi
-  tmux select-window -t "$view_session:${window_pane%%.*}" 2>>"$LOG_FILE" || true
-  tmux select-pane -t "$view_session:$window_pane" 2>>"$LOG_FILE" || true
+  tmux select-window -t "$view_session:${window_pane%%.*}" 2> >(_log_stderr "WARN") || true
+  tmux select-pane -t "$view_session:$window_pane" 2> >(_log_stderr "WARN") || true
   print -r -- "$view_session"
 }
 
@@ -108,7 +116,7 @@ _sync_surface_to_view_session() {
         return 0
       fi
       if [[ "$client_session" == "$source_session" || "$client_session" == ${VIEW_SESSION_PREFIX}${source_session}__* ]]; then
-        tmux switch-client -c "$client_tty" -t "$view_session" 2>>"$LOG_FILE" || true
+        tmux switch-client -c "$client_tty" -t "$view_session" 2> >(_log_stderr "WARN") || true
         return 0
       fi
       break
@@ -142,7 +150,7 @@ command -v cmux >/dev/null 2>&1 || { _log "INFO" "cmux not found — exiting"; e
 command -v jq >/dev/null 2>&1 || { _log "INFO" "jq not found — exiting"; exit 0; }
 
 # cmux daemon connectivity check
-_cmux_safe cmux list-workspaces > /dev/null 2>&1 || {
+_cmux_safe cmux workspace list > /dev/null 2>&1 || {
   _log "INFO" "cmux daemon not responding — exiting"
   exit 0
 }
@@ -152,7 +160,7 @@ tmux_sessions=()
 while IFS= read -r session; do
   [[ "$session" == ${VIEW_SESSION_PREFIX}* ]] && continue
   tmux_sessions+=("$session")
-done < <(tmux list-sessions -F "#{session_name}" 2>>"$LOG_FILE" || true)
+done < <(tmux list-sessions -F "#{session_name}" 2> >(_log_stderr "WARN") || true)
 
 _log "INFO" "Found ${#tmux_sessions[@]} tmux session(s): ${tmux_sessions[*]}"
 
@@ -171,11 +179,11 @@ while IFS=$'\t' read -r session window_pane pane_id pane_path; do
   tmux_pane_title_by_key[$pane_key]="$(_pane_title "$window_pane" "$pane_id" "$pane_path")"
   tmux_pane_target_by_key[$pane_key]="$view_session"
   tmux_pane_view_by_key[$pane_key]="$view_session"
-done < <(tmux list-panes -a -F "$tmux_pane_format" 2>>"$LOG_FILE" || true)
+done < <(tmux list-panes -a -F "$tmux_pane_format" 2> >(_log_stderr "WARN") || true)
 
 # Collect cmux workspaces with tmux: prefix
-# cmux list-workspaces 출력 형식: [*] workspace:N  name  [selected]
-# name에서 tmux: prefix 추출, id는 close-workspace 용으로 저장
+# cmux workspace list 출력 형식: [*] workspace:N  name  [selected]
+# name에서 tmux: prefix 추출, id는 workspace close 용으로 저장
 typeset -A cmux_id_map  # name → workspace ID
 cmux_names=()
 
@@ -187,7 +195,7 @@ while IFS= read -r line; do
   id="$MATCH"
   cmux_id_map[$name]="$id"
   cmux_names+=("$name")
-done < <(_cmux_safe cmux list-workspaces 2>>"$LOG_FILE" || true)
+done < <(_cmux_safe cmux workspace list || true)
 
 # Phase 1: Delete orphan cmux workspaces (tmux: prefix, no matching tmux session)
 for name in "${cmux_names[@]}"; do
@@ -201,7 +209,7 @@ for name in "${cmux_names[@]}"; do
   done
   if [[ $found -eq 0 ]]; then
     _log "INFO" "Deleting orphan workspace: $name (${cmux_id_map[$name]})"
-    _cmux_safe cmux close-workspace --workspace "${cmux_id_map[$name]}" || true
+    _cmux_safe cmux workspace close "${cmux_id_map[$name]}" || true
   fi
 done
 
@@ -221,7 +229,7 @@ for session in "${tmux_sessions[@]}"; do
       command="$(_tmux_attach_command "${tmux_pane_target_by_key[$pane_keys[1]]}")"
     fi
     _log "INFO" "Creating workspace for tmux session: $session"
-    workspace_out="$(_cmux_safe cmux new-workspace --name "tmux:$session" --command "$command" || true)"
+    workspace_out="$(_cmux_safe cmux workspace create --name "tmux:$session" --command "$command" || true)"
     if [[ "$workspace_out" =~ 'workspace:[0-9]+' ]]; then
       cmux_id_map["tmux:$session"]="$MATCH"
       cmux_names+=("tmux:$session")
