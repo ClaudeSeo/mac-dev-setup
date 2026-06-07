@@ -125,6 +125,58 @@ _sync_surface_to_view_session() {
   _cmux_safe cmux respawn-pane --workspace "$workspace_id" --surface "$surface_id" --command "$command" || true
 }
 
+_selected_surface_for_pane() {
+  local workspace_id="$1" pane_id="$2"
+  local surface_line
+  while IFS= read -r surface_line; do
+    [[ "$surface_line" == \** ]] || continue
+    [[ "$surface_line" =~ 'surface:[0-9]+' ]] || continue
+    print -r -- "$MATCH"
+    return 0
+  done < <(_cmux_safe cmux list-pane-surfaces --workspace "$workspace_id" --pane "$pane_id" || true)
+}
+
+_wait_surface_tty() {
+  local workspace_id="$1" surface_id="$2"
+  local tree_line tty_name attempt
+  for attempt in {1..50}; do
+    while IFS= read -r tree_line; do
+      [[ "$tree_line" == *"$surface_id "* ]] || continue
+      [[ "$tree_line" =~ 'tty=[^ ]+' ]] || continue
+      tty_name="${MATCH#tty=}"
+      print -r -- "/dev/$tty_name"
+      return 0
+    done < <(_cmux_safe cmux tree --workspace "$workspace_id" || true)
+    sleep 0.1
+  done
+  return 1
+}
+
+_start_command_on_new_surface() {
+  local workspace_id="$1" pane_id="$2" surface_id="$3" command="$4"
+  local previous_surface start_status
+  previous_surface="$(_selected_surface_for_pane "$workspace_id" "$pane_id")"
+  start_status=0
+
+  # cmux terminal surface는 focus 후 tty가 생긴 뒤에 command 입력이 가능하다.
+  _cmux_safe cmux focus-panel --workspace "$workspace_id" --panel "$surface_id" || start_status=1
+  if [[ $start_status -eq 0 ]]; then
+    _wait_surface_tty "$workspace_id" "$surface_id" >/dev/null || start_status=1
+  fi
+  if [[ $start_status -eq 0 ]]; then
+    _cmux_safe cmux send --workspace "$workspace_id" --surface "$surface_id" "$command" || start_status=1
+  fi
+  if [[ $start_status -eq 0 ]]; then
+    _cmux_safe cmux send-key --workspace "$workspace_id" --surface "$surface_id" Enter || start_status=1
+  fi
+
+  if [[ -n "$previous_surface" && "$previous_surface" != "$surface_id" ]]; then
+    _cmux_safe cmux focus-panel --workspace "$workspace_id" --panel "$previous_surface" || true
+  fi
+
+  return $start_status
+}
+
 # Atomic lock via mkdir: macOS-native, no external dependency
 # stale lock 회수: lock은 디렉터리이므로 안에 PID를 기록하고,
 #   해당 PID가 죽은 프로세스면 비정상 종료가 남긴 stale lock으로 보고 회수
@@ -276,7 +328,11 @@ for session in "${tmux_sessions[@]}"; do
     pane_out="$(_cmux_safe cmux new-surface --workspace "$workspace_id" --pane "$workspace_first_pane" --type terminal --focus false || true)"
     [[ "$pane_out" =~ 'surface:[0-9]+' ]] || { _log "WARN" "new-surface did not return a surface: $pane_out"; continue; }
     surface_id="$MATCH"
-    _cmux_safe cmux respawn-pane --workspace "$workspace_id" --surface "$surface_id" --command "$command" || true
+    _start_command_on_new_surface "$workspace_id" "$workspace_first_pane" "$surface_id" "$command" || {
+      _log "WARN" "Failed to start tmux view on $surface_id"
+      _cmux_safe cmux close-surface --workspace "$workspace_id" --surface "$surface_id" || true
+      continue
+    }
     _cmux_safe cmux surface resume set --workspace "$workspace_id" --surface "$surface_id" --kind cmux-tmux-view --checkpoint "$pane_key" --name "${tmux_pane_title_by_key[$pane_key]}" --shell "$command" || true
     _cmux_safe cmux rename-tab --workspace "$workspace_id" --surface "$surface_id" --title "${tmux_pane_title_by_key[$pane_key]}" || true
     workspace_surface_by_pane_key[$pane_key]="$surface_id"
