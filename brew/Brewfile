@@ -8,59 +8,115 @@ tap "manaflow-ai/cmux"
 tap "mongodb/brew"
 tap "oven-sh/bun"
 tap "sdkman/tap"
+tap "socktainer/tap", trusted: true
 tap "txn2/tap"
 tap "weaveworks/tap"
+# Code searching, linting, rewriting
 brew "ast-grep"
+# Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
+# Create and run Linux containers using lightweight virtual machines
 brew "container"
+# Manage Apple Container with Docker Compose files
 brew "container-compose"
+# Load/unload environment variables based on $PWD
 brew "direnv"
+# Pack, ship and run any application as a lightweight container
+brew "docker"
+# Embeddable SQL OLAP Database Management System
 brew "duckdb"
+# Modern, maintained replacement for ls
 brew "eza"
+# Simple, fast and user-friendly alternative to find
 brew "fd"
+# Fast and simple Node.js version manager
 brew "fnm"
+# Command-line fuzzy finder written in Go
 brew "fzf"
+# GitHub command-line tool
 brew "gh"
+# Distributed revision control system
 brew "git"
+# Like cURL, but for gRPC
 brew "grpcurl"
+# Smarter Dockerfile linter to validate best practices
 brew "hadolint"
+# Kubernetes package manager
 brew "helm"
+# Lightweight and flexible command-line JSON processor
 brew "jq"
+# Query tool for JSON, YAML, TOML, and other structured formats
 brew "jsongrep"
+# Kubernetes CLI To Manage Your Clusters In Style!
 brew "k9s"
+# Command-line tool to kill processes listening on a specific port
 brew "killport"
+# Tool that can switch between kubectl contexts easily and create aliases
 brew "kubectx"
+# Kubernetes command-line interface
 brew "kubernetes-cli"
+# Polyglot runtime manager (asdf rust clone)
 brew "mise"
+# Deep clean and optimize your Mac
 brew "mole"
+# MongoDB CLI enables you to manage your MongoDB in the Cloud
 brew "mongocli"
+# Atlas CLI enables you to manage your MongoDB Atlas
 brew "mongodb-atlas-cli"
+# Remote terminal application
 brew "mosh"
+# Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
-brew "ollama"
+# Create, run, and share large language models (LLMs)
+brew "ollama", restart_service: :changed
+# Modern replacement for ps written in Rust
 brew "procs"
+# Search tool like grep and The Silver Searcher
 brew "ripgrep"
+# CLI proxy to minimize LLM token consumption
 brew "rtk"
+# Static analysis and lint tool, for (ba)sh scripts
 brew "shellcheck"
+# Compression/decompression tool based on snappy
 brew "snzip"
+# Cross-shell prompt for astronauts
 brew "starship"
+# Easiest, most secure way to use WireGuard and 2FA
 brew "tailscale"
+# Terraform version manager inspired by rbenv
 brew "tfenv"
+# Text interface for Git repositories
 brew "tig"
+# Terminal multiplexer
 brew "tmux"
+# Display directories as trees (with optional color/HTML output)
 brew "tree"
+# Network diagnostic tool, inspired by mtr
 brew "trippy"
+# Vulnerability scanner for container images, file systems, and Git repos
 brew "trivy"
+# Find and verify credentials
 brew "trufflehog"
+# Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
+# Executes a program periodically, showing output fullscreen
 brew "watch"
+# CLI for Git worktree management, designed for parallel AI agent workflows
 brew "worktrunk"
+# Process YAML, JSON, XML, CSV and properties documents from the CLI
 brew "yq"
+# Shell extension to navigate your filesystem faster
 brew "zoxide"
+# UNIX shell (command interpreter)
 brew "zsh"
+# Fish-like fast/unobtrusive autosuggestions for zsh
 brew "zsh-autosuggestions"
+# Additional completion definitions for zsh
 brew "zsh-completions"
+# Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
+# Docker-compatible REST API on top of Apple container
+brew "socktainer/tap/socktainer-next"
 brew "anomalyco/tap/opencode"
 brew "aws/tap/eks-node-viewer"
 brew "confluentinc/tap/cli"
@@ -72,9 +128,14 @@ brew "oven-sh/bun/bun"
 brew "sdkman/tap/sdkman-cli"
 brew "txn2/tap/kubefwd"
 brew "weaveworks/tap/eksctl"
+# Ghostty-based terminal with vertical tabs and notifications for AI coding agents
 cask "cmux"
+# OpenAI's coding agent that runs in your terminal
 cask "codex"
 cask "font-d2coding"
 cask "font-hack-nerd-font"
+# Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
+# Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
+
