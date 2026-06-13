@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 CCO_GLM_MODEL="${CCO_GLM_MODEL:-glm-5.1:cloud}"
-CCO_KIMI_MODEL="${CCO_KIMI_MODEL:-kimi-k2.6:cloud}"
+CCO_KIMI_MODEL="${CCO_KIMI_MODEL:-kimi-k2.7-code:cloud}"
 CCO_DEEPSEEK_MODEL="${CCO_DEEPSEEK_MODEL:-deepseek-v4-pro:cloud}"
 CCO_DEEPSEEK_FLASH_MODEL="${CCO_DEEPSEEK_FLASH_MODEL:-deepseek-v4-flash:cloud}"
 CCO_CONFIG_FILE="${CCO_CONFIG_FILE:-$HOME/.config/cco/config}"
@@ -42,7 +42,7 @@ _cco_canonical_model_value() {
     return
   fi
 
-  if [[ "$model_value" == "kimi" || "$model_value" == "kimi-k2.6" || "$model_value" == "$CCO_KIMI_MODEL" ]]; then
+  if [[ "$model_value" == "kimi" || "$model_value" == "kimi-k2.7-code" || "$model_value" == "$CCO_KIMI_MODEL" ]]; then
     echo "$CCO_KIMI_MODEL"
     return
   fi
@@ -90,7 +90,7 @@ _cco_resolve_model() {
     sonnet)                            _cco_resolve_model "$CCO_SONNET_MODEL" $((depth + 1)) ;;
     haiku)                             _cco_resolve_model "$CCO_HAIKU_MODEL" $((depth + 1)) ;;
     glm|glm-5.1)                       echo "$CCO_GLM_MODEL" ;;
-    kimi|kimi-k2.6)                    echo "$CCO_KIMI_MODEL" ;;
+    kimi|kimi-k2.7-code)              echo "$CCO_KIMI_MODEL" ;;
     deepseek|ds|deepseek-pro)          echo "$CCO_DEEPSEEK_MODEL" ;;
     deepseek-flash|ds-flash|flash)     echo "$CCO_DEEPSEEK_FLASH_MODEL" ;;
     *)                                 echo "$model_type" ;;
@@ -169,7 +169,7 @@ _cco_show_status() {
 
   Config commands:
     cco config set default glm-5.1:cloud
-    cco config set opus kimi-k2.6:cloud
+    cco config set opus kimi-k2.7-code:cloud
     cco config set sonnet glm-5.1:cloud
     cco config set haiku deepseek-v4-flash:cloud
 
@@ -195,18 +195,18 @@ Options:
 
 Config:
   cco config set default glm-5.1:cloud
-  cco config set opus kimi-k2.6:cloud
+  cco config set opus kimi-k2.7-code:cloud
   cco config set sonnet glm-5.1:cloud
   cco config set haiku deepseek-v4-flash:cloud
 
 Environment variables:
   CCO_CONFIG_FILE                Config file path (default: ~/.config/cco/config)
   CCO_DEFAULT_MODEL              Launch model (default: glm-5.1:cloud)
-  CCO_OPUS_MODEL                 Opus default model (default: kimi-k2.6:cloud)
+  CCO_OPUS_MODEL                 Opus default model (default: kimi-k2.7-code:cloud)
   CCO_SONNET_MODEL               Sonnet default model (default: glm-5.1:cloud)
   CCO_HAIKU_MODEL                Haiku/subagent default model (default: deepseek-v4-flash:cloud)
   CCO_GLM_MODEL                 Override glm model name (default: glm-5.1:cloud)
-  CCO_KIMI_MODEL                Override kimi model name (default: kimi-k2.6:cloud)
+  CCO_KIMI_MODEL                Override kimi model name (default: kimi-k2.7-code:cloud)
   CCO_DEEPSEEK_MODEL            Override deepseek model name (default: deepseek-v4-pro:cloud)
   CCO_DEEPSEEK_FLASH_MODEL      Override deepseek flash model (default: deepseek-v4-flash:cloud)
   CCO_GLM_CONTEXT_WINDOW        Override glm context window (default: 202752)
