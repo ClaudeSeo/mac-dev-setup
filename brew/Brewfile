@@ -1,4 +1,3 @@
-tap "anomalyco/tap"
 tap "aws/tap"
 tap "confluentinc/tap"
 tap "infisical/get-cli"
@@ -117,7 +116,6 @@ brew "zsh-completions"
 brew "zsh-syntax-highlighting"
 # Docker-compatible REST API on top of Apple container
 brew "socktainer/tap/socktainer-next"
-brew "anomalyco/tap/opencode"
 brew "aws/tap/eks-node-viewer"
 brew "confluentinc/tap/cli"
 brew "infisical/get-cli/infisical"

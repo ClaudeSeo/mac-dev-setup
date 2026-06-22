@@ -177,16 +177,6 @@ setup_tmux() {
     success "Tmux configured!"
 }
 
-setup_antigravity() {
-    log "Installing Antigravity CLI..."
-    if [ ! -f "$SCRIPT_DIR/antigravity/install.sh" ]; then
-        error "Antigravity installation script not found."
-        return 1
-    fi
-    bash "$SCRIPT_DIR/antigravity/install.sh"
-    success "Antigravity CLI installed!"
-}
-
 setup_cmux_config() {
     log "Configuring cmux..."
     SHELL_CMUX_JSON="$SCRIPT_DIR/cmux/cmux.json"
@@ -218,8 +208,8 @@ setup_git() {
 
 # --- 메인 메뉴 및 실행 로직 ---
 
-COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Tmux" "Antigravity" "cmux-config" "Git")
-SELECTED=(true true true true true true false true true)
+COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Tmux" "cmux-config" "Git")
+SELECTED=(true true true true true true true true)
 CURSOR=0
 
 show_menu() {
@@ -297,9 +287,8 @@ if [ "${SELECTED[2]}" = true ]; then setup_zsh; fi
 if [ "${SELECTED[3]}" = true ]; then setup_starship; fi
 if [ "${SELECTED[4]}" = true ]; then setup_ghostty; fi
 if [ "${SELECTED[5]}" = true ]; then setup_tmux; fi
-if [ "${SELECTED[6]}" = true ]; then setup_antigravity; fi
-if [ "${SELECTED[7]}" = true ]; then setup_cmux_config; fi
-if [ "${SELECTED[8]}" = true ]; then setup_git; fi
+if [ "${SELECTED[6]}" = true ]; then setup_cmux_config; fi
+if [ "${SELECTED[7]}" = true ]; then setup_git; fi
 
 echo -e "\n${GREEN}${BOLD}${STAR} Setup completed successfully!${NC}"
 echo -e "${CYAN}Please restart your terminal or run 'source ~/.zshrc' to apply changes.${NC}"

@@ -18,7 +18,7 @@
    git clone https://github.com/ClaudeSeo/mac-dev-setup
    cd mac-dev-setup
    ```
-3. 대화형 설치 메뉴를 실행합니다. 방향키로 이동, `Space`로 토글, `Enter`로 시작합니다. 기본값으로 Homebrew, Neovim, Zsh, Starship, Ghostty, Tmux가 선택돼 있으며 **Antigravity 옵션은 외부 도메인(`https://antigravity.google`)에서 설치 스크립트를 내려받아 실행합니다.** 원하면 메뉴에서 선택하세요.
+3. 대화형 설치 메뉴를 실행합니다. 방향키로 이동, `Space`로 토글, `Enter`로 시작합니다. 기본값으로 Homebrew, Neovim, Zsh, Starship, Ghostty, Tmux가 선택돼 있습니다. 원하면 메뉴에서 선택하세요.
    ```bash
    ./init.sh
    ```
@@ -61,7 +61,6 @@
 | JSON 처리 | `jq` | [jq](https://github.com/jqlang/jq) | 명령줄 JSON 프로세서 |
 | YAML 처리 | `yq` | [yq](https://github.com/mikefarah/yq) | 명령줄 YAML 프로세서 |
 | Dockerfile 린터 | `hadolint` | [Hadolint](https://github.com/hadolint/hadolint) | Dockerfile 베스트 프랙티스 검사 |
-| AI 코딩 도구 | `opencode` | [OpenCode](https://github.com/AnomalyCo/opencode) | 터미널 기반 AI 코딩 어시스턴트 |
 | 토큰 최적화 프록시 | `rtk` | [RTK](https://github.com/rtk-ai/rtk)| Claude Code 토큰 사용량 절감 CLI 프록시 |
 | 로컬 LLM | `ollama` | [Ollama](https://github.com/ollama/ollama) | 로컬 대규모 언어 모델 실행 |
 
