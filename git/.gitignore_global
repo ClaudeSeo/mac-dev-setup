@@ -8,3 +8,4 @@
 .claude/worktrees/
 _workspace/
 .DS_Store
+.codegraph/
