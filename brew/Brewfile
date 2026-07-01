@@ -5,6 +5,7 @@ tap "johanhaleby/kubetail"
 tap "ksdme/tap"
 tap "mongodb/brew"
 tap "oven-sh/bun"
+tap "postmelee/tap"
 tap "sdkman/tap"
 tap "socktainer/tap", trusted: true
 tap "txn2/tap"
@@ -133,4 +134,5 @@ cask "font-hack-nerd-font"
 cask "ghostty"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
+cask "postmelee/tap/alhangeul"
 
