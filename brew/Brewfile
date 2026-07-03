@@ -1,15 +1,15 @@
-tap "aws/tap"
-tap "confluentinc/tap"
-tap "infisical/get-cli"
-tap "johanhaleby/kubetail"
-tap "ksdme/tap"
-tap "mongodb/brew"
-tap "oven-sh/bun"
-tap "postmelee/tap"
-tap "sdkman/tap"
+tap "aws/tap", trusted: true
+tap "confluentinc/tap", trusted: true
+tap "infisical/get-cli", trusted: true
+tap "johanhaleby/kubetail", trusted: true
+tap "ksdme/tap", trusted: true
+tap "mongodb/brew", trusted: true
+tap "oven-sh/bun", trusted: true
+tap "postmelee/tap", trusted: true
+tap "sdkman/tap", trusted: true
 tap "socktainer/tap", trusted: true
-tap "txn2/tap"
-tap "weaveworks/tap"
+tap "txn2/tap", trusted: true
+tap "weaveworks/tap", trusted: true
 # Code searching, linting, rewriting
 brew "ast-grep"
 # Clone of cat(1) with syntax highlighting and Git integration
