@@ -9,5 +9,6 @@
 _workspace/
 .DS_Store
 .codegraph/
+.codegraph
 
 **/.claude/.cc-writes/
