@@ -3,6 +3,7 @@ tap "confluentinc/tap", trusted: true
 tap "infisical/get-cli", trusted: true
 tap "johanhaleby/kubetail", trusted: true
 tap "ksdme/tap", trusted: true
+tap "microsoft/inshellisense", trusted: true
 tap "mongodb/brew", trusted: true
 tap "oven-sh/bun", trusted: true
 tap "postmelee/tap", trusted: true
@@ -121,6 +122,8 @@ brew "confluentinc/tap/cli"
 brew "infisical/get-cli/infisical"
 brew "johanhaleby/kubetail/kubetail"
 brew "ksdme/tap/ut"
+# IDE style command line auto complete
+brew "microsoft/inshellisense/inshellisense"
 brew "mongodb/brew/mongodb-database-tools"
 brew "oven-sh/bun/bun"
 brew "sdkman/tap/sdkman-cli"
@@ -132,6 +135,8 @@ cask "font-d2coding"
 cask "font-hack-nerd-font"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
+# Markdown editor
+cask "miaoyan"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
 cask "postmelee/tap/alhangeul"
