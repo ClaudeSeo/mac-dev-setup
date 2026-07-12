@@ -12,3 +12,5 @@ _workspace/
 .codegraph
 
 **/.claude/.cc-writes/
+.workflow-docs/**/loop/
+.workflow-docs/**/research/

@@ -19,6 +19,7 @@ alias npmr='npm run $(cat package.json | jq .scripts | jq -r "keys | .[]" | fzf)
 alias tm='tmux new-session -A -s main'
 alias cca='claude --dangerously-skip-permissions'
 alias coa='codex --yolo'
+alias ki='kiro-cli chat --v3 -a'
 
 eval "$(direnv hook zsh)"
 
