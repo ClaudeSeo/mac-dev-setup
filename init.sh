@@ -174,6 +174,18 @@ setup_tmux() {
             git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm &> /dev/null || error "tpm clone failed."
         fi
     fi
+
+    # TPM 은 매니저 자체만 설치된 상태에선 @plugin 선언을 로드하지 못함.
+    # install_plugins.sh 가 tmux.conf 의 @plugin 라인을 직접 파싱해 clone 하므로
+    # tmux 바이너리만 있으면 세션 밖에서도 실행 가능 — 최초 설치 시 플러그인까지 자동 내려받음.
+    if [ -d "$HOME/.tmux/plugins/tpm" ] && command -v tmux &> /dev/null; then
+        log "Installing tmux plugins via TPM..."
+        if bash "$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh" &> /dev/null; then
+            success "tmux plugins installed."
+        else
+            error "tmux plugin install failed. Run prefix + I (C-a I) inside tmux to install manually."
+        fi
+    fi
     success "Tmux configured!"
 }
 
