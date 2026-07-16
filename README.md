@@ -2,10 +2,9 @@
 
 효율적인 macOS 개발 환경을 자동으로 구성하기 위한 설정 저장소입니다.
 
-[![macOS](https://img.shields.io/badge/macOS-15+-000000?style=for-the-badge&logo=apple&logoColor=white)](https://www.apple.com/macos/)
+[![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white)](https://www.apple.com/macos/)
 [![Shell](https://img.shields.io/badge/Shell-Zsh-1f425f?style=for-the-badge&logo=gnubash)](https://zsh.org/)
 [![Homebrew](https://img.shields.io/badge/Homebrew-Latest-FBB040?style=for-the-badge&logo=homebrew)](https://brew.sh/)
-[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](LICENSE)
 
 ## 빠른 시작
 
@@ -18,7 +17,7 @@
    git clone https://github.com/ClaudeSeo/mac-dev-setup
    cd mac-dev-setup
    ```
-3. 대화형 설치 메뉴를 실행합니다. 방향키로 이동, `Space`로 토글, `Enter`로 시작합니다. 기본값으로 Homebrew, Neovim, Zsh, Starship, Ghostty, Tmux가 선택돼 있습니다. 원하면 메뉴에서 선택하세요.
+3. 대화형 설치 메뉴를 실행합니다. 방향키로 이동, `Space`로 토글, `Enter`로 시작하며 `a`(전체 선택), `n`(전체 해제), `q`(종료)도 지원합니다. 기본값으로 Homebrew, Neovim, Zsh, Starship, Ghostty, Tmux, Git 7개 항목이 모두 선택돼 있습니다. 원하면 메뉴에서 조정하세요.
    ```bash
    ./init.sh
    ```
@@ -29,7 +28,7 @@
 
 | 기능 | 명령어 | 도구 | 설명 |
 | --- | --- | --- | --- |
-| 향상된 ls | `l` | [eza](https://github.com/eza-community/eza) | 컬러 파일 목록 출력 (옵션: `-abghHliS`) |
+| 향상된 ls | `l` | [eza](https://github.com/eza-community/eza) | 컬러 파일 목록 출력 (옵션: `-abghHliS -s modified`) |
 | 파일 검색 | `fd` | [fd](https://github.com/sharkdp/fd) | `find`보다 빠르고 간단한 파일 검색 |
 | 트리 구조 | `tree` | [eza](https://github.com/eza-community/eza) | `node_modules` 제외 트리 구조 표시 |
 | 디렉터리 점프 | `z` | [zoxide](https://github.com/ajeetdsouza/zoxide) | 자주 방문한 디렉터리로 빠르게 이동 |
@@ -102,7 +101,7 @@
 | --- | --- | --- | --- |
 | MongoDB Atlas | `atlas` | [MongoDB Atlas CLI](https://github.com/mongodb/mongodb-atlas-cli) | MongoDB Atlas 관리 |
 | MongoDB 도구 | `mongodump`, `mongorestore` | [MongoDB Database Tools](https://github.com/mongodb/mongo-tools) | MongoDB 데이터베이스 유틸리티 |
-| Confluent | `cf` | [Confluent CLI](https://github.com/confluentinc/cli) | Apache Kafka 관리 (Confluent) |
+| Confluent | `confluent` | [Confluent CLI](https://github.com/confluentinc/cli) | Apache Kafka 관리 (Confluent) |
 | Infisical | `infisical` | [Infisical](https://github.com/Infisical/infisical) | 시크릿 관리 |
 
 ### 보안 도구
@@ -117,6 +116,7 @@
 | 기능 | 명령어 | 도구 | 설명 |
 | --- | --- | --- | --- |
 | 환경 변수 관리 | `direnv` | [direnv](https://github.com/direnv/direnv) | 디렉터리별 환경 변수 자동 로드 |
+| Mac 정리 | `mole` | [Mole](https://mole.fit) | Mac 딥 클린 및 최적화 (AppCleaner 대체) |
 | 유틸리티 툴킷 | `ut` | [ut](https://github.com/ksdme/ut) | 개발자용 다목적 CLI 유틸리티 (시간/인코딩 등) |
 | 터미널 설정 | `ghostty` | [Ghostty](https://ghostty.org/) | 빠르고 현대적인 GPU 가속 터미널 |
 
@@ -125,7 +125,7 @@
 | 기능 | 명령어 | 도구 | 설명 |
 | --- | --- | --- | --- |
 | NPM 스크립트 실행 | `npmr` | `npm run` + `fzf` | `package.json` 스크립트를 `fzf`로 선택 실행 |
-| Claude Monitor | `cm` | `claude-monitor` | Asia/Seoul 타임존으로 모니터링 |
+| Tmux 메인 세션 | `tm` | `tmux new-session -A -s main` | `main` 세션에 접속하거나 없으면 생성 |
 
 ## 권장 응용프로그램
 
@@ -135,7 +135,6 @@
 <summary><strong>개발 도구</strong></summary>
 
 - **Visual Studio Code**: [공식 다운로드](https://code.visualstudio.com/download)
-- **OrbStack**: [공식 다운로드](https://orbstack.dev/download)
 - **NoSQLBooster**: [공식 다운로드](https://nosqlbooster.com/downloads)
 - **MongoDB Compass**: [공식 다운로드](https://www.mongodb.com/products/compass)
 - **DBeaver**: [공식 다운로드](https://dbeaver.io/download/)
@@ -145,19 +144,10 @@
 </details>
 
 <details>
-<summary><strong>브라우저 및 생산성 도구</strong></summary>
-
-- **Arc Browser**: [공식 다운로드](https://arc.net/download)
-- **Notion**: [공식 다운로드](https://www.notion.so/desktop)
-- **Perplexity AI**: [공식 다운로드](https://www.perplexity.ai/platforms)
-
-</details>
-
-<details>
 <summary><strong>유틸리티</strong></summary>
 
+- **Notion**: [공식 다운로드](https://www.notion.so/desktop)
 - **Tailscale**: [공식 다운로드](https://tailscale.com/download/macos)
-- **AppCleaner**: [공식 다운로드](https://freemacsoft.net/appcleaner/)
 - **Raycast**: [공식 다운로드](https://www.raycast.com/)
 - **Excalidraw**: [웹 앱](https://excalidraw.com) - 손으로 그린 다이어그램
 - **Pake**: `npm install -g pake-cli` 또는 [GitHub Releases](https://github.com/tw93/Pake) - 웹페이지를 데스크톱 앱으로 변환
@@ -170,4 +160,10 @@
 
 - `init.sh`: 초기 설정 자동화 스크립트
 - `brew/`, `zsh/`, `tmux/`, `nvim/`: 개발 환경별 설정
-- `ghostty/`, `starship/`, `git/`: 터미널/에디터/도구 설정
+- `ghostty/`, `starship/`, `git/`, `mosh/`: 터미널/에디터/도구 설정
+
+자세한 사용법은 각 디렉터리의 문서를 참고하세요.
+
+- [Neovim 설정 가이드](nvim/README.md): 플러그인 구성과 키맵
+- [tmux 명령어 정리](tmux/README.md): 기본 + 커스텀 키 바인딩 (Prefix: `Ctrl-a`)
+- [Mosh 설정 가이드](mosh/README.md): 방화벽 허용 및 비로그인 셸 설정
