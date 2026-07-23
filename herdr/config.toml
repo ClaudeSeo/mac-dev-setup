@@ -36,6 +36,26 @@ goto = "prefix+s"
 # settings 는 s 자리에서 prefix+comma 로 이동. (쉼표는 named punctuation "comma" 로 표기)
 settings = "prefix+comma"
 
+# --- tmux 패리티 추가 정합 (사용자 명시 요청 3건 + 패리티 제안 5건) ---
+# detach: herdr 기본 prefix+q → tmux prefix+d 로 이동. prefix+q 는 어느 쪽도 안 써 비워둠.
+detach = "prefix+d"
+# previous/next_agent: tmux copy-mode(prefix+[)/paste-buffer(prefix+]) 자리 재활용.
+# herdr 에 copy-mode/paste 대응 액션이 없어 의미 충돌 없이 에이전트 네비게이션에 배치.
+previous_agent = "prefix+["
+next_agent = "prefix+]"
+
+# --- 아래는 tmux 패리티 제안 (herdr 기본값 덮어쓰기) ---
+# close_tab: herdr 기본 prefix+shift+x → tmux prefix+ampersand(윈도우 닫기).
+close_tab = "prefix+ampersand"
+# rename_workspace: herdr 기본 prefix+shift+w → tmux prefix+$(shift+4, 세션 이름 변경).
+rename_workspace = "prefix+shift+4"
+# last_pane: 액션은 있으나 기본 미설정 → tmux prefix+;(직전 패널 전환).
+last_pane = "prefix+;"
+# cycle_pane_next: herdr 기본 prefix+tab → tmux prefix+o(다음 패널 순환).
+# prefix+o 자리의 open_notification_target 은 충돌 회피용으로 shift+o 로 이동.
+cycle_pane_next = "prefix+o"
+open_notification_target = "prefix+shift+o"
+
 [ui]
 # 에이전트 패널을 space(workspace) 기준으로 그룹핑 (herdr 초기 설정에서 이관)
 agent_panel_sort = "spaces"
