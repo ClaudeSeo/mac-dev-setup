@@ -30,6 +30,12 @@ reload_config = "prefix+r"        # tmux: prefix+r 설정 리로드(herdr 기본
 # reload_config 가 prefix+r 을 가져가므로 resize_mode 를 옮김(herdr 기본 prefix+r)
 resize_mode = "prefix+shift+r"
 
+# --- herdr 고유 기능 (tmux 대응 없음) ---
+# goto 는 세션 네비게이터를 여는 액션. settings 보다 자주 써서 s 자리를 goto 에 양보.
+goto = "prefix+s"
+# settings 는 s 자리에서 prefix+comma 로 이동. (쉼표는 named punctuation "comma" 로 표기)
+settings = "prefix+comma"
+
 [ui]
 # 에이전트 패널을 space(workspace) 기준으로 그룹핑 (herdr 초기 설정에서 이관)
 agent_panel_sort = "spaces"
