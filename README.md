@@ -17,7 +17,7 @@
    git clone https://github.com/ClaudeSeo/mac-dev-setup
    cd mac-dev-setup
    ```
-3. 대화형 설치 메뉴를 실행합니다. 방향키로 이동, `Space`로 토글, `Enter`로 시작하며 `a`(전체 선택), `n`(전체 해제), `q`(종료)도 지원합니다. 기본값으로 Homebrew, Neovim, Zsh, Starship, Ghostty, Tmux, Git 7개 항목이 모두 선택돼 있습니다. 원하면 메뉴에서 조정하세요.
+3. 대화형 설치 메뉴를 실행합니다. 방향키로 이동, `Space`로 토글, `Enter`로 시작하며 `a`(전체 선택), `n`(전체 해제), `q`(종료)도 지원합니다. 기본값으로 Homebrew, Neovim, Zsh, Starship, Ghostty, Tmux, Herdr, Git 8개 항목이 모두 선택돼 있습니다. 원하면 메뉴에서 조정하세요.
    ```bash
    ./init.sh
    ```
@@ -56,6 +56,7 @@
 | Git 향상 | `gh` | [GitHub CLI](https://github.com/cli/cli) | GitHub 공식 CLI |
 | Git UI | `tig` | [tig](https://github.com/jonas/tig) | Git용 텍스트 모드 인터페이스 |
 | 터미널 멀티플렉서 | `tmux` | [tmux](https://github.com/tmux/tmux) | 터미널 세션 관리 |
+| 에이전트 멀티플렉서 | `herdr` | [Herdr](https://herdr.dev) | AI 코딩 에이전트용 터미널 워크스페이스 관리 (키맵은 tmux와 동일) |
 | Shell 검사 | `shellcheck` | [ShellCheck](https://github.com/koalaman/shellcheck) | 셸 스크립트 정적 분석 |
 | JSON 처리 | `jq` | [jq](https://github.com/jqlang/jq) | 명령줄 JSON 프로세서 |
 | YAML 처리 | `yq` | [yq](https://github.com/mikefarah/yq) | 명령줄 YAML 프로세서 |
@@ -160,10 +161,11 @@
 
 - `init.sh`: 초기 설정 자동화 스크립트
 - `brew/`, `zsh/`, `tmux/`, `nvim/`: 개발 환경별 설정
-- `ghostty/`, `starship/`, `git/`, `mosh/`: 터미널/에디터/도구 설정
+- `ghostty/`, `starship/`, `git/`, `mosh/`, `herdr/`: 터미널/에디터/도구 설정
 
 자세한 사용법은 각 디렉터리의 문서를 참고하세요.
 
 - [Neovim 설정 가이드](nvim/README.md): 플러그인 구성과 키맵
 - [tmux 명령어 정리](tmux/README.md): 기본 + 커스텀 키 바인딩 (Prefix: `Ctrl-a`)
+- [Herdr 키 바인딩 정리](herdr/README.md): tmux 패리티 키맵 (Prefix: `Ctrl-a`)
 - [Mosh 설정 가이드](mosh/README.md): 방화벽 허용 및 비로그인 셸 설정

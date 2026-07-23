@@ -189,6 +189,25 @@ setup_tmux() {
     success "Tmux configured!"
 }
 
+setup_herdr() {
+    log "Configuring Herdr..."
+    if ! command -v herdr &> /dev/null; then
+        error "herdr not found. Skipping Herdr setup. (Select Homebrew first, or install herdr manually.)"
+        return 0
+    fi
+    SHELL_HERDR_CONFIG="$SCRIPT_DIR/herdr/config.toml"
+    if [ ! -f "$SHELL_HERDR_CONFIG" ]; then
+        log "herdr/config.toml not found. Skipping."
+        return 0
+    fi
+    mkdir -p "$HOME/.config/herdr"
+    backup_file "$HOME/.config/herdr/config.toml"
+    ln -sf "$SHELL_HERDR_CONFIG" "$HOME/.config/herdr/config.toml"
+    # 실행 중인 herdr 서버가 있으면 즉시 반영(없으면 다음 실행 시 로드되므로 실패 무시)
+    herdr server reload-config &> /dev/null || true
+    success "Herdr configured!"
+}
+
 setup_git() {
     log "Configuring Git..."
     SHELL_GITCONFIG="$SCRIPT_DIR/git/.gitconfig"
@@ -207,8 +226,8 @@ setup_git() {
 
 # --- 메인 메뉴 및 실행 로직 ---
 
-COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Tmux" "Git")
-SELECTED=(true true true true true true true)
+COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Tmux" "Herdr" "Git")
+SELECTED=(true true true true true true true true)
 CURSOR=0
 
 show_menu() {
@@ -286,7 +305,8 @@ if [ "${SELECTED[2]}" = true ]; then setup_zsh; fi
 if [ "${SELECTED[3]}" = true ]; then setup_starship; fi
 if [ "${SELECTED[4]}" = true ]; then setup_ghostty; fi
 if [ "${SELECTED[5]}" = true ]; then setup_tmux; fi
-if [ "${SELECTED[6]}" = true ]; then setup_git; fi
+if [ "${SELECTED[6]}" = true ]; then setup_herdr; fi
+if [ "${SELECTED[7]}" = true ]; then setup_git; fi
 
 echo -e "\n${GREEN}${BOLD}${STAR} Setup completed successfully!${NC}"
 echo -e "${CYAN}Please restart your terminal or run 'source ~/.zshrc' to apply changes.${NC}"

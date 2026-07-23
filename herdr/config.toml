@@ -1,0 +1,39 @@
+# herdr configuration
+# 심링크 위치: ~/.config/herdr/config.toml
+# 전체 기본값은 `herdr --default-config` 로 확인.
+#
+# 키 바인딩은 tmux(tmux/.tmux.conf) 와 최대한 동일하게 맞춤.
+# 개념 대응: tmux window = herdr tab, tmux session = herdr workspace.
+
+[keys]
+# Prefix 키를 tmux 와 동일하게 Ctrl-a 로 (herdr 기본값은 ctrl+b)
+prefix = "ctrl+a"
+
+# --- tmux 와 키가 이미 동일한 herdr 기본 바인딩 (의도를 고정하기 위해 명시) ---
+new_tab = "prefix+c"              # tmux: prefix+c 새 window
+next_tab = "prefix+n"             # tmux: prefix+n 다음 window
+previous_tab = "prefix+p"         # tmux: prefix+p 이전 window
+switch_tab = "prefix+1..9"        # tmux: prefix+<번호> window 선택
+focus_pane_left = "prefix+h"      # tmux: prefix+h
+focus_pane_down = "prefix+j"      # tmux: prefix+j
+focus_pane_up = "prefix+k"        # tmux: prefix+k
+focus_pane_right = "prefix+l"     # tmux: prefix+l
+close_pane = "prefix+x"           # tmux: prefix+x 패널 닫기
+zoom = "prefix+z"                 # tmux: prefix+z 패널 확대(줌)
+
+# --- tmux 에 맞추기 위해 herdr 기본값에서 변경한 바인딩 ---
+# split 은 herdr 와 tmux 의 vertical/horizontal 용어가 반대라 "키와 동작"을 기준으로 맞춤.
+split_vertical = "prefix+|"       # tmux: prefix+| 좌우 분할(세로 구분선)
+split_horizontal = "prefix+minus" # tmux: prefix+- 상하 분할(가로 구분선)
+new_workspace = "prefix+shift+s"  # tmux: prefix+S 새 세션(herdr 기본 prefix+shift+n)
+reload_config = "prefix+r"        # tmux: prefix+r 설정 리로드(herdr 기본 prefix+shift+r)
+# reload_config 가 prefix+r 을 가져가므로 resize_mode 를 옮김(herdr 기본 prefix+r)
+resize_mode = "prefix+shift+r"
+
+[ui]
+# 에이전트 패널을 space(workspace) 기준으로 그룹핑 (herdr 초기 설정에서 이관)
+agent_panel_sort = "spaces"
+
+[theme]
+name = "nord"
+auto_switch = false
