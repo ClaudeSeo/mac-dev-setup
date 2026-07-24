@@ -4,3 +4,9 @@ font-family = "D2Coding"
 font-size = 13
 
 bell-features = audio,attention,title
+
+# option+backspace → Ctrl+W(backward-kill-word)
+# Ghostty 1.2 가 builtin opt+backspace 매핑을 제거했고, macos-option-as-alt=false 상태라
+# 이 키가 아무 바이트도 보내지 않음 → 직접/tmux/herdr 어디서도 단어 삭제가 안 됨.
+# Ctrl+W(\x17)는 어디서나 통과하는 보편 시퀀스라 단어 삭제로 매핑.
+keybind = opt+backspace=text:\x17
