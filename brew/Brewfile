@@ -10,6 +10,8 @@ tap "sdkman/tap", trusted: true
 tap "socktainer/tap", trusted: true
 tap "txn2/tap", trusted: true
 tap "weaveworks/tap", trusted: true
+# The AWS Command Line Interface
+brew "awscli"
 # Code searching, linting, rewriting
 brew "ast-grep"
 # Clone of cat(1) with syntax highlighting and Git integration
