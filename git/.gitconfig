@@ -10,7 +10,8 @@
 
 [user]
     name = ClaudeSeo
-    email = ehdaudtj@gmail.com
+    email = clud.seo@gmail.com
+    signingkey = ~/.ssh/github
 
 [push]
     autoSetupRemote = true
@@ -25,3 +26,7 @@
 
 [pull]
     rebase = true
+[gpg]
+    format = ssh
+[commit]
+    gpgsign = true

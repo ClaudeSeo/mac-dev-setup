@@ -20,6 +20,8 @@ brew "bat"
 brew "container"
 # Manage Apple Container with Docker Compose files
 brew "container-compose"
+# GNU File, Shell, and Text utilities
+brew "coreutils"
 # Load/unload environment variables based on $PWD
 brew "direnv"
 # Pack, ship and run any application as a lightweight container
