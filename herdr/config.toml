@@ -1,3 +1,4 @@
+onboarding = false
 # herdr configuration
 # 심링크 위치: ~/.config/herdr/config.toml
 # 전체 기본값은 `herdr --default-config` 로 확인.

@@ -22,7 +22,7 @@ alias hr='herdr'
 alias cca='claude --dangerously-skip-permissions'
 alias ccm='abc cc account'
 alias coa='codex --yolo'
-alias ki='kiro-cli chat -a --agent orchestrator --v3'
+alias ki='kiro-cli chat -a --v3'
 
 eval "$(direnv hook zsh)"
 
