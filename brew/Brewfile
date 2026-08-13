@@ -1,4 +1,5 @@
 tap "aws/tap", trusted: true
+tap "can1357/tap", trusted: true
 tap "confluentinc/tap", trusted: true
 tap "infisical/get-cli", trusted: true
 tap "johanhaleby/kubetail", trusted: true
@@ -123,6 +124,8 @@ brew "zsh-syntax-highlighting"
 # Docker-compatible REST API on top of Apple container
 brew "socktainer/tap/socktainer-next"
 brew "aws/tap/eks-node-viewer"
+# Coding agent with the IDE wired in
+brew "can1357/tap/omp"
 brew "confluentinc/tap/cli"
 brew "infisical/get-cli/infisical"
 brew "johanhaleby/kubetail/kubetail"
