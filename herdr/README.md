@@ -25,8 +25,6 @@
 1. `worktrunk` 플러그인이 없을 때만 `devashish2203/herdr-worktrunk`에서 설치합니다.
 2. 설치되어 있거나 새로 설치한 플러그인을 `enable` 상태로 맞춥니다.
 3. 관리 설정의 다음 키를 Worktrunk action에 연결하고 실행 중인 서버에 다시 읽힙니다.
-   - `prefix+shift+g`: 기본 브랜치 기준 선택기(`worktrunk.open`)
-   - `prefix+shift+c`: 현재 브랜치 기준 선택기(`worktrunk.open-current`)
    - `prefix+shift+r`: 로컬 또는 원격 브랜치 선택기(`worktrunk.open-with-remotes`)
    - `prefix+shift+d`: worktree 제거(`worktrunk.remove`)
 4. 위 키와 충돌하는 기본 기능은 `resize_mode`를 `prefix+shift+e`로, `close_workspace`를 `prefix+shift+x`로 옮겨 함께 유지합니다.
@@ -43,16 +41,12 @@ Homebrew를 함께 선택하면 `brew/Brewfile`에서 `worktrunk`, `fzf`, `jq`�
 
 다음 키를 누르면 Worktrunk picker 또는 제거 action을 실행할 수 있습니다.
 
-- `Ctrl-a Shift-g`: 기본 브랜치 기준 worktree 전환 또는 생성
-- `Ctrl-a Shift-c`: 현재 브랜치 기준 worktree 전환 또는 생성
 - `Ctrl-a Shift-r`: 로컬 또는 원격 브랜치 기준 worktree 전환 또는 생성
 - `Ctrl-a Shift-d`: 제거할 worktree를 선택한 뒤 제거
 
 명령줄에서는 다음처럼 같은 action을 실행할 수 있습니다.
 
 ```bash
-herdr plugin action invoke open --plugin worktrunk
-herdr plugin action invoke open-current --plugin worktrunk
 herdr plugin action invoke open-with-remotes --plugin worktrunk
 herdr plugin action invoke remove --plugin worktrunk
 ```
@@ -125,8 +119,6 @@ herdr plugin enable worktrunk
 | 도움말 | `Ctrl-a ?` |
 | 설정 화면 | `Ctrl-a ,` (goto에 `s` 양보) |
 | 스크롤백 편집 | `Ctrl-a e` |
-| 기본 브랜치 기준 worktree 선택기 | `Ctrl-a Shift-g` |
-| 현재 브랜치 기준 worktree 선택기 | `Ctrl-a Shift-c` |
 | 로컬 또는 원격 브랜치 worktree 선택기 | `Ctrl-a Shift-r` |
 | worktree 제거 | `Ctrl-a Shift-d` |
 | 패널 이름 변경 | `Ctrl-a Shift-p` |

@@ -61,18 +61,7 @@ open_notification_target = "prefix+shift+o"
 # Worktrunk 제거 액션에 prefix+shift+d 를 양보하고 workspace 닫기를 옮김.
 close_workspace = "prefix+shift+x"
 
-# Worktrunk 플러그인으로 기본 worktree 선택기를 교체
-[[keys.command]]
-key = "prefix+shift+g"
-type = "plugin_action"
-command = "worktrunk.open"
-description = "Worktree: switch / create from default branch"
-
-[[keys.command]]
-key = "prefix+shift+c"
-type = "plugin_action"
-command = "worktrunk.open-current"
-description = "Worktree: switch / create from current branch"
+# Worktrunk 플러그인 worktree 선택기와 제거 액션
 
 [[keys.command]]
 key = "prefix+shift+r"
