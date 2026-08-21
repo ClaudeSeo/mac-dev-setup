@@ -24,7 +24,12 @@
 
 1. `worktrunk` 플러그인이 없을 때만 `devashish2203/herdr-worktrunk`에서 설치합니다.
 2. 설치되어 있거나 새로 설치한 플러그인을 `enable` 상태로 맞춥니다.
-3. 관리 설정의 `prefix+shift+g`를 `worktrunk.open`에 연결하고 실행 중인 서버에 다시 읽힙니다.
+3. 관리 설정의 다음 키를 Worktrunk action에 연결하고 실행 중인 서버에 다시 읽힙니다.
+   - `prefix+shift+g`: 기본 브랜치 기준 선택기(`worktrunk.open`)
+   - `prefix+shift+c`: 현재 브랜치 기준 선택기(`worktrunk.open-current`)
+   - `prefix+shift+r`: 로컬 또는 원격 브랜치 선택기(`worktrunk.open-with-remotes`)
+   - `prefix+shift+d`: worktree 제거(`worktrunk.remove`)
+4. 위 키와 충돌하는 기본 기능은 `resize_mode`를 `prefix+shift+e`로, `close_workspace`를 `prefix+shift+x`로 옮겨 함께 유지합니다.
 
 Homebrew를 함께 선택하면 `brew/Brewfile`에서 `worktrunk`, `fzf`, `jq`를 설치합니다. Herdr만 선택하는 경우에는 먼저 다음 요구사항을 직접 준비하세요.
 
@@ -36,10 +41,20 @@ Homebrew를 함께 선택하면 `brew/Brewfile`에서 `worktrunk`, `fzf`, `jq`�
 
 ### 사용
 
-`Ctrl-a Shift-g`를 누르면 기본 브랜치 기준의 worktree 전환 또는 생성 picker가 열립니다. 명령줄에서는 다음처럼 같은 action을 실행할 수 있습니다.
+다음 키를 누르면 Worktrunk picker 또는 제거 action을 실행할 수 있습니다.
+
+- `Ctrl-a Shift-g`: 기본 브랜치 기준 worktree 전환 또는 생성
+- `Ctrl-a Shift-c`: 현재 브랜치 기준 worktree 전환 또는 생성
+- `Ctrl-a Shift-r`: 로컬 또는 원격 브랜치 기준 worktree 전환 또는 생성
+- `Ctrl-a Shift-d`: 제거할 worktree를 선택한 뒤 제거
+
+명령줄에서는 다음처럼 같은 action을 실행할 수 있습니다.
 
 ```bash
 herdr plugin action invoke open --plugin worktrunk
+herdr plugin action invoke open-current --plugin worktrunk
+herdr plugin action invoke open-with-remotes --plugin worktrunk
+herdr plugin action invoke remove --plugin worktrunk
 ```
 
 ### 검증과 문제 해결
@@ -82,7 +97,7 @@ herdr plugin enable worktrunk
 | 상하 분할 | `Ctrl-a -` | `Ctrl-a -` (`split_horizontal`) | tmux `prefix -` (기본값과 동일) |
 | 새 workspace(=세션) | `Ctrl-a Shift-s` | `Ctrl-a Shift-n` | tmux `prefix S` |
 | 설정 리로드 | `Ctrl-a r` | `Ctrl-a Shift-r` | tmux `prefix r` |
-| 패널 크기 조절 모드 | `Ctrl-a Shift-r` | `Ctrl-a r` (`resize_mode`) | 리로드에 `r`을 넘겨주며 자리 교환 |
+| 패널 크기 조절 모드 | `Ctrl-a Shift-e` | `Ctrl-a r` (`resize_mode`) | 리로드와 Worktrunk 원격 선택기에 자리를 양보하며 이동 |
 | 디태치 | `Ctrl-a d` | `Ctrl-a q` | tmux `prefix d` (사용자 요청) |
 | 이전 에이전트 | `Ctrl-a [` | (미설정) | tmux copy-mode 자리 재활용 (사용자 요청) |
 | 다음 에이전트 | `Ctrl-a ]` | (미설정) | tmux paste-buffer 자리 재활용 (사용자 요청) |
@@ -110,10 +125,13 @@ herdr plugin enable worktrunk
 | 도움말 | `Ctrl-a ?` |
 | 설정 화면 | `Ctrl-a ,` (goto에 `s` 양보) |
 | 스크롤백 편집 | `Ctrl-a e` |
-| Worktrunk worktree 선택기 | `Ctrl-a Shift-g` |
+| 기본 브랜치 기준 worktree 선택기 | `Ctrl-a Shift-g` |
+| 현재 브랜치 기준 worktree 선택기 | `Ctrl-a Shift-c` |
+| 로컬 또는 원격 브랜치 worktree 선택기 | `Ctrl-a Shift-r` |
+| worktree 제거 | `Ctrl-a Shift-d` |
 | 패널 이름 변경 | `Ctrl-a Shift-p` |
 | 이전 패널 순환 | `Ctrl-a Shift-Tab` |
-| 워크스페이스 닫기 | `Ctrl-a Shift-d` |
+| 워크스페이스 닫기 | `Ctrl-a Shift-x` |
 | 알림 대상 열기 | `Ctrl-a Shift-o` (다음 패널 순환과 자리 교환) |
 
 전체 기본값과 추가 옵션은 `herdr --default-config` 로 확인할 수 있습니다.

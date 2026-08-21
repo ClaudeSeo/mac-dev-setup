@@ -29,7 +29,8 @@ split_horizontal = "prefix+minus" # tmux: prefix+- 상하 분할(가로 구분�
 new_workspace = "prefix+shift+s"  # tmux: prefix+S 새 세션(herdr 기본 prefix+shift+n)
 reload_config = "prefix+r"        # tmux: prefix+r 설정 리로드(herdr 기본 prefix+shift+r)
 # reload_config 가 prefix+r 을 가져가므로 resize_mode 를 옮김(herdr 기본 prefix+r)
-resize_mode = "prefix+shift+r"
+# Worktrunk 원격 브랜치 선택기에 prefix+shift+r 을 양보.
+resize_mode = "prefix+shift+e"
 
 # --- herdr 고유 기능 (tmux 대응 없음) ---
 # goto 는 세션 네비게이터를 여는 액션. settings 보다 자주 써서 s 자리를 goto 에 양보.
@@ -57,12 +58,33 @@ last_pane = "prefix+;"
 cycle_pane_next = "prefix+o"
 open_notification_target = "prefix+shift+o"
 
+# Worktrunk 제거 액션에 prefix+shift+d 를 양보하고 workspace 닫기를 옮김.
+close_workspace = "prefix+shift+x"
+
 # Worktrunk 플러그인으로 기본 worktree 선택기를 교체
 [[keys.command]]
 key = "prefix+shift+g"
 type = "plugin_action"
 command = "worktrunk.open"
 description = "Worktree: switch / create from default branch"
+
+[[keys.command]]
+key = "prefix+shift+c"
+type = "plugin_action"
+command = "worktrunk.open-current"
+description = "Worktree: switch / create from current branch"
+
+[[keys.command]]
+key = "prefix+shift+r"
+type = "plugin_action"
+command = "worktrunk.open-with-remotes"
+description = "Worktree: switch / create from local or remote branches"
+
+[[keys.command]]
+key = "prefix+shift+d"
+type = "plugin_action"
+command = "worktrunk.remove"
+description = "Worktree: remove"
 
 [ui]
 # 에이전트 패널을 space(workspace) 기준으로 그룹핑 (herdr 초기 설정에서 이관)
