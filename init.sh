@@ -203,6 +203,29 @@ setup_herdr() {
     mkdir -p "$HOME/.config/herdr"
     backup_file "$HOME/.config/herdr/config.toml"
     ln -sf "$SHELL_HERDR_CONFIG" "$HOME/.config/herdr/config.toml"
+
+    local worktrunk_plugin_id="worktrunk"
+    local plugin_list_json
+    local worktrunk_installed
+    if ! plugin_list_json="$(herdr plugin list --plugin "$worktrunk_plugin_id" --json)"; then
+        error "Failed to inspect installed Herdr plugins."
+        return 1
+    fi
+    if ! worktrunk_installed="$(jq --arg plugin_id "$worktrunk_plugin_id" \
+        'if type != "object" then error("invalid plugin list schema")
+         elif (.result? | type) != "object" then error("invalid plugin list schema")
+         elif (.result.plugins? | type) != "array" then error("invalid plugin list schema")
+         else any(.result.plugins[]?.plugin_id; . == $plugin_id)
+         end' <<< "$plugin_list_json")"; then
+        error "Herdr plugin list returned invalid JSON."
+        return 1
+    fi
+    if [ "$worktrunk_installed" != true ]; then
+        log "Installing Herdr Worktrunk plugin..."
+        herdr plugin install devashish2203/herdr-worktrunk --yes
+    fi
+    herdr plugin enable "$worktrunk_plugin_id"
+
     # 실행 중인 herdr 서버가 있으면 즉시 반영(없으면 다음 실행 시 로드되므로 실패 무시)
     herdr server reload-config &> /dev/null || true
     success "Herdr configured!"

@@ -57,10 +57,22 @@ last_pane = "prefix+;"
 cycle_pane_next = "prefix+o"
 open_notification_target = "prefix+shift+o"
 
+# Worktrunk 플러그인으로 기본 worktree 선택기를 교체
+[[keys.command]]
+key = "prefix+shift+g"
+type = "plugin_action"
+command = "worktrunk.open"
+description = "Worktree: switch / create from default branch"
+
 [ui]
 # 에이전트 패널을 space(workspace) 기준으로 그룹핑 (herdr 초기 설정에서 이관)
 agent_panel_sort = "spaces"
 
+show_agent_labels_on_pane_borders = true
+status_indicators = "symbols"
 [theme]
-name = "nord"
+name = "dracula"
 auto_switch = false
+
+[ui.toast]
+delivery = "herdr"

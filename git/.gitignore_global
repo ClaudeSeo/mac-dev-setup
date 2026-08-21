@@ -16,3 +16,5 @@ _workspace/
 !.workflow-docs/*/
 .workflow-docs/*/*
 !.workflow-docs/*/*/spec/
+
+.agents/lessons.md

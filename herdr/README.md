@@ -14,6 +14,53 @@
 
 ---
 
+## Worktrunk 플러그인
+
+[Worktrunk](https://github.com/devashish2203/herdr-worktrunk)는 `wt` 명령으로 Git worktree를 만들고 전환하는 Herdr 플러그인입니다. worktree 생성과 삭제 때 hook을 실행할 수 있어 에이전트별 작업 디렉터리를 관리하기 좋습니다.
+
+### 설정
+
+`init.sh`에서 Herdr를 선택하면 다음 순서로 설정합니다.
+
+1. `worktrunk` 플러그인이 없을 때만 `devashish2203/herdr-worktrunk`에서 설치합니다.
+2. 설치되어 있거나 새로 설치한 플러그인을 `enable` 상태로 맞춥니다.
+3. 관리 설정의 `prefix+shift+g`를 `worktrunk.open`에 연결하고 실행 중인 서버에 다시 읽힙니다.
+
+Homebrew를 함께 선택하면 `brew/Brewfile`에서 `worktrunk`, `fzf`, `jq`를 설치합니다. Herdr만 선택하는 경우에는 먼저 다음 요구사항을 직접 준비하세요.
+
+### 요구사항
+
+- Herdr 0.7.0 이상
+- Worktrunk 0.60.0 이상, `wt` 명령이 `PATH`에 있어야 함
+- `fzf`, `jq`, Bash
+
+### 사용
+
+`Ctrl-a Shift-g`를 누르면 기본 브랜치 기준의 worktree 전환 또는 생성 picker가 열립니다. 명령줄에서는 다음처럼 같은 action을 실행할 수 있습니다.
+
+```bash
+herdr plugin action invoke open --plugin worktrunk
+```
+
+### 검증과 문제 해결
+
+설치 상태와 action 등록을 확인하고 설정을 다시 읽히려면 다음을 실행하세요.
+
+```bash
+herdr plugin list --plugin worktrunk --json
+herdr plugin action list --plugin worktrunk
+herdr server reload-config
+```
+
+플러그인이 없거나 비활성화되어 있으면 다음 명령으로 수동 설치와 활성화를 수행할 수 있습니다.
+
+```bash
+herdr plugin install devashish2203/herdr-worktrunk --yes
+herdr plugin enable worktrunk
+```
+
+---
+
 ## 1) tmux와 키가 동일한 바인딩
 
 | 기능 | 키 | 비고 |
@@ -63,7 +110,7 @@
 | 도움말 | `Ctrl-a ?` |
 | 설정 화면 | `Ctrl-a ,` (goto에 `s` 양보) |
 | 스크롤백 편집 | `Ctrl-a e` |
-| 새 워크트리 | `Ctrl-a Shift-g` |
+| Worktrunk worktree 선택기 | `Ctrl-a Shift-g` |
 | 패널 이름 변경 | `Ctrl-a Shift-p` |
 | 이전 패널 순환 | `Ctrl-a Shift-Tab` |
 | 워크스페이스 닫기 | `Ctrl-a Shift-d` |
@@ -87,3 +134,8 @@ herdr server reload-config
 # 커스텀 키를 모두 되돌리기 (백업 후 제거)
 herdr config reset-keys
 ```
+
+## 참고 자료
+
+- [herdr-worktrunk README](https://github.com/devashish2203/herdr-worktrunk): 플러그인 설치, 요구사항, action과 키 바인딩
+- [Herdr CLI reference](https://herdr.dev/docs/cli-reference/): plugin list, install, enable과 action 명령
