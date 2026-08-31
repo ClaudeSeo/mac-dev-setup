@@ -18,3 +18,5 @@ _workspace/
 !.workflow-docs/*/*/spec/
 
 .agents/lessons.md
+
+**/.claude/settings.local.json
