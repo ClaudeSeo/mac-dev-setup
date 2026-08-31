@@ -7,6 +7,7 @@ tap "ksdme/tap", trusted: true
 tap "mongodb/brew", trusted: true
 tap "oven-sh/bun", trusted: true
 tap "postmelee/tap", trusted: true
+tap "rjyo/moshi", trusted: true
 tap "sdkman/tap", trusted: true
 tap "socktainer/tap", trusted: true
 tap "txn2/tap", trusted: true
@@ -27,6 +28,8 @@ brew "coreutils"
 brew "direnv"
 # Pack, ship and run any application as a lightweight container
 brew "docker"
+# Isolated development environments using Docker
+brew "docker-compose"
 # Embeddable SQL OLAP Database Management System
 brew "duckdb"
 # Modern, maintained replacement for ls
@@ -132,9 +135,13 @@ brew "johanhaleby/kubetail/kubetail"
 brew "ksdme/tap/ut"
 brew "mongodb/brew/mongodb-database-tools"
 brew "oven-sh/bun/bun"
+# Portable daemon + CLI that bridges AI coding agents to the Moshi mobile app
+brew "rjyo/moshi/moshi-hook", restart_service: :changed
 brew "sdkman/tap/sdkman-cli"
 brew "txn2/tap/kubefwd"
 brew "weaveworks/tap/eksctl"
+# Command-line helper for the 1Password password manager
+cask "1password-cli@beta"
 # OpenAI's coding agent that runs in your terminal
 cask "codex"
 cask "font-d2coding"
