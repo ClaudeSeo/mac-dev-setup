@@ -1,6 +1,7 @@
-# Herdr 키 바인딩 정리 (tmux 패리티 기준)
+# Herdr 키 바인딩과 Worktrunk
 
-> 기준 설정: `herdr/config.toml` (심링크 → `~/.config/herdr/config.toml`)
+> `herdr/config.toml`(심링크 → `~/.config/herdr/config.toml`)의 tmux 패리티 키맵과 Worktrunk 플러그인 정리입니다. ← [README](../README.md)
+>
 > **Prefix 키는 tmux와 동일하게 `Ctrl-a`** 로 맞춰져 있습니다. (herdr 기본값은 `Ctrl-b`)
 
 [Herdr](https://herdr.dev)는 AI 코딩 에이전트를 위한 터미널 멀티플렉서입니다. tmux와 계층 개념이 조금 다릅니다.
@@ -11,62 +12,6 @@
 | window | **tab** |
 | pane | **pane** |
 | (없음) | **sidebar** (에이전트/워크스페이스 패널) |
-
----
-
-## Worktrunk 플러그인
-
-[Worktrunk](https://github.com/devashish2203/herdr-worktrunk)는 `wt` 명령으로 Git worktree를 만들고 전환하는 Herdr 플러그인입니다. worktree 생성과 삭제 때 hook을 실행할 수 있어 에이전트별 작업 디렉터리를 관리하기 좋습니다.
-
-### 설정
-
-`init.sh`에서 Herdr를 선택하면 다음 순서로 설정합니다.
-
-1. `worktrunk` 플러그인이 없을 때만 `devashish2203/herdr-worktrunk`에서 설치합니다.
-2. 설치되어 있거나 새로 설치한 플러그인을 `enable` 상태로 맞춥니다.
-3. 관리 설정의 다음 키를 Worktrunk action에 연결하고 실행 중인 서버에 다시 읽힙니다.
-   - `prefix+shift+r`: 로컬 또는 원격 브랜치 선택기(`worktrunk.open-with-remotes`)
-   - `prefix+shift+d`: worktree 제거(`worktrunk.remove`)
-4. 위 키와 충돌하는 기본 기능은 `resize_mode`를 `prefix+shift+e`로, `close_workspace`를 `prefix+shift+x`로 옮겨 함께 유지합니다.
-
-Homebrew를 함께 선택하면 `brew/Brewfile`에서 `worktrunk`, `fzf`, `jq`를 설치합니다. Herdr만 선택하는 경우에는 먼저 다음 요구사항을 직접 준비하세요.
-
-### 요구사항
-
-- Herdr 0.7.0 이상
-- Worktrunk 0.60.0 이상, `wt` 명령이 `PATH`에 있어야 함
-- `fzf`, `jq`, Bash
-
-### 사용
-
-다음 키를 누르면 Worktrunk picker 또는 제거 action을 실행할 수 있습니다.
-
-- `Ctrl-a Shift-r`: 로컬 또는 원격 브랜치 기준 worktree 전환 또는 생성
-- `Ctrl-a Shift-d`: 제거할 worktree를 선택한 뒤 제거
-
-명령줄에서는 다음처럼 같은 action을 실행할 수 있습니다.
-
-```bash
-herdr plugin action invoke open-with-remotes --plugin worktrunk
-herdr plugin action invoke remove --plugin worktrunk
-```
-
-### 검증과 문제 해결
-
-설치 상태와 action 등록을 확인하고 설정을 다시 읽히려면 다음을 실행하세요.
-
-```bash
-herdr plugin list --plugin worktrunk --json
-herdr plugin action list --plugin worktrunk
-herdr server reload-config
-```
-
-플러그인이 없거나 비활성화되어 있으면 다음 명령으로 수동 설치와 활성화를 수행할 수 있습니다.
-
-```bash
-herdr plugin install devashish2203/herdr-worktrunk --yes
-herdr plugin enable worktrunk
-```
 
 ---
 
@@ -117,7 +62,8 @@ herdr plugin enable worktrunk
 | 워크스페이스 선택기 | `Ctrl-a w` |
 | 사이드바 토글 | `Ctrl-a b` |
 | 도움말 | `Ctrl-a ?` |
-| 설정 화면 | `Ctrl-a ,` (goto에 `s` 양보) |
+| 세션 네비게이터(goto) | `Ctrl-a s` (herdr 기본 `Ctrl-a g`, settings보다 자주 써서 `s` 자리 사용) |
+| 설정 화면 | `Ctrl-a ,` (herdr 기본 `Ctrl-a s`, goto에 자리 양보) |
 | 스크롤백 편집 | `Ctrl-a e` |
 | 로컬 또는 원격 브랜치 worktree 선택기 | `Ctrl-a Shift-r` |
 | worktree 제거 | `Ctrl-a Shift-d` |
@@ -127,6 +73,77 @@ herdr plugin enable worktrunk
 | 알림 대상 열기 | `Ctrl-a Shift-o` (다음 패널 순환과 자리 교환) |
 
 전체 기본값과 추가 옵션은 `herdr --default-config` 로 확인할 수 있습니다.
+
+---
+
+## 5) Worktrunk 플러그인
+
+[Worktrunk](https://github.com/devashish2203/herdr-worktrunk)는 `wt` 명령으로 Git worktree를 만들고 전환하는 Herdr 플러그인입니다. worktree 생성과 삭제 때 hook을 실행할 수 있어 에이전트별 작업 디렉터리를 관리하기 좋습니다.
+
+### 설정
+
+`init.sh`에서 Herdr를 선택하면 다음 순서로 설정합니다.
+
+1. `worktrunk` 플러그인이 없을 때만 `devashish2203/herdr-worktrunk`에서 설치합니다.
+2. 설치되어 있거나 새로 설치한 플러그인을 `enable` 상태로 맞춥니다.
+3. 관리 설정의 다음 키를 Worktrunk action에 연결하고 실행 중인 서버에 다시 읽힙니다.
+   - `prefix+shift+r`: 로컬 또는 원격 브랜치 선택기(`worktrunk.open-with-remotes`)
+   - `prefix+shift+d`: worktree 제거(`worktrunk.remove`)
+4. 위 키와 충돌하는 기본 기능은 `resize_mode`를 `prefix+shift+e`로, `close_workspace`를 `prefix+shift+x`로 옮겨 함께 유지합니다.
+
+Homebrew를 함께 선택하면 `brew/Brewfile`에서 `worktrunk`, `fzf`, `jq`를 설치합니다. Herdr만 선택하는 경우에는 먼저 다음 요구사항을 직접 준비하세요.
+
+### 요구사항
+
+- Herdr 0.7.0 이상, Worktrunk 0.60.0 이상 (플러그인 README 기준)
+- `wt` 명령이 `PATH`에 있어야 함 (`brew/Brewfile`의 `worktrunk` 포뮬러가 제공)
+- `fzf`, `jq`, Bash
+
+### 사용
+
+다음 키를 누르면 Worktrunk picker 또는 제거 action을 실행할 수 있습니다.
+
+- `Ctrl-a Shift-r`: 로컬 또는 원격 브랜치 기준 worktree 전환 또는 생성
+- `Ctrl-a Shift-d`: 제거할 worktree를 선택한 뒤 제거
+
+명령줄에서는 다음처럼 같은 action을 실행할 수 있습니다.
+
+```bash
+herdr plugin action invoke open-with-remotes --plugin worktrunk
+herdr plugin action invoke remove --plugin worktrunk
+```
+
+### 검증과 문제 해결
+
+설치 상태와 action 등록을 확인하고 설정을 다시 읽히려면 다음을 실행하세요.
+
+```bash
+herdr plugin list --plugin worktrunk --json
+herdr plugin action list --plugin worktrunk
+herdr server reload-config
+```
+
+플러그인이 없거나 비활성화되어 있으면 다음 명령으로 수동 설치와 활성화를 수행할 수 있습니다.
+
+```bash
+herdr plugin install devashish2203/herdr-worktrunk --yes
+herdr plugin enable worktrunk
+```
+
+---
+## 6) UI와 테마
+
+`herdr/config.toml`의 키 바인딩 외 설정입니다.
+
+| 설정 | 값 | 의미 |
+|---|---|---|
+| `ui.agent_panel_sort` | `spaces` | 에이전트 패널을 workspace 기준으로 그룹핑 |
+| `ui.show_agent_labels_on_pane_borders` | `true` | 패널 테두리에 에이전트 이름 표시 |
+| `ui.status_indicators` | `symbols` | 상태 표시를 기호로 |
+| `theme.name` | `dracula` | tmux 상태 바와 같은 Dracula 계열 |
+| `theme.auto_switch` | `false` | 시스템 라이트/다크 전환에 따라가지 않음 |
+| `ui.toast.delivery` | `herdr` | 알림을 Herdr 내부 토스트로 전달 |
+| `onboarding` | `false` | 첫 실행 온보딩 화면 생략 |
 
 ---
 

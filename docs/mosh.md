@@ -1,6 +1,8 @@
-# Mosh (Mobile Shell)
+# Mosh 설정
 
-> SSH 대체 원격 터미널. UDP 기반으로 로밍, 네트워크 전환 시에도 세션 유지.
+> `brew/Brewfile`로 설치되는 Mosh(SSH 대체 원격 터미널)의 macOS 후속 설정입니다. ← [README](../README.md)
+>
+> UDP 기반이라 로밍이나 네트워크 전환 시에도 세션이 유지됩니다.
 
 ## 설치 후 설정
 
@@ -27,3 +29,5 @@ echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshenv
 | 원격 접속 | `mosh user@host` |
 | 포트 지정 | `mosh --ssh="ssh -p 2222" user@host` |
 | tmux 연결 | `mosh user@host -- tmux attach -t main` |
+
+`tmux/.tmux.conf`의 `set-titles on`은 mosh 접속 창에 tmux 윈도우 제목을 표시하기 위한 설정입니다. 폰에서 접속하려면 [Moshi 설정](moshi.md)의 SSH/Mosh 접속 준비를 참고하세요.

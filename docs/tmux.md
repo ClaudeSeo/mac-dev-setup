@@ -1,6 +1,7 @@
-# tmux 주요 명령어 정리 (기본 + 현재 커스텀)
+# tmux 키 바인딩
 
-> 기준 설정: `tmux/.tmux.conf`  
+> `tmux/.tmux.conf`(심링크 → `~/.tmux.conf`)의 기본 키와 커스텀 키 정리입니다. ← [README](../README.md)
+>
 > **Prefix 키는 `Ctrl-b`가 아니라 `Ctrl-a`** 로 변경되어 있습니다.
 
 ## 1) 세션(Session) 명령어
@@ -50,7 +51,7 @@
 | 다음 윈도우 | `Ctrl-a n` |
 | 이전 윈도우 | `Ctrl-a p` |
 | 윈도우 번호로 이동 | `Ctrl-a <번호>` |
-| 윈도우 이름 변경 | `Ctrl-a ,` |
+| 윈도우 이름 변경 | `Ctrl-a ,` 또는 `Ctrl-a T` *(커스텀)* |
 | 윈도우 닫기 | `Ctrl-a &` |
 
 ---
@@ -59,8 +60,8 @@
 
 | 기능 | 기본/커스텀 키 |
 |---|---|
-| 좌우 분할 | `Ctrl-a |` *(커스텀, `split-window -h`)* |
-| 상하 분할 | `Ctrl-a -` *(커스텀, `split-window -v`)* |
+| 좌우 분할 | `Ctrl-a |` *(커스텀, `split-window -h`, 현재 경로 유지)* |
+| 상하 분할 | `Ctrl-a -` *(커스텀, `split-window -v`, 현재 경로 유지)* |
 | 패널 이동 | `Ctrl-a h/j/k/l` *(커스텀, vim 스타일)* |
 | 패널 닫기 | `Ctrl-a x` |
 | 레이아웃 순환 | `Ctrl-a Space` |
@@ -79,10 +80,11 @@
 | 블록 선택(직사각형) | `Ctrl-v` |
 | 복사 후 종료 | `y` |
 | 취소 | `Esc` |
+| 마우스 드래그 복사 | 드래그 후 놓으면 `pbcopy`로 시스템 클립보드에 복사 |
 
 추가 설정:
 - `mode-keys vi` 사용
-- 마우스 휠 업 시 상황에 따라 복사 모드 자동 진입 동작 포함
+- 마우스 휠 업 시 상황에 따라 복사 모드 자동 진입 동작 포함 (전체 화면 앱이나 이미 복사 모드일 때는 휠 이벤트를 그대로 전달)
 
 ---
 
@@ -97,11 +99,19 @@
 | 윈도우/패널 번호 시작 | 1부터 (`base-index 1`, `pane-base-index 1`) |
 | 스크롤백 버퍼 | `50000` |
 | 윈도우 번호 자동 재정렬 | `renumber-windows on` |
+| ESC 지연 제거 | `escape-time 0` (Neovim 필수) |
+| 포커스 이벤트 | `focus-events on` |
+| 터미널 타이틀 전달 | `set-titles on`, 형식 `#I: #T` (mosh 표시용) |
+| Ghostty true color | `terminal-overrides`로 `xterm-ghostty` RGB와 밑줄 스타일 지원 |
+| 상태 바 | 하단, Dracula 색상, 5초 간격 갱신, 좌측 세션 이름과 우측 날짜/시간 |
 
 ---
 
-## 6) 플러그인 관련(참고)
+## 6) 플러그인
 
 - TPM: `tmux-plugins/tpm`
 - sensible, resurrect, continuum, yank 사용
-- resurrect/continuum으로 세션 자동 저장/복원 설정 포함
+- resurrect: 패널 내용 캡처(`@resurrect-capture-pane-contents on`), Neovim 세션 복원(`@resurrect-strategy-nvim session`)
+- continuum: 자동 복원 켜짐, 15분 간격 저장
+
+`init.sh`의 Tmux 항목은 TPM을 클론한 뒤 `install_plugins.sh`로 플러그인까지 설치합니다. 자동 설치가 실패하면 tmux 안에서 `Ctrl-a I`로 직접 설치하세요.

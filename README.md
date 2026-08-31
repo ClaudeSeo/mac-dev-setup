@@ -1,171 +1,51 @@
 # macOS 개발 환경 설정
 
-효율적인 macOS 개발 환경을 자동으로 구성하기 위한 설정 저장소입니다.
+> `./init.sh` 한 번으로 Homebrew 패키지 설치와 Zsh, Neovim, tmux, Ghostty, Starship, Herdr, Git 설정 연결을 끝내는 macOS dotfiles 저장소입니다.
 
 [![macOS](https://img.shields.io/badge/macOS-000000?style=for-the-badge&logo=apple&logoColor=white)](https://www.apple.com/macos/)
 [![Shell](https://img.shields.io/badge/Shell-Zsh-1f425f?style=for-the-badge&logo=gnubash)](https://zsh.org/)
 [![Homebrew](https://img.shields.io/badge/Homebrew-Latest-FBB040?style=for-the-badge&logo=homebrew)](https://brew.sh/)
 
+## 무엇을 하나요
+
+- **패키지 일괄 설치**: `brew/Brewfile`에 정의된 CLI 도구, 폰트, 앱을 `brew bundle`로 설치합니다. Homebrew가 없으면 먼저 설치합니다.
+- **설정 파일 연결**: 저장소의 설정 파일을 홈 디렉터리에 심링크로 연결합니다. 이미 있는 파일은 `<파일>.backup.<타임스탬프>`로 백업한 뒤 교체합니다.
+- **항목 선택 설치**: Homebrew, Neovim, Zsh, Starship, Ghostty, Tmux, Herdr, Git 8개 항목을 대화형 메뉴에서 골라 설치합니다.
+
 ## 빠른 시작
 
-1. Xcode Command Line Tools를 설치합니다.
-   ```bash
-   xcode-select --install
-   ```
-2. 저장소를 클론합니다.
-   ```bash
-   git clone https://github.com/ClaudeSeo/mac-dev-setup
-   cd mac-dev-setup
-   ```
-3. 대화형 설치 메뉴를 실행합니다. 방향키로 이동, `Space`로 토글, `Enter`로 시작하며 `a`(전체 선택), `n`(전체 해제), `q`(종료)도 지원합니다. 기본값으로 Homebrew, Neovim, Zsh, Starship, Ghostty, Tmux, Herdr, Git 8개 항목이 모두 선택돼 있습니다. 원하면 메뉴에서 조정하세요.
-   ```bash
-   ./init.sh
-   ```
+사전 준비: Xcode Command Line Tools (`xcode-select --install`)
 
-## 명령어 참조
+```bash
+git clone https://github.com/ClaudeSeo/mac-dev-setup
+cd mac-dev-setup
+./init.sh
+```
 
-### 파일 시스템 및 탐색
+메뉴에서 방향키로 이동하고 `Space`로 토글한 뒤 `Enter`로 시작합니다 (`a` 전체 선택, `n` 전체 해제, `q` 종료). 기본값은 8개 항목 모두 선택이에요. 설치가 끝나면 터미널을 재시작하거나 `source ~/.zshrc`를 실행하세요. 항목별로 정확히 무엇을 하는지는 [init.sh 동작 상세](docs/setup.md)에 있습니다.
 
-| 기능 | 명령어 | 도구 | 설명 |
-| --- | --- | --- | --- |
-| 향상된 ls | `l` | [eza](https://github.com/eza-community/eza) | 컬러 파일 목록 출력 (옵션: `-abghHliS -s modified`) |
-| 파일 검색 | `fd` | [fd](https://github.com/sharkdp/fd) | `find`보다 빠르고 간단한 파일 검색 |
-| 트리 구조 | `tree` | [eza](https://github.com/eza-community/eza) | `node_modules` 제외 트리 구조 표시 |
-| 디렉터리 점프 | `z` | [zoxide](https://github.com/ajeetdsouza/zoxide) | 자주 방문한 디렉터리로 빠르게 이동 |
+> [!WARNING]
+> `git/.gitconfig`에는 저장소 소유자의 `user.name`, `user.email`, SSH 서명 키 경로가 들어 있습니다. 다른 사람이 쓴다면 Git 항목을 선택하기 전에 본인 정보로 바꾸세요. Neovim과 Herdr 항목은 `nvim`, `herdr` 바이너리가 있어야 진행되므로 Homebrew 항목을 함께 선택하거나 미리 설치해 두세요.
 
-### 파일 내용 조회 및 검색
+## 구성 요소
 
-| 기능 | 명령어 | 도구 | 설명 |
-| --- | --- | --- | --- |
-| 향상된 cat | `bat` | [bat](https://github.com/sharkdp/bat) | 문법 강조와 Git 통합이 포함된 `cat` |
-| 텍스트 검색 | `rg` | [ripgrep](https://github.com/BurntSushi/ripgrep) | 매우 빠른 텍스트 검색 |
-| 퍼지 파인더 | `fzf` | [fzf](https://github.com/junegunn/fzf) | 명령행 퍼지 검색 |
+| 항목 | 저장소 설정 파일 | 연결 위치 | 문서 |
+|---|---|---|---|
+| Homebrew | `brew/Brewfile` | `brew bundle`로 설치 | [명령어 참조](docs/tools.md) |
+| Zsh | `zsh/.zshrc.local` | `~/.zshrc.local` (`~/.zshrc`에서 source) | [셸 설정](docs/shell.md) |
+| Neovim | `nvim/init.vim` | `~/.config/nvim/init.vim` | [플러그인, 키맵, VSCode 모드](docs/neovim.md) |
+| tmux | `tmux/.tmux.conf` | `~/.tmux.conf` | [키 바인딩 (Prefix `Ctrl-a`)](docs/tmux.md) |
+| Starship | `starship/starship.toml` | `~/.config/starship.toml` | [셸 설정](docs/shell.md) |
+| Ghostty | `ghostty/.ghostty.local` | `~/.config/ghostty/config` | [셸 설정](docs/shell.md) |
+| Herdr | `herdr/config.toml` | `~/.config/herdr/config.toml` | [tmux 패리티 키맵과 Worktrunk](docs/herdr.md) |
+| Git | `git/.gitconfig`, `git/.gitignore_global` | `~/.gitconfig`, `~/.gitignore_global` | [셸 설정](docs/shell.md) |
+| Mosh | (Brewfile로 설치) | | [방화벽 허용, 비로그인 셸](docs/mosh.md) |
+| Moshi | (Brewfile로 설치) | | [페어링, hook 설치, 문제 해결](docs/moshi.md) |
 
-### 프로세스 관리
+## 문서
 
-| 기능 | 명령어 | 도구 | 설명 |
-| --- | --- | --- | --- |
-| 향상된 ps | `procs` | [procs](https://github.com/dalance/procs) | 현대적인 프로세스 뷰어 |
-| 실시간 모니터링 | `watch` | [watch](https://gitlab.com/procps-ng/procps) | 명령 실행 결과를 주기적으로 갱신 |
-| 포트 킬 | `killport` | [killport](https://github.com/jkfran/killport) | 특정 포트를 사용하는 프로세스 종료 |
+전체 색인은 [docs/README.md](docs/README.md)에 있습니다.
 
-### 개발 도구
-
-| 기능 | 명령어 | 도구 | 설명 |
-| --- | --- | --- | --- |
-| Git 향상 | `gh` | [GitHub CLI](https://github.com/cli/cli) | GitHub 공식 CLI |
-| Git UI | `tig` | [tig](https://github.com/jonas/tig) | Git용 텍스트 모드 인터페이스 |
-| 터미널 멀티플렉서 | `tmux` | [tmux](https://github.com/tmux/tmux) | 터미널 세션 관리 |
-| 에이전트 멀티플렉서 | `herdr` | [Herdr](https://herdr.dev) | AI 코딩 에이전트용 터미널 워크스페이스 관리 (키맵은 tmux와 동일) |
-| Shell 검사 | `shellcheck` | [ShellCheck](https://github.com/koalaman/shellcheck) | 셸 스크립트 정적 분석 |
-| JSON 처리 | `jq` | [jq](https://github.com/jqlang/jq) | 명령줄 JSON 프로세서 |
-| YAML 처리 | `yq` | [yq](https://github.com/mikefarah/yq) | 명령줄 YAML 프로세서 |
-| Dockerfile 린터 | `hadolint` | [Hadolint](https://github.com/hadolint/hadolint) | Dockerfile 베스트 프랙티스 검사 |
-| 토큰 최적화 프록시 | `rtk` | [RTK](https://github.com/rtk-ai/rtk)| Claude Code 토큰 사용량 절감 CLI 프록시 |
-| 로컬 LLM | `ollama` | [Ollama](https://github.com/ollama/ollama) | 로컬 대규모 언어 모델 실행 |
-
-### Kubernetes 도구
-
-| 기능 | 명령어 | 도구 | 설명 |
-| --- | --- | --- | --- |
-| Kubernetes CLI | `k` | [kubectl](https://kubernetes.io/docs/reference/kubectl/) | Kubernetes 클러스터 관리 |
-| K8s 대시보드 | `k9s` | [k9s](https://github.com/derailed/k9s) | 터미널 기반 Kubernetes UI |
-| 컨텍스트 전환 | `kubectx` | [kubectx](https://github.com/ahmetb/kubectx) | 컨텍스트 및 네임스페이스 전환 |
-| 로그 추적 | `kubetail` | [kubetail](https://github.com/johanhaleby/kubetail) | 여러 Pod 로그 동시 추적 |
-| 포트 포워딩 | `kubefwd` | [kubefwd](https://github.com/txn2/kubefwd) | 여러 서비스 동시 포트 포워딩 |
-| EKS 관리 | `eksctl` | [eksctl](https://github.com/eksctl-io/eksctl) | Amazon EKS 클러스터 관리 |
-| EKS 노드 뷰어 | `eks-node-viewer` | [eks-node-viewer](https://github.com/awslabs/eks-node-viewer) | EKS 노드 시각화 |
-| Helm | `helm` | [Helm](https://github.com/helm/helm) | Kubernetes 패키지 매니저 |
-
-### 언어별 도구
-
-| 기능 | 명령어 | 도구 | 설명 |
-| --- | --- | --- | --- |
-| Node.js 관리 | `fnm` | [fnm](https://github.com/Schniz/fnm) | 빠른 Node.js 버전 매니저 |
-| 런타임 관리 | `mise` | [mise](https://github.com/jdx/mise) | Node, Python 등 런타임 버전 관리 |
-| Python 패키지 관리 | `uv` | [uv](https://github.com/astral-sh/uv) | 빠른 Python 패키지 관리자 |
-| Terraform 관리 | `tfenv` | [tfenv](https://github.com/tfutils/tfenv) | Terraform 버전 관리 |
-| SDK 관리 | `sdk` | [SDKMAN!](https://github.com/sdkman/sdkman-cli) | Java, Kotlin 등 SDK 버전 관리 |
-| JavaScript 런타임 | `bun` | [Bun](https://github.com/oven-sh/bun) | 빠른 JavaScript 런타임 및 패키지 매니저 |
-
-### 네트워크 및 API
-
-| 기능 | 명령어 | 도구 | 설명 |
-| --- | --- | --- | --- |
-| 네트워크 진단 | `trip` | [trippy](https://github.com/fujiapple852/trippy) | 현대적인 traceroute 도구 |
-| gRPC 클라이언트 | `grpcurl` | [grpcurl](https://github.com/fullstorydev/grpcurl) | gRPC 서비스용 curl |
-| 모바일 셸 | `mosh` | [Mosh](https://github.com/mobile-shell/mosh) | 로밍 지원 원격 터미널 (SSH 대체) |
-
-### 클라우드 및 서비스
-
-| 기능 | 명령어 | 도구 | 설명 |
-| --- | --- | --- | --- |
-| MongoDB Atlas | `atlas` | [MongoDB Atlas CLI](https://github.com/mongodb/mongodb-atlas-cli) | MongoDB Atlas 관리 |
-| MongoDB 도구 | `mongodump`, `mongorestore` | [MongoDB Database Tools](https://github.com/mongodb/mongo-tools) | MongoDB 데이터베이스 유틸리티 |
-| Confluent | `confluent` | [Confluent CLI](https://github.com/confluentinc/cli) | Apache Kafka 관리 (Confluent) |
-| Infisical | `infisical` | [Infisical](https://github.com/Infisical/infisical) | 시크릿 관리 |
-
-### 보안 도구
-
-| 기능 | 명령어 | 도구 | 설명 |
-| --- | --- | --- | --- |
-| 시크릿 스캐닝 | `trufflehog` | [TruffleHog](https://github.com/trufflesecurity/trufflehog) | Git 히스토리에서 민감 정보 탐지 |
-| 취약점 스캐닝 | `trivy` | [Trivy](https://github.com/aquasecurity/trivy) | 컨테이너/IaC 보안 취약점 스캐너 |
-
-### 환경 및 설정
-
-| 기능 | 명령어 | 도구 | 설명 |
-| --- | --- | --- | --- |
-| 환경 변수 관리 | `direnv` | [direnv](https://github.com/direnv/direnv) | 디렉터리별 환경 변수 자동 로드 |
-| Mac 정리 | `mole` | [Mole](https://mole.fit) | Mac 딥 클린 및 최적화 (AppCleaner 대체) |
-| 유틸리티 툴킷 | `ut` | [ut](https://github.com/ksdme/ut) | 개발자용 다목적 CLI 유틸리티 (시간/인코딩 등) |
-| 터미널 설정 | `ghostty` | [Ghostty](https://ghostty.org/) | 빠르고 현대적인 GPU 가속 터미널 |
-
-### 사용자 정의 별칭
-
-| 기능 | 명령어 | 도구 | 설명 |
-| --- | --- | --- | --- |
-| NPM 스크립트 실행 | `npmr` | `npm run` + `fzf` | `package.json` 스크립트를 `fzf`로 선택 실행 |
-| Tmux 메인 세션 | `tm` | `tmux new-session -A -s main` | `main` 세션에 접속하거나 없으면 생성 |
-
-## 권장 응용프로그램
-
-아래 애플리케이션들은 Brewfile에 포함되어 있지 않아 직접 설치가 필요합니다.
-
-<details>
-<summary><strong>개발 도구</strong></summary>
-
-- **Visual Studio Code**: [공식 다운로드](https://code.visualstudio.com/download)
-- **NoSQLBooster**: [공식 다운로드](https://nosqlbooster.com/downloads)
-- **MongoDB Compass**: [공식 다운로드](https://www.mongodb.com/products/compass)
-- **DBeaver**: [공식 다운로드](https://dbeaver.io/download/)
-- **Redis Insight**: [공식 다운로드](https://redis.io/redis-insight/)
-- **Claude Code**: `curl -fsSL https://claude.ai/install.sh | sh` - [GitHub](https://github.com/anthropics/claude-code)
-
-</details>
-
-<details>
-<summary><strong>유틸리티</strong></summary>
-
-- **Notion**: [공식 다운로드](https://www.notion.so/desktop)
-- **Tailscale**: [공식 다운로드](https://tailscale.com/download/macos)
-- **Raycast**: [공식 다운로드](https://www.raycast.com/)
-- **Excalidraw**: [웹 앱](https://excalidraw.com) - 손으로 그린 다이어그램
-- **Pake**: `npm install -g pake-cli` 또는 [GitHub Releases](https://github.com/tw93/Pake) - 웹페이지를 데스크톱 앱으로 변환
-
-</details>
-
-## 저장소 구조
-
-주요 디렉터리와 설정은 다음과 같습니다.
-
-- `init.sh`: 초기 설정 자동화 스크립트
-- `brew/`, `zsh/`, `tmux/`, `nvim/`: 개발 환경별 설정
-- `ghostty/`, `starship/`, `git/`, `mosh/`, `herdr/`: 터미널/에디터/도구 설정
-
-자세한 사용법은 각 디렉터리의 문서를 참고하세요.
-
-- [Neovim 설정 가이드](nvim/README.md): 플러그인 구성과 키맵
-- [tmux 명령어 정리](tmux/README.md): 기본 + 커스텀 키 바인딩 (Prefix: `Ctrl-a`)
-- [Herdr 키 바인딩 정리](herdr/README.md): tmux 패리티 키맵 (Prefix: `Ctrl-a`)
-- [Mosh 설정 가이드](mosh/README.md): 방화벽 허용 및 비로그인 셸 설정
+- [init.sh 동작 상세](docs/setup.md): 항목별 작업, 백업 규칙, 문제 해결
+- [명령어 참조](docs/tools.md): Brewfile로 설치되는 CLI 도구와 사용자 정의 별칭
+- [권장 응용프로그램](docs/installation.md): Brewfile에 없어 직접 설치하는 앱
