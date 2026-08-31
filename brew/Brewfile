@@ -148,8 +148,6 @@ cask "font-d2coding"
 cask "font-hack-nerd-font"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
-# Markdown editor
-cask "miaoyan"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
 # Self-hosted daemon for AI coding agents
