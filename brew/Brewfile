@@ -150,7 +150,5 @@ cask "font-hack-nerd-font"
 cask "ghostty"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
-# Self-hosted daemon for AI coding agents
-cask "paseo"
 cask "postmelee/tap/alhangeul"
 
