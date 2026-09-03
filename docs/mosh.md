@@ -28,6 +28,5 @@ echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshenv
 |---|---|
 | 원격 접속 | `mosh user@host` |
 | 포트 지정 | `mosh --ssh="ssh -p 2222" user@host` |
-| tmux 연결 | `mosh user@host -- tmux attach -t main` |
 
-`tmux/.tmux.conf`의 `set-titles on`은 mosh 접속 창에 tmux 윈도우 제목을 표시하기 위한 설정입니다. 폰에서 접속하려면 [Moshi 설정](moshi.md)의 SSH/Mosh 접속 준비를 참고하세요.
+폰에서 접속하려면 [Moshi 설정](moshi.md)의 SSH/Mosh 접속 준비를 참고하세요.

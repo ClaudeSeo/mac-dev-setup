@@ -158,37 +158,6 @@ setup_ghostty() {
     fi
 }
 
-setup_tmux() {
-    log "Configuring Tmux..."
-    SHELL_TMUX_CONF="$SCRIPT_DIR/tmux/.tmux.conf"
-    if [ ! -f "$SHELL_TMUX_CONF" ]; then
-        log "tmux/.tmux.conf not found. Skipping."
-        return 0
-    fi
-    backup_file "$HOME/.tmux.conf"
-    ln -sf "$SHELL_TMUX_CONF" "$HOME/.tmux.conf"
-    if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
-        if ! command -v git &> /dev/null; then
-            error "git not found. Skipping tpm clone."
-        else
-            git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm &> /dev/null || error "tpm clone failed."
-        fi
-    fi
-
-    # TPM 은 매니저 자체만 설치된 상태에선 @plugin 선언을 로드하지 못함.
-    # install_plugins.sh 가 tmux.conf 의 @plugin 라인을 직접 파싱해 clone 하므로
-    # tmux 바이너리만 있으면 세션 밖에서도 실행 가능 — 최초 설치 시 플러그인까지 자동 내려받음.
-    if [ -d "$HOME/.tmux/plugins/tpm" ] && command -v tmux &> /dev/null; then
-        log "Installing tmux plugins via TPM..."
-        if bash "$HOME/.tmux/plugins/tpm/scripts/install_plugins.sh" &> /dev/null; then
-            success "tmux plugins installed."
-        else
-            error "tmux plugin install failed. Run prefix + I (C-a I) inside tmux to install manually."
-        fi
-    fi
-    success "Tmux configured!"
-}
-
 setup_herdr() {
     log "Configuring Herdr..."
     if ! command -v herdr &> /dev/null; then
@@ -249,8 +218,8 @@ setup_git() {
 
 # --- 메인 메뉴 및 실행 로직 ---
 
-COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Tmux" "Herdr" "Git")
-SELECTED=(true true true true true true true true)
+COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Herdr" "Git")
+SELECTED=(true true true true true true true)
 CURSOR=0
 
 show_menu() {
@@ -327,9 +296,8 @@ if [ "${SELECTED[1]}" = true ]; then setup_neovim; fi
 if [ "${SELECTED[2]}" = true ]; then setup_zsh; fi
 if [ "${SELECTED[3]}" = true ]; then setup_starship; fi
 if [ "${SELECTED[4]}" = true ]; then setup_ghostty; fi
-if [ "${SELECTED[5]}" = true ]; then setup_tmux; fi
-if [ "${SELECTED[6]}" = true ]; then setup_herdr; fi
-if [ "${SELECTED[7]}" = true ]; then setup_git; fi
+if [ "${SELECTED[5]}" = true ]; then setup_herdr; fi
+if [ "${SELECTED[6]}" = true ]; then setup_git; fi
 
 echo -e "\n${GREEN}${BOLD}${STAR} Setup completed successfully!${NC}"
 echo -e "${CYAN}Please restart your terminal or run 'source ~/.zshrc' to apply changes.${NC}"

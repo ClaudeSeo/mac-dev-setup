@@ -42,7 +42,7 @@
 | 벨 | 소리, 주의 표시, 제목 표시 |
 | `opt+backspace` | `Ctrl+W`(`\x17`) 바이트를 전송해 단어 단위 삭제 |
 
-`opt+backspace` 매핑은 Ghostty 1.2가 내장 매핑을 제거했고 `macos-option-as-alt`가 꺼진 상태에서는 이 키가 아무것도 보내지 않기 때문에 넣은 설정입니다. `Ctrl+W`는 셸, tmux, Herdr 어디서나 통하는 시퀀스라 이것으로 대체했습니다.
+`opt+backspace` 매핑은 Ghostty 1.2가 내장 매핑을 제거했고 `macos-option-as-alt`가 꺼진 상태에서는 이 키가 아무것도 보내지 않기 때문에 넣은 설정입니다. `Ctrl+W`는 셸, Herdr 어디서나 통하는 시퀀스라 이것으로 대체했습니다.
 
 ## Git (`git/.gitconfig`, `git/.gitignore_global`)
 

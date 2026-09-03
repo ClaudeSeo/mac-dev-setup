@@ -51,7 +51,7 @@ moshi-hook host setup
 | 페어링과 hook 상태 확인 | `moshi-hook status` |
 | 데몬 동작 여부 빠른 확인 | `moshi-hook probe` |
 | 데몬 로그 추적 | `moshi-hook logs -f` |
-| 현재 디렉터리 tmux 세션 열기 | `moshi .` |
+| 현재 디렉터리에서 세션 열기 | `moshi .` |
 | 로컬 웹 클라이언트 실행 | `moshi` |
 | Git diff 뷰어 열기 | `moshi-hook diff <project-dir>` |
 | 설정 조회와 변경 | `moshi-hook set`, `moshi-hook set <key> <value>` |

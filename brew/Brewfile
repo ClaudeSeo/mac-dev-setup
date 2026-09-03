@@ -96,8 +96,6 @@ brew "tailscale"
 brew "tfenv"
 # Text interface for Git repositories
 brew "tig"
-# Terminal multiplexer
-brew "tmux"
 # Display directories as trees (with optional color/HTML output)
 brew "tree"
 # Network diagnostic tool, inspired by mtr

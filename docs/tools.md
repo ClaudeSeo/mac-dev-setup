@@ -35,9 +35,8 @@
 | Git 향상 | `gh` | [GitHub CLI](https://github.com/cli/cli) | GitHub 공식 CLI |
 | Git UI | `tig` | [tig](https://github.com/jonas/tig) | Git용 텍스트 모드 인터페이스 |
 | Git worktree 관리 | `wt` | [Worktrunk](https://worktrunk.dev) | 병렬 AI 에이전트 작업용 worktree 생성과 전환 (Herdr 플러그인이 사용) |
-| 터미널 멀티플렉서 | `tmux` | [tmux](https://github.com/tmux/tmux) | 터미널 세션 관리 |
-| 에이전트 멀티플렉서 | `herdr` | [Herdr](https://herdr.dev) | AI 코딩 에이전트용 터미널 워크스페이스 관리 (키맵은 tmux와 동일) |
-| 에이전트 모바일 연동 | `moshi` | [Moshi](https://getmoshi.app) | AI 코딩 에이전트를 모바일 앱과 연동하는 데몬 (호스트 페어링, tmux 런처, diff 뷰어 내장) |
+| 에이전트 멀티플렉서 | `herdr` | [Herdr](https://herdr.dev) | AI 코딩 에이전트용 터미널 워크스페이스 관리 |
+| 에이전트 모바일 연동 | `moshi` | [Moshi](https://getmoshi.app) | AI 코딩 에이전트를 모바일 앱과 연동하는 데몬 (호스트 페어링, 세션 런처, diff 뷰어 내장) |
 | Shell 검사 | `shellcheck` | [ShellCheck](https://github.com/koalaman/shellcheck) | 셸 스크립트 정적 분석 |
 | JSON 처리 | `jq` | [jq](https://github.com/jqlang/jq) | 명령줄 JSON 프로세서 |
 | YAML 처리 | `yq` | [yq](https://github.com/mikefarah/yq) | 명령줄 YAML 프로세서 |
@@ -107,7 +106,6 @@
 | 기능 | 명령어 | 도구 | 설명 |
 | --- | --- | --- | --- |
 | NPM 스크립트 실행 | `npmr` | `npm run` + `fzf` | `package.json` 스크립트를 `fzf`로 선택 실행 |
-| Tmux 메인 세션 | `tm` | `tmux new-session -A -s main` | `main` 세션에 접속하거나 없으면 생성 |
 | Herdr 단축 | `hr` | `herdr` | Herdr 실행 |
 | Claude Code 자동 승인 | `cca` | `claude --dangerously-skip-permissions` | 권한 확인 없이 Claude Code 실행 |
 | Claude 계정 전환 | `ccm` | `abc cc account` | Claude Code 계정 관리 |
