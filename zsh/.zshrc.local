@@ -19,9 +19,8 @@ alias tree='eza --git-ignore --tree -I node_modules .'
 alias npmr='npm run $(cat package.json | jq .scripts | jq -r "keys | .[]" | fzf)'
 alias hr='herdr'
 alias cca='claude --dangerously-skip-permissions'
-alias ccm='abc cc account'
+alias oma='omp --model openai-codex/gpt-5.6-sol:high --prewalk'
 alias coa='codex --yolo'
-alias ki='kiro-cli chat -a --v3'
 
 eval "$(direnv hook zsh)"
 

@@ -1,6 +1,6 @@
-theme = Monokai Pro
+theme = Cursor Dark
 font-family = "Hack Nerd Font Mono"
-font-family = "D2Coding"
+font-family = "Fira Code"
 font-size = 13
 
 bell-features = audio,attention,title

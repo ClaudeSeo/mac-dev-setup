@@ -20,3 +20,4 @@ _workspace/
 .agents/lessons.md
 
 **/.claude/settings.local.json
+**/.claude/agent-memory/*
