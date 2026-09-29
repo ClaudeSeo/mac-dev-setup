@@ -10,6 +10,7 @@ tap "postmelee/tap", trusted: true
 tap "rjyo/moshi", trusted: true
 tap "sdkman/tap", trusted: true
 tap "socktainer/tap", trusted: true
+tap "stablyai/orca", trusted: true
 tap "txn2/tap", trusted: true
 tap "weaveworks/tap", trusted: true
 # The AWS Command Line Interface
@@ -149,4 +150,6 @@ cask "ghostty"
 # Knowledge base that works on top of a local folder of plain text Markdown files
 cask "obsidian"
 cask "postmelee/tap/alhangeul"
+# IDE for orchestrating AI coding agents across terminals and worktrees
+cask "stablyai/orca/orca"
 
