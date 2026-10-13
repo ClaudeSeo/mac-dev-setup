@@ -1,3 +1,4 @@
+tap "abue-ammar/tinycast", trusted: true
 tap "aws/tap", trusted: true
 tap "can1357/tap", trusted: true
 tap "confluentinc/tap", trusted: true
@@ -147,8 +148,7 @@ cask "font-d2coding"
 cask "font-hack-nerd-font"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
-# Knowledge base that works on top of a local folder of plain text Markdown files
-cask "obsidian"
+cask "abue-ammar/tinycast/tinycast"
 cask "postmelee/tap/alhangeul"
 # IDE for orchestrating AI coding agents across terminals and worktrees
 cask "stablyai/orca/orca"
