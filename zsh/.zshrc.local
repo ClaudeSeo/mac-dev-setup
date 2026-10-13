@@ -19,8 +19,10 @@ alias tree='eza --git-ignore --tree -I node_modules .'
 alias npmr='npm run $(cat package.json | jq .scripts | jq -r "keys | .[]" | fzf)'
 alias hr='herdr'
 alias cca='claude --dangerously-skip-permissions'
-alias oma='omp --model openai-codex/gpt-6-sol:high --prewalk'
+alias cc='claude'
+alias oma='omp --model openai-codex/gpt-6-1-sol:high --prewalk'
 alias coa='codex --yolo'
+alias co='codex'
 
 eval "$(direnv hook zsh)"
 
