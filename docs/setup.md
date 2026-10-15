@@ -12,7 +12,7 @@
 | `Enter` | 선택한 항목 설치 시작 |
 | `q` | 취소하고 종료 |
 
-기본값은 7개 항목 모두 선택입니다. 스크립트는 표준 입력과 출력이 모두 TTY일 때만 실행되고, 파이프나 CI에서는 안내 문구를 남기고 종료합니다.
+기본값은 8개 항목 모두 선택입니다. 스크립트는 표준 입력과 출력이 모두 TTY일 때만 실행되고, 파이프나 CI에서는 안내 문구를 남기고 종료합니다.
 
 ## 항목별 수행 작업
 
@@ -25,6 +25,7 @@
 | Ghostty | `ghostty/.ghostty.local` → `~/.config/ghostty/config` 심링크 | 없음 |
 | Herdr | `herdr/config.toml` → `~/.config/herdr/config.toml` 심링크, Worktrunk 플러그인이 없으면 설치 후 `enable`, 실행 중인 서버에 `reload-config` | `herdr`, `jq` (herdr가 없으면 건너뜀) |
 | Git | `git/.gitconfig` → `~/.gitconfig`, `git/.gitignore_global` → `~/.gitignore_global` 심링크 | 없음 |
+| Tinycast | `tinycast/settings.json` → `~/.config/tinycast/settings.json` 심링크 | 없음 (앱은 Brewfile cask로 설치) |
 
 Homebrew 항목을 함께 선택하면 `brew bundle`이 먼저 실행되므로 `nvim`, `herdr`, `jq` 선행 조건이 자동으로 충족됩니다.
 

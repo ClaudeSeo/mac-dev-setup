@@ -200,6 +200,19 @@ setup_herdr() {
     success "Herdr configured!"
 }
 
+setup_tinycast() {
+    log "Configuring Tinycast..."
+    SHELL_TINYCAST_SETTINGS="$SCRIPT_DIR/tinycast/settings.json"
+    if [ -f "$SHELL_TINYCAST_SETTINGS" ]; then
+        mkdir -p "$HOME/.config/tinycast"
+        backup_file "$HOME/.config/tinycast/settings.json"
+        ln -sf "$SHELL_TINYCAST_SETTINGS" "$HOME/.config/tinycast/settings.json"
+        success "Tinycast configured!"
+    else
+        log "tinycast/settings.json not found. Skipping."
+    fi
+}
+
 setup_git() {
     log "Configuring Git..."
     SHELL_GITCONFIG="$SCRIPT_DIR/git/.gitconfig"
@@ -218,8 +231,8 @@ setup_git() {
 
 # --- 메인 메뉴 및 실행 로직 ---
 
-COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Herdr" "Git")
-SELECTED=(true true true true true true true)
+COMPONENTS=("Homebrew" "Neovim" "Zsh" "Starship" "Ghostty" "Herdr" "Git" "Tinycast")
+SELECTED=(true true true true true true true true)
 CURSOR=0
 
 show_menu() {
@@ -298,6 +311,7 @@ if [ "${SELECTED[3]}" = true ]; then setup_starship; fi
 if [ "${SELECTED[4]}" = true ]; then setup_ghostty; fi
 if [ "${SELECTED[5]}" = true ]; then setup_herdr; fi
 if [ "${SELECTED[6]}" = true ]; then setup_git; fi
+if [ "${SELECTED[7]}" = true ]; then setup_tinycast; fi
 
 echo -e "\n${GREEN}${BOLD}${STAR} Setup completed successfully!${NC}"
 echo -e "${CYAN}Please restart your terminal or run 'source ~/.zshrc' to apply changes.${NC}"
