@@ -20,7 +20,8 @@ alias npmr='npm run $(cat package.json | jq .scripts | jq -r "keys | .[]" | fzf)
 alias hr='herdr'
 alias cca='claude --dangerously-skip-permissions'
 alias cc='claude'
-alias oma='omp --model openai-codex/gpt-6-1-sol:high --prewalk'
+alias oma='omp --model openai-codex/gpt-6-1-sol:high'
+alias omap='omp --model openai-codex/gpt-6-1-sol:high --prewalk'
 alias coa='codex --yolo'
 alias co='codex'
 
