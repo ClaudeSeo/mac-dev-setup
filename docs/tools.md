@@ -134,6 +134,7 @@
 | `zsh-autosuggestions`, `zsh-completions`, `zsh-syntax-highlighting` | brew | Zsh 자동 제안, 추가 completion, 문법 강조 (`.zshrc.local`에서 로드) |
 | `can1357/tap/omp` | brew | IDE 연동 코딩 에이전트 |
 | `codex` | cask | OpenAI Codex 터미널 코딩 에이전트 (별칭 `coa`) |
+| `codexbar` | cask | 메뉴 막대에서 AI 코딩 도구 사용량 확인 |
 | `paseo` | cask | AI 코딩 에이전트용 셀프 호스팅 데몬 |
 | `1password-cli@beta` | cask | 1Password 명령줄 도우미 |
 | `font-hack-nerd-font`, `font-d2coding` | cask | Ghostty 폰트 (Hack Nerd Font Mono, D2Coding) |
