@@ -6,7 +6,6 @@
 |---|---|
 | [setup.md](setup.md) | `init.sh`가 항목별로 수행하는 작업, 백업 규칙, 재실행과 문제 해결 |
 | [tools.md](tools.md) | Brewfile로 설치되는 CLI 도구와 Zsh 별칭 |
-| [installation.md](installation.md) | Brewfile에 없어 직접 설치하는 앱 |
 | [shell.md](shell.md) | Zsh, Starship, Ghostty, Git 설정 |
 | [herdr.md](herdr.md) | Herdr 키 바인딩 (Prefix `Ctrl-a`), Worktrunk 플러그인, UI 설정 |
 | [neovim.md](neovim.md) | Neovim 플러그인, 키맵, VSCode-Neovim 모드 |

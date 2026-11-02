@@ -48,4 +48,3 @@ cd mac-dev-setup
 
 - [init.sh 동작 상세](docs/setup.md): 항목별 작업, 백업 규칙, 문제 해결
 - [명령어 참조](docs/tools.md): Brewfile로 설치되는 CLI 도구와 사용자 정의 별칭
-- [권장 응용프로그램](docs/installation.md): Brewfile에 없어 직접 설치하는 앱

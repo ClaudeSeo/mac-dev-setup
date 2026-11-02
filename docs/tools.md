@@ -115,7 +115,7 @@
 
 ## 그 밖의 Brewfile 항목
 
-위 표에 없는 나머지 항목입니다. 설명은 `brew/Brewfile`의 주석을 따릅니다.
+위 표에 없는 나머지 항목입니다. 설명은 `brew/categories/*.Brewfile`의 주석을 따릅니다. 파일별 분류와 편집 방법은 [Homebrew 패키지 관리](setup.md#homebrew-패키지-관리)를 참고하세요.
 
 | 항목 | 종류 | 설명 |
 |---|---|---|
