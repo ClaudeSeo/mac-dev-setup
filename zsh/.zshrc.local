@@ -23,6 +23,7 @@ alias oma='omp --model openai-codex/gpt-6-1-sol:high'
 alias omap='omp --model openai-codex/gpt-6-1-sol:high --prewalk'
 alias coa='codex --yolo'
 alias co='codex'
+alias tc='teamclaude'
 
 eval "$(direnv hook zsh)"
 
