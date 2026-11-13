@@ -6,8 +6,6 @@ brew "gh"
 brew "git"
 # Smarter Dockerfile linter to validate best practices
 brew "hadolint"
-# Agent multiplexer that lives in your terminal
-brew "herdr"
 # Polyglot runtime manager (asdf rust clone)
 brew "mise"
 # Ambitious Vim-fork focused on extensibility and agility

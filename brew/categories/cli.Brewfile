@@ -18,8 +18,6 @@ brew "jsongrep"
 brew "killport"
 # Deep clean and optimize your Mac
 brew "mole"
-# Remote terminal application
-brew "mosh"
 # Modern replacement for ps written in Rust
 brew "procs"
 # Search tool like grep and The Silver Searcher

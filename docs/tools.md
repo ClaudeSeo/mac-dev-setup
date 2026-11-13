@@ -34,9 +34,7 @@
 | --- | --- | --- | --- |
 | Git 향상 | `gh` | [GitHub CLI](https://github.com/cli/cli) | GitHub 공식 CLI |
 | Git UI | `tig` | [tig](https://github.com/jonas/tig) | Git용 텍스트 모드 인터페이스 |
-| Git worktree 관리 | `wt` | [Worktrunk](https://worktrunk.dev) | 병렬 AI 에이전트 작업용 worktree 생성과 전환 (Herdr 플러그인이 사용) |
-| 에이전트 멀티플렉서 | `herdr` | [Herdr](https://herdr.dev) | AI 코딩 에이전트용 터미널 워크스페이스 관리 |
-| 에이전트 모바일 연동 | `moshi` | [Moshi](https://getmoshi.app) | AI 코딩 에이전트를 모바일 앱과 연동하는 데몬 (호스트 페어링, 세션 런처, diff 뷰어 내장) |
+| Git worktree 관리 | `wt` | [Worktrunk](https://worktrunk.dev) | 병렬 AI 에이전트 작업용 worktree 생성과 전환 |
 | Shell 검사 | `shellcheck` | [ShellCheck](https://github.com/koalaman/shellcheck) | 셸 스크립트 정적 분석 |
 | JSON 처리 | `jq` | [jq](https://github.com/jqlang/jq) | 명령줄 JSON 프로세서 |
 | YAML 처리 | `yq` | [yq](https://github.com/mikefarah/yq) | 명령줄 YAML 프로세서 |
@@ -74,7 +72,6 @@
 | --- | --- | --- | --- |
 | 네트워크 진단 | `trip` | [trippy](https://github.com/fujiapple852/trippy) | 현대적인 traceroute 도구 |
 | gRPC 클라이언트 | `grpcurl` | [grpcurl](https://github.com/fullstorydev/grpcurl) | gRPC 서비스용 curl |
-| 모바일 셸 | `mosh` | [Mosh](https://github.com/mobile-shell/mosh) | 로밍 지원 원격 터미널 (SSH 대체) |
 
 ## 클라우드 및 서비스
 
@@ -100,13 +97,14 @@
 | Mac 정리 | `mole` | [Mole](https://mole.fit) | Mac 딥 클린 및 최적화 (AppCleaner 대체) |
 | 유틸리티 툴킷 | `ut` | [ut](https://github.com/ksdme/ut) | 개발자용 다목적 CLI 유틸리티 (시간/인코딩 등) |
 | 터미널 설정 | `ghostty` | [Ghostty](https://ghostty.org/) | 빠르고 현대적인 GPU 가속 터미널 |
+| 에이전트 터미널 | `Herdr` | [Herdr](https://herdr.dev/download/) | AI 코딩 에이전트용 데스크톱 터미널 앱 (`herdr-app` cask) |
+| 허메스 릴레이 | `HermesRelay` | Hermes Relay | 메뉴 막대에서 Hermes 작업, Calendar, Reminders, 브라우저 스크립트 중계 (`ClaudeSeo/tap/hermes-relay` cask) |
 
 ## 사용자 정의 별칭
 
 | 기능 | 명령어 | 도구 | 설명 |
 | --- | --- | --- | --- |
 | NPM 스크립트 실행 | `npmr` | `npm run` + `fzf` | `package.json` 스크립트를 `fzf`로 선택 실행 |
-| Herdr 단축 | `hr` | `herdr` | Herdr 실행 |
 | Claude Code 자동 승인 | `cca` | `claude --dangerously-skip-permissions` | 권한 확인 없이 Claude Code 실행 |
 | Claude 계정 전환 | `ccm` | `abc cc account` | Claude Code 계정 관리 |
 | Codex 자동 승인 | `coa` | `codex --yolo` | 권한 확인 없이 Codex 실행 |
@@ -120,7 +118,6 @@
 | 항목 | 종류 | 설명 |
 |---|---|---|
 | `awscli` | brew | AWS 명령줄 인터페이스 |
-| `ast-grep` | brew | 코드 구조 검색, 린트, 재작성 |
 | `coreutils` | brew | GNU 파일, 셸, 텍스트 유틸리티 (`gtimeout` 등) |
 | `docker`, `docker-compose` | brew | 컨테이너 실행과 Compose |
 | `container`, `container-compose` | brew | Apple Container(경량 VM 기반 Linux 컨테이너)와 Compose 호환 도구 |

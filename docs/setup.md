@@ -23,14 +23,10 @@
 | Zsh | `zsh/.zshrc.local` → `~/.zshrc.local` 심링크, `~/.zshrc`에 `source ~/.zshrc.local` 줄이 없으면 추가 | 없음 |
 | Starship | `starship/starship.toml` → `~/.config/starship.toml` 심링크 | 없음 |
 | Ghostty | `ghostty/.ghostty.local` → `~/.config/ghostty/config` 심링크 | 없음 |
-| Herdr | `herdr/config.toml` → `~/.config/herdr/config.toml` 심링크, Worktrunk 플러그인이 없으면 설치 후 `enable`, 실행 중인 서버에 `reload-config` | `herdr`, `jq` (herdr가 없으면 건너뜀) |
 | Git | `git/.gitconfig` → `~/.gitconfig`, `git/.gitignore_global` → `~/.gitignore_global` 심링크 | 없음 |
 | Tinycast | `tinycast/settings.json` → `~/.config/tinycast/settings.json` 심링크 | 없음 (앱은 Brewfile cask로 설치) |
 
-Homebrew 항목을 함께 선택하면 `brew bundle`이 먼저 실행되므로 `nvim`, `herdr`, `jq` 선행 조건이 자동으로 충족됩니다.
-
-> [!WARNING]
-> `git/.gitconfig`에는 저장소 소유자의 `user.name`, `user.email`, SSH 서명 키 경로가 들어 있습니다. 다른 사람이 쓰려면 Git 항목을 선택하기 전에 본인 정보로 바꾸세요.
+Homebrew 항목을 함께 선택하면 `brew bundle`이 먼저 실행되므로 `nvim` 선행 조건이 자동으로 충족됩니다.
 
 ## 백업 규칙
 
@@ -47,12 +43,12 @@ Homebrew 항목을 함께 선택하면 `brew bundle`이 먼저 실행되므로 `
 | 파일 (`brew/categories/`) | 용도 | 대표 항목 |
 |---|---|---|
 | [taps.Brewfile](../brew/categories/taps.Brewfile) | 외부 저장소와 `trusted` 설정 | `ClaudeSeo/tap`, `mongodb/brew` |
-| [cli.Brewfile](../brew/categories/cli.Brewfile) | 셸, 파일 탐색, 텍스트 처리, 프로세스와 네트워크 도구 | `zsh`, `ripgrep`, `jq`, `mosh` |
+| [cli.Brewfile](../brew/categories/cli.Brewfile) | 셸, 파일 탐색, 텍스트 처리, 프로세스와 네트워크 도구 | `zsh`, `ripgrep`, `jq`, `zoxide` |
 | [dev.Brewfile](../brew/categories/dev.Brewfile) | Git, 편집기, 런타임, 코드 검사 도구 | `git`, `neovim`, `uv`, `portress` |
 | [infra.Brewfile](../brew/categories/infra.Brewfile) | 컨테이너, Kubernetes, 클라우드, 보안 도구 | `docker`, `helm`, `awscli`, `trivy` |
 | [data.Brewfile](../brew/categories/data.Brewfile) | 데이터베이스와 Kafka 관련 도구 | `duckdb`, `mongocli`, `mongodb-grep` |
 | [ai.Brewfile](../brew/categories/ai.Brewfile) | AI 모델과 코딩 에이전트 | `ollama`, `omp`, `codex`, `orca` |
-| [desktop.Brewfile](../brew/categories/desktop.Brewfile) | 터미널 앱, 폰트, 데스크톱 도구 | `ghostty`, `font-d2coding`, `tinycast` |
+| [desktop.Brewfile](../brew/categories/desktop.Brewfile) | 터미널 앱, 폰트, 데스크톱 도구 | `ghostty`, `font-d2coding`, `tinycast`, `herdr-app` |
 
 패키지는 `brew`와 `cask` 구분보다 주 용도를 기준으로 한 파일에만 추가합니다. 외부 tap이 필요하면 `taps.Brewfile`에도 선언합니다. 새 카테고리는 파일을 만든 뒤 대표 `brew/Brewfile`의 로딩 목록에도 추가합니다.
 
@@ -71,10 +67,9 @@ brew bundle list --all --file=brew/Brewfile
 | 증상 | 원인과 조치 |
 |---|---|
 | `Non-interactive terminal detected` 후 종료 | 파이프나 CI에서 실행했습니다. 실제 터미널에서 실행하세요. |
-| `nvim not found` / `herdr not found` 로 건너뜀 | Homebrew 항목을 먼저(또는 함께) 선택하거나 해당 바이너리를 직접 설치한 뒤 다시 실행하세요. |
+| `nvim not found` 로 건너뜀 | Homebrew 항목을 먼저(또는 함께) 선택하거나 `nvim`을 직접 설치한 뒤 다시 실행하세요. |
 | `Some packages failed to install.` | Brewfile 일부 설치 실패입니다. 나머지 항목은 계속 진행되므로 로그를 보고 `brew bundle`을 다시 실행하세요. |
 | `CocInstall failed` | Neovim 안에서 `:CocInstall coc-tsserver coc-pyright`를 다시 실행하세요. |
-| `Failed to inspect installed Herdr plugins` | `herdr plugin list --plugin worktrunk --json` 출력이 비정상입니다. `jq` 설치 여부와 Herdr 버전을 확인하세요. |
 
 설치가 끝나면 터미널을 재시작하거나 `source ~/.zshrc`를 실행합니다.
 
