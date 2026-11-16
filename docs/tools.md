@@ -135,5 +135,6 @@
 | `paseo` | cask | AI 코딩 에이전트용 셀프 호스팅 데몬 |
 | `1password-cli@beta` | cask | 1Password 명령줄 도우미 |
 | `font-hack-nerd-font`, `font-d2coding` | cask | Ghostty 폰트 (Hack Nerd Font Mono, D2Coding) |
+| `keka` | cask | 압축 해제 앱 (7z, RAR 등 지원) |
 | `abue-ammar/tinycast/tinycast` | cask | (Brewfile에 설명 없음) |
 | `postmelee/tap/alhangeul` | cask | (Brewfile에 설명 없음) |
