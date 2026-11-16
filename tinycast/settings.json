@@ -6,20 +6,28 @@
     "popToRootSeconds": 0,
     "escapeKeyBehavior": "navigateBackOrClose",
     "autoSwitchInputSource": null,
-    "supportReminders": true
+    "supportReminders": false,
+    "language": "en"
   },
   "appearance": {
     "theme": "system",
+    "animations": true,
     "interfaceSize": "standard",
     "compactMode": false,
-    "showFavoritesInCompactMode": true,
+    "compactBarCommands": [
+      "command:clipboard-history",
+      "command:search-emoji",
+      "command:search-files",
+      "command:search-quicklinks"
+    ],
     "followCursorAcrossDisplays": true,
     "dragToReposition": false
   },
   "hyperKey": {
     "key": "none",
     "includesShift": true,
-    "quickPress": "none"
+    "quickPress": "none",
+    "secureInputCompatibility": false
   },
   "calculator": {
     "numberStyle": "system"
@@ -40,7 +48,18 @@
       "/System/Library/CoreServices/Finder.app",
       "~/Applications"
     ],
-    "apps": {}
+    "apps": {
+      "com.apple.iCal": {
+        "shortcut": null,
+        "alias": null,
+        "showInLauncher": false
+      },
+      "com.cron.electron": {
+        "shortcut": null,
+        "alias": ">cal",
+        "showInLauncher": true
+      }
+    }
   },
   "systemSettings": {
     "enabled": true,
@@ -60,7 +79,7 @@
     "enabled": false,
     "showInLauncher": true,
     "opensNewWindow": false,
-    "selectionFallback": "ask",
+    "passesSelectedText": false,
     "confirmsBeforeDelete": true,
     "commands": {}
   },
@@ -70,6 +89,8 @@
   "ai": {
     "enabled": false,
     "webSearch": false,
+    "choices": true,
+    "expandsReasoning": false,
     "systemPrompt": "",
     "systemPromptEnabled": true,
     "retentionDays": "forever",
@@ -85,10 +106,12 @@
   "dictation": {
     "mode": "toggle",
     "shortcut": null,
+    "playsSounds": true,
     "model": "redux",
     "microphone": null,
     "destination": "paste",
     "adaptsCapitalization": true,
+    "liveInsertion": false,
     "releaseAfterMinutes": 1,
     "language": null
   },
@@ -98,18 +121,22 @@
       "~"
     ],
     "ignorePatterns": [],
+    "removedDefaultPatterns": [],
+    "showInLauncher": false,
     "commands": {}
   },
   "notes": {
     "enabled": false,
     "rendersMarkdown": true,
     "showsFormattingBar": true,
+    "showsInMenuBar": false,
     "folder": null,
     "commands": {}
   },
   "snippets": {
     "showInLauncher": true,
     "folder": null,
+    "defaultAction": "paste",
     "commands": {}
   },
   "navigation": {
@@ -123,6 +150,8 @@
     "showInLauncher": true,
     "gap": 0,
     "cycle": "off",
+    "wrapDisplays": true,
+    "keepProportions": true,
     "layoutsShowInLauncher": true,
     "roomsShowInLauncher": true,
     "shortcuts": {
@@ -156,6 +185,10 @@
       "move-right": null,
       "move-up": null,
       "move-down": null,
+      "move-to-left-edge": null,
+      "move-to-right-edge": null,
+      "move-to-top-edge": null,
+      "move-to-bottom-edge": null,
       "next-display": null,
       "previous-display": null,
       "toggle-fullscreen": null,
